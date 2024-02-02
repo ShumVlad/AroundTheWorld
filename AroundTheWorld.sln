@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33723.286
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AroundTheWorld", "AroundTheWorld\AroundTheWorld.csproj", "{623659E9-9CC5-4A53-AAEC-BC6E78D372B5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AroundTheWorld", "AroundTheWorld\AroundTheWorld.csproj", "{623659E9-9CC5-4A53-AAEC-BC6E78D372B5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AroudTheWorld.Persistence", "AroudTheWorld.Persistence\AroudTheWorld.Persistence.csproj", "{BEC9229E-AC4D-4F92-9046-D67B2E710D59}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{623659E9-9CC5-4A53-AAEC-BC6E78D372B5}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{623659E9-9CC5-4A53-AAEC-BC6E78D372B5}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{623659E9-9CC5-4A53-AAEC-BC6E78D372B5}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BEC9229E-AC4D-4F92-9046-D67B2E710D59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BEC9229E-AC4D-4F92-9046-D67B2E710D59}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BEC9229E-AC4D-4F92-9046-D67B2E710D59}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BEC9229E-AC4D-4F92-9046-D67B2E710D59}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
