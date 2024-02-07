@@ -7,15 +7,10 @@ namespace AroundTheWorld.Backend
     internal class UnitOfWork
     {
         private readonly AroundTheWorldDbContext context;
-
         public readonly IRepository<City> CityRepository;
-
         public readonly IRepository<Country> CountryRepository;
-
         public readonly IRepository<ApplicationUser> UserRepository;
-
         public readonly IRepository<Place> PlaceRepository;
-
         public readonly IRepository<Post> PostRepository;
 
         public UnitOfWork(IRepository<City> cityRepository, IRepository<Country> countryRepository, IRepository<Place> placeRepository,
