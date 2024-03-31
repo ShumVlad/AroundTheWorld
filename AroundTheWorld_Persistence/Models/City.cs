@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace AroudTheWorld.Persistence.Models
+namespace AroundTheWorld_Persistence.Models
 {
     public class City
     {

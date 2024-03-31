@@ -1,9 +1,9 @@
-﻿using AroudTheWorld.Persistence.Models;
+﻿using AroundTheWorld_Persistence.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
-namespace AroudTheWorld.Persistence
+namespace AroundTheWorld_Persistence
 {
     public class AroundTheWorldDbContext : IdentityDbContext<IdentityUser>
     {

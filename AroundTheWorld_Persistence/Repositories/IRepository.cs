@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AroudTheWorld.Persistence.Repositories
+namespace AroundTheWorld_Persistence.Repositories
 {
     public interface IRepository<T>
     {

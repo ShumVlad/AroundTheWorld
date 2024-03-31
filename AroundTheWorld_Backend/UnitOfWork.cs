@@ -1,8 +1,11 @@
-﻿using AroudTheWorld.Persistence;
-using AroudTheWorld.Persistence.Models;
-using AroudTheWorld.Persistence.Repositories;
+﻿using AroundTheWorld_Persistence;
+using AroundTheWorld_Persistence.Models;
+using AroundTheWorld_Persistence.Repositories;
+using System.Diagnostics;
+using System.Diagnostics.Metrics;
+using System.Numerics;
 
-namespace AroundTheWorld.Backend
+namespace AroundTheWorld_Backend
 {
     internal class UnitOfWork
     {
@@ -12,7 +15,6 @@ namespace AroundTheWorld.Backend
         public readonly IRepository<ApplicationUser> UserRepository;
         public readonly IRepository<Place> PlaceRepository;
         public readonly IRepository<Post> PostRepository;
-
         public UnitOfWork(IRepository<City> cityRepository, IRepository<Country> countryRepository, IRepository<Place> placeRepository,
             IRepository<ApplicationUser> userRepository, IRepository<Post> postRepository)
         {
