@@ -9,7 +9,7 @@ namespace AroundTheWorld_Persistence
     {
         public DbSet<City> Cities { get; set; }
         public DbSet<Country> Countries { get; set; }
-        public DbSet<Place> Places { get; set; }
+        public DbSet<Location> Places { get; set; }
         public DbSet<Post> Posts { get; set; }
 
         public AroundTheWorldDbContext(DbContextOptions<AroundTheWorldDbContext> options) : base(options)

@@ -13,9 +13,9 @@ namespace AroundTheWorld_Backend
         public readonly IRepository<City> CityRepository;
         public readonly IRepository<Country> CountryRepository;
         public readonly IRepository<ApplicationUser> UserRepository;
-        public readonly IRepository<Place> PlaceRepository;
+        public readonly IRepository<Location> PlaceRepository;
         public readonly IRepository<Post> PostRepository;
-        public UnitOfWork(IRepository<City> cityRepository, IRepository<Country> countryRepository, IRepository<Place> placeRepository,
+        public UnitOfWork(IRepository<City> cityRepository, IRepository<Country> countryRepository, IRepository<Location> placeRepository,
             IRepository<ApplicationUser> userRepository, IRepository<Post> postRepository)
         {
             PlaceRepository = placeRepository;
