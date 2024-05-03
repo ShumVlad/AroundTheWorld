@@ -2,7 +2,7 @@
 
 namespace AroundTheWorld_Persistence.Models
 {
-    public class Place
+    public class Location
     {
         [Key]
         public string Id { get; set; }

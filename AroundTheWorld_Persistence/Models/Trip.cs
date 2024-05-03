@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AroundTheWorld_Persistence.Models
 {
-    internal class Trip
+    public class Trip
     {
     }
 }
