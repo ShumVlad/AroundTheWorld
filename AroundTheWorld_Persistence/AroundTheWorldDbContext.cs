@@ -11,11 +11,13 @@ namespace AroundTheWorld_Persistence
         public DbSet<Country> Countries { get; set; }
         public DbSet<Location> Places { get; set; }
         public DbSet<Post> Posts { get; set; }
+        public DbSet<Trip> Trips { get; set; }
+        public DbSet<Media> Medias { get; set; }
 
         public AroundTheWorldDbContext(DbContextOptions<AroundTheWorldDbContext> options) : base(options)
         {
             Database.EnsureCreated();
-            //ApplicationDbContext.Database.Migrate();
+            //AroundTheWorldDbContext.Database.Migrate();
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
