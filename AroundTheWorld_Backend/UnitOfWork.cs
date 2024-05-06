@@ -1,9 +1,6 @@
 ﻿using AroundTheWorld_Persistence;
 using AroundTheWorld_Persistence.Models;
 using AroundTheWorld_Persistence.Repositories;
-using System.Diagnostics;
-using System.Diagnostics.Metrics;
-using System.Numerics;
 
 namespace AroundTheWorld_Backend
 {

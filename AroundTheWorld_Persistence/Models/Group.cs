@@ -1,12 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace AroundTheWorld_Persistence.Models
 {
-    internal class Group
+    public class Group
     {
+        [Key]
+        public int Id { get; set; }
+        [Required]
+        public string Rout_Id { get; set; }
     }
 }

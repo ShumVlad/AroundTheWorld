@@ -1,12 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace AroundTheWorld_Persistence.Models
 {
-    internal class Position
+    public class Position
     {
+        [Key]
+        public string Id { get; set; }
+        public string XCoordinate { get; set; }
+        public string YCoordinate { get; set; }
+        public string Sensor_Id { get; set; }
+        public string User_Id { get; set;}
     }
 }
