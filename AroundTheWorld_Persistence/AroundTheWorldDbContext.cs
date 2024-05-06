@@ -7,12 +7,13 @@ namespace AroundTheWorld_Persistence
 {
     public class AroundTheWorldDbContext : IdentityDbContext<IdentityUser>
     {
-        public DbSet<City> Cities { get; set; }
-        public DbSet<Country> Countries { get; set; }
-        public DbSet<Location> Places { get; set; }
-        public DbSet<Post> Posts { get; set; }
-        public DbSet<Trip> Trips { get; set; }
+        public DbSet<Group> Groups { get; set; }
         public DbSet<Media> Medias { get; set; }
+        public DbSet<Location> Locations { get; set; }
+        public DbSet<Position> Positions { get; set; }
+        public DbSet<Review> Reviews { get; set; }
+        public DbSet<Route> Routes { get; set; }
+        public DbSet<Sensor> Sensors { get; set; }
 
         public AroundTheWorldDbContext(DbContextOptions<AroundTheWorldDbContext> options) : base(options)
         {
