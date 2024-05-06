@@ -13,7 +13,5 @@ namespace AroundTheWorld_Persistence.Models
         public string Id { get; set; }
         public string XCoordinate { get; set; }
         public string YCoordinate { get; set; }
-        public string Sensor_Id { get; set; }
-        public string User_Id { get; set;}
     }
 }

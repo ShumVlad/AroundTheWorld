@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,9 @@ namespace AroundTheWorld_Persistence.Models
         [Key]
         public int Id { get; set; }
         [Required]
-        public string Rout_Id { get; set; }
+        public string Route_Id { get; set; }
+
+        [ForeignKey(nameof(Route_Id))]
+        public virtual Route Route { get; set; }
     }
 }

@@ -18,7 +18,6 @@ namespace AroundTheWorld_Persistence
         public AroundTheWorldDbContext(DbContextOptions<AroundTheWorldDbContext> options) : base(options)
         {
             Database.EnsureCreated();
-            //AroundTheWorldDbContext.Database.Migrate();
         }
 
         protected override void OnModelCreating(ModelBuilder builder)
