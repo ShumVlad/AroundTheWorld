@@ -22,7 +22,7 @@ namespace AroundTheWorld.Controllers
             _roleManager = roleManager;
             _configuration = configuration;
         }
-        [HttpGet]
+        /*[HttpGet]
         [Route("GetIdByEmail")]
         public async Task<IActionResult> GetIdByEmail(string email)
         {
@@ -150,6 +150,6 @@ namespace AroundTheWorld.Controllers
                 await _userManager.AddToRoleAsync(user, "Admin");
             }
             return Ok();
-        }
+        }*/
     }
 }
