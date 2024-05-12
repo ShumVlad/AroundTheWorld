@@ -1,4 +1,5 @@
-﻿using AroundTheWorld_Persistence.Models;
+﻿using AroundTheWorld.ViewModels.IdentityModels;
+using AroundTheWorld_Persistence.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
@@ -22,7 +23,7 @@ namespace AroundTheWorld.Controllers
             _roleManager = roleManager;
             _configuration = configuration;
         }
-        /*[HttpGet]
+        [HttpGet]
         [Route("GetIdByEmail")]
         public async Task<IActionResult> GetIdByEmail(string email)
         {
@@ -73,7 +74,7 @@ namespace AroundTheWorld.Controllers
 
         [HttpPost]
         [Route("Registration")]
-        public async Task<IActionResult> Register([FromBody] RegisterModel model)
+        public async Task<IActionResult> Register([FromBody] TravelerRegistrationModel model)
         {
             var userExists = await _userManager.FindByEmailAsync(model.Email);
             if (userExists != null)
@@ -113,7 +114,7 @@ namespace AroundTheWorld.Controllers
 
         [HttpPost]
         [Route("register-admin")]
-        public async Task<IActionResult> RegisterAdmin([FromBody] RegisterModel model)
+        public async Task<IActionResult> RegisterAdmin([FromBody] TravelerRegistrationModel model)
         {
             var userExists = await _userManager.FindByEmailAsync(model.Email);
             if (userExists != null)
@@ -150,6 +151,6 @@ namespace AroundTheWorld.Controllers
                 await _userManager.AddToRoleAsync(user, "Admin");
             }
             return Ok();
-        }*/
+        }
     }
 }
