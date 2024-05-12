@@ -73,7 +73,7 @@ namespace AroundTheWorld.Controllers
         }
 
         [HttpPost]
-        [Route("Registration")]
+        [Route("register-traveler")]
         public async Task<IActionResult> Register([FromBody] TravelerRegistrationModel model)
         {
             var userExists = await _userManager.FindByEmailAsync(model.Email);
@@ -113,7 +113,7 @@ namespace AroundTheWorld.Controllers
         }
 
         [HttpPost]
-        [Route("register-admin")]
+        [Route("register-company")]
         public async Task<IActionResult> RegisterAdmin([FromBody] TravelerRegistrationModel model)
         {
             var userExists = await _userManager.FindByEmailAsync(model.Email);
@@ -136,9 +136,9 @@ namespace AroundTheWorld.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new ViewModels.IdentityModels.Response { Status = "Error", Message = "User creation failed! Please check user details and try again." });
             }
 
-            if (!await _roleManager.RoleExistsAsync("Admin"))
+            if (!await _roleManager.RoleExistsAsync("Company"))
             {
-                await _roleManager.CreateAsync(new IdentityRole("Admin"));
+                await _roleManager.CreateAsync(new IdentityRole("Company"));
             }
 
             if (!await _roleManager.RoleExistsAsync("User"))
@@ -146,9 +146,9 @@ namespace AroundTheWorld.Controllers
                 await _roleManager.CreateAsync(new IdentityRole("User"));
             }
 
-            if (await _roleManager.RoleExistsAsync("Admin"))
+            if (await _roleManager.RoleExistsAsync("Company"))
             {
-                await _userManager.AddToRoleAsync(user, "Admin");
+                await _userManager.AddToRoleAsync(user, "Company");
             }
             return Ok();
         }
