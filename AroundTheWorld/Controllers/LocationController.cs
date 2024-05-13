@@ -2,11 +2,10 @@
 
 namespace AroundTheWorld.Controllers
 {
-    public class LocationController : Controller
+    [Route("api/[controller]")]
+    [ApiController]
+    public class LocationController : ControllerBase
     {
-        public IActionResult Index()
-        {
-            return View();
-        }
+        
     }
 }

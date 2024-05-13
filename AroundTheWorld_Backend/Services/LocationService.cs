@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AroundTheWorld_Persistence.Models;
+using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
@@ -11,36 +12,44 @@ namespace AroundTheWorld_Backend.Services
     {
         private readonly UnitOfWork Unit;
 
-        public async Task<string> Update(Location point)
+        public async Task<string> Update(Location location)
         {
-            await Unit.LocationRepository.Update(point);
+            if (location == null)
+            {
+                return "Location is null";
+            }
+            await Unit.LocationRepository.Update(location);
             Unit.Save();
-            return "Point is added to database";
+            return "Location has been updated successfuly";
         }
 
-        public async Task<string> Create(Point point)
+        public async Task<string> Add(Location location)
         {
-            if (point is null)
+            if (location == null)
             {
-                return "Point is null";
+                return "Location is null";
             }
-            point.Id = Guid.NewGuid().ToString();
-            await Unit.PointRepository.Add(point);
+            location.Id = Guid.NewGuid().ToString();
+            await Unit.LocationRepository.Add(location);
             Unit.Save();
-            return "Point is added to database";
-        }
+            return "Location has been added successfuly";
+        } 
+
         public async Task<string> Delete(string id)
         {
-            await Unit.PointRepository.Delete(id);
+            if(id == null)
+            {
+                return "Id is null";
+            }
+            await Unit.LocationRepository.Delete(id);
             Unit.Save();
-            return "Point is deleted";
+            return "Location has been deleted successfuly";
         }
 
-        public Point Get(string id)
+        public Location Get(string id)
         {
-            Point result = Unit.PointRepository.Get(id);
+            Location result = Unit.LocationRepository.Get(id);
             return result;
-
         }
     }
 }
