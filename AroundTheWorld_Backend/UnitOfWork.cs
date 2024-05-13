@@ -16,9 +16,10 @@ namespace AroundTheWorld_Backend
         public readonly IRepository<Sensor> SensorRepository;
         public readonly IRepository<Review> ReviewRepository;
         public readonly IRepository<Position> PositionRepository;
+        public readonly IRepository<LocationRoute> LocationRouteRepository;
         public UnitOfWork(IRepository<Group> groupRepository, IRepository<Media> mediaRepository, IRepository<Location> placeRepository,
             IRepository<ApplicationUser> userRepository, IRepository<Route> routeRepository, IRepository<Sensor> sensorRepository,
-            IRepository<Review> reviewRepository, IRepository<Position> positionRepository, IRepository<Location> locationRepository)
+            IRepository<Review> reviewRepository, IRepository<Position> positionRepository, IRepository<Location> locationRepository, IRepository<LocationRoute> locationRouteRepository)
         {
             PlaceRepository = placeRepository;
             PositionRepository = positionRepository;
@@ -28,8 +29,9 @@ namespace AroundTheWorld_Backend
             RouteRepository = routeRepository;
             MediaRepository = mediaRepository;
             UserRepository = userRepository;
+            LocationRouteRepository = locationRouteRepository;
             LocationRepository = locationRepository;
-            this.context = context;
+            this.context = context; 
         }
 
         public void Save()
