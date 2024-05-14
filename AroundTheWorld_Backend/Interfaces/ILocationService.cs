@@ -1,18 +1,13 @@
-﻿using AroundTheWorld_Persistence.Models;
-using Microsoft.Extensions.Logging;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using AroundTheWorld_Backend.DTOs;
+using AroundTheWorld_Persistence.Models;
 
 namespace AroundTheWorld_Backend.Interfaces
 {
     public interface ILocationService
     {
-        Task<string> Create(Location location);
+        Task<bool> Create(LocationDTO locationDTO);
         Task<string> Delete(string id);
         Location Get(string id);
-        Location Update(Location location);
+        Task<string> Update(Location location);
     }
 }

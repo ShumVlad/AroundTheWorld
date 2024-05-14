@@ -4,10 +4,16 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.6.33723.286
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AroundTheWorld", "AroundTheWorld\AroundTheWorld.csproj", "{623659E9-9CC5-4A53-AAEC-BC6E78D372B5}"
+	ProjectSection(ProjectDependencies) = postProject
+		{E64F1009-0FDB-4EEE-931E-5528A66A4373} = {E64F1009-0FDB-4EEE-931E-5528A66A4373}
+	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AroundTheWorld_Persistence", "AroundTheWorld_Persistence\AroundTheWorld_Persistence.csproj", "{20AA4D97-19C0-4D62-A3DB-29BB17081988}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AroundTheWorld_Persistence", "AroundTheWorld_Persistence\AroundTheWorld_Persistence.csproj", "{20AA4D97-19C0-4D62-A3DB-29BB17081988}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AroundTheWorld_Backend", "AroundTheWorld_Backend\AroundTheWorld_Backend.csproj", "{E64F1009-0FDB-4EEE-931E-5528A66A4373}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AroundTheWorld_Backend", "AroundTheWorld_Backend\AroundTheWorld_Backend.csproj", "{E64F1009-0FDB-4EEE-931E-5528A66A4373}"
+	ProjectSection(ProjectDependencies) = postProject
+		{20AA4D97-19C0-4D62-A3DB-29BB17081988} = {20AA4D97-19C0-4D62-A3DB-29BB17081988}
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

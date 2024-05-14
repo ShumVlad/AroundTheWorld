@@ -1,9 +1,12 @@
 using AroundTheWorld_Persistence;
 using Microsoft.EntityFrameworkCore;
+
 using Microsoft.AspNetCore.Builder;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Hosting;
+using AroundTheWorld;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -11,7 +14,10 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-
+builder.Services.AddAutoMapper(
+    typeof(AroundTheWorld_Backend.MappingProfile),
+    typeof(PresentationMappingProfile)
+);
 builder.Services.AddDbContext<AroundTheWorldDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 

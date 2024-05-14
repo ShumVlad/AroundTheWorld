@@ -1,10 +1,25 @@
-﻿using AroundTheWorld_Persistence.Models;
+﻿using AroundTheWorld_Backend.DTOs;
+using AroundTheWorld_Backend.Interfaces;
+using AroundTheWorld_Persistence;
+using AroundTheWorld_Persistence.Models;
+using AutoMapper;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System.Web.Mvc;
 
 namespace AroundTheWorld_Backend.Services
 {
-    public class LocationService
+    public class LocationService : ILocationService
     {
-        private readonly UnitOfWork Unit;
+        private readonly UnitOfWork _unit;
+        private readonly AroundTheWorldDbContext _context;
+        private readonly IMapper _mapper;
+
+        public LocationService(AroundTheWorldDbContext context, IMapper mapper)
+        {
+            _context = context;
+            _mapper = mapper;
+        }
 
         public async Task<string> Update(Location location)
         {
@@ -12,21 +27,21 @@ namespace AroundTheWorld_Backend.Services
             {
                 return "Location is null";
             }
-            await Unit.LocationRepository.Update(location);
-            Unit.Save();
+            await _unit.LocationRepository.Update(location);
+            _unit.Save();
             return "Location has been updated successfuly";
         }
 
-        public async Task<string> Add(Location location)
+        public async Task<bool> Create(LocationDTO locationDTO)
         {
-            if (location == null)
+            if (locationDTO == null)
             {
-                return "Location is null";
+                return true;
             }
-            location.Id = Guid.NewGuid().ToString();
-            await Unit.LocationRepository.Add(location);
-            Unit.Save();
-            return "Location has been added successfuly";
+            var location = _mapper.Map<Location>(locationDTO);
+            await _unit.LocationRepository.Add(location);
+            _unit.Save();
+            return true;
         } 
 
         public async Task<string> Delete(string id)
@@ -35,14 +50,14 @@ namespace AroundTheWorld_Backend.Services
             {
                 return "Id is null";
             }
-            await Unit.LocationRepository.Delete(id);
-            Unit.Save();
+            await _unit.LocationRepository.Delete(id);
+            _unit.Save();
             return "Location has been deleted successfuly";
         }
 
         public Location Get(string id)
         {
-            Location result = Unit.LocationRepository.Get(id);
+            Location result = _unit.LocationRepository.Get(id);
             return result;
         }
     }

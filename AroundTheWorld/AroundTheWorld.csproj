@@ -7,12 +7,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="13.0.1" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="6.0.28" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.2.3" />
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\AroundTheWorld_Persistence\AroundTheWorld_Persistence.csproj" />
+    <ProjectReference Include="..\AroundTheWorld_Backend\AroundTheWorld_Backend.csproj" />
   </ItemGroup>
 
 </Project>
