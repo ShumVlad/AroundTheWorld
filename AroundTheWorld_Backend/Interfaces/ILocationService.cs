@@ -8,6 +8,6 @@ namespace AroundTheWorld_Backend.Interfaces
         Task<bool> Create(LocationDTO locationDTO);
         Task<bool> Delete(string id);
         Location Get(string id);
-        Task<string> Update(Location location);
+        Task<bool> Update(Location location);
     }
 }

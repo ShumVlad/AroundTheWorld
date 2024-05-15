@@ -22,15 +22,15 @@ namespace AroundTheWorld_Backend.Services
             _unit = unit;
         }
 
-        public async Task<string> Update(Location location)
+        public async Task<bool> Update(Location location)
         {
             if (location == null)
             {
-                return "Location is null";
+                return false;
             }
             await _unit.LocationRepository.Update(location);
             _unit.Save();
-            return "Location has been updated successfuly";
+            return true;
         }
 
         public async Task<bool> Create(LocationDTO locationDTO)

@@ -3,6 +3,7 @@ using AroundTheWorld_Backend.Interfaces;
 using AroundTheWorld.ViewModels;
 using AutoMapper;
 using AroundTheWorld_Backend.DTOs;
+using AroundTheWorld_Persistence.Models;
 
 namespace AroundTheWorld.Controllers
 {
@@ -41,6 +42,18 @@ namespace AroundTheWorld.Controllers
                 return false;
             }
             bool result = await _locationService.Delete(id);
+            return result;
+        }
+
+        [HttpPost]
+        [Route("Put")]
+        public async Task<bool> Update([FromBody] Location location)
+        {
+            if (location == null)
+            {
+                return false;
+            }
+            bool result = await _locationService.Update(location);
             return result;
         }
     }
