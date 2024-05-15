@@ -56,5 +56,17 @@ namespace AroundTheWorld.Controllers
             bool result = await _locationService.Update(location);
             return result;
         }
+
+        [HttpPost]
+        [Route("Get")]
+        public Location Get([FromBody] string id)
+        {
+            if (id == null)
+            {
+                //return ;
+            }
+            Location result = _locationService.Get(id);
+            return result;
+        }
     }
 }
