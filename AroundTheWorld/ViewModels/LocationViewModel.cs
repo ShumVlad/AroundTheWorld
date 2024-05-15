@@ -1,10 +1,10 @@
 ﻿namespace AroundTheWorld.ViewModels
 {
-    internal class LocationViewModel
+    public class LocationViewModel
     {
-        internal string Name { get; set; }
-        internal string Description { get; set; }
-        internal string Address { get; set; }
-        internal string Type { get; set; }
+        public string Name { get; set; }
+        public string Description { get; set; }
+        public string Address { get; set; }
+        public string Type { get; set; }
     }
 }

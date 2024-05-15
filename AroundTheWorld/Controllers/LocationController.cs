@@ -13,7 +13,7 @@ namespace AroundTheWorld.Controllers
         private ILocationService _locationService;
         private readonly IMapper _mapper;
 
-        private LocationController(ILocationService locationService, IMapper mapper)
+        public LocationController(ILocationService locationService, IMapper mapper)
         {
             _locationService = locationService;
             _mapper = mapper;
@@ -21,7 +21,7 @@ namespace AroundTheWorld.Controllers
 
         [HttpPost]
         [Route("Create")]
-        internal async Task<bool> Create([FromBody] LocationViewModel model)
+        public async Task<bool> Create([FromBody] LocationViewModel model)
         {
             if (model == null)
             {

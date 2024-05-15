@@ -12,13 +12,14 @@ namespace AroundTheWorld_Backend.Services
     public class LocationService : ILocationService
     {
         private readonly UnitOfWork _unit;
-        private readonly AroundTheWorldDbContext _context;
         private readonly IMapper _mapper;
+        private readonly AroundTheWorldDbContext _context;
 
-        public LocationService(AroundTheWorldDbContext context, IMapper mapper)
+        public LocationService(AroundTheWorldDbContext context, IMapper mapper, UnitOfWork unit)
         {
             _context = context;
             _mapper = mapper;
+            _unit = unit;
         }
 
         public async Task<string> Update(Location location)
@@ -39,6 +40,7 @@ namespace AroundTheWorld_Backend.Services
                 return true;
             }
             var location = _mapper.Map<Location>(locationDTO);
+            location.Id = Guid.NewGuid().ToString();
             await _unit.LocationRepository.Add(location);
             _unit.Save();
             return true;

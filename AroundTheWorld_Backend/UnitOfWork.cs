@@ -4,9 +4,10 @@ using AroundTheWorld_Persistence.Repositories;
 
 namespace AroundTheWorld_Backend
 {
-    internal class UnitOfWork
+    public class UnitOfWork
     {
-        private readonly AroundTheWorldDbContext context;
+        private readonly AroundTheWorldDbContext _context;
+
         public readonly IRepository<Group> GroupRepository;
         public readonly IRepository<ApplicationUser> UserRepository;
         public readonly IRepository<Location> PlaceRepository;
@@ -19,7 +20,9 @@ namespace AroundTheWorld_Backend
         public readonly IRepository<LocationRoute> LocationRouteRepository;
         public UnitOfWork(IRepository<Group> groupRepository, IRepository<Media> mediaRepository, IRepository<Location> placeRepository,
             IRepository<ApplicationUser> userRepository, IRepository<Route> routeRepository, IRepository<Sensor> sensorRepository,
-            IRepository<Review> reviewRepository, IRepository<Position> positionRepository, IRepository<Location> locationRepository, IRepository<LocationRoute> locationRouteRepository)
+            IRepository<Review> reviewRepository, IRepository<Position> positionRepository, IRepository<Location> locationRepository, 
+            IRepository<LocationRoute> locationRouteRepository, AroundTheWorldDbContext context)
+
         {
             PlaceRepository = placeRepository;
             PositionRepository = positionRepository;
@@ -31,12 +34,12 @@ namespace AroundTheWorld_Backend
             UserRepository = userRepository;
             LocationRouteRepository = locationRouteRepository;
             LocationRepository = locationRepository;
-            this.context = context; 
+            _context = context; 
         }
 
         public void Save()
         {
-            context.SaveChanges();
+            _context.SaveChanges();
         }
     }
 }

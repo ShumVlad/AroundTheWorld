@@ -1,12 +1,17 @@
+using AroundTheWorld;
+using AroundTheWorld_Backend;
+using AroundTheWorld_Backend.Interfaces;
+using AroundTheWorld_Backend.Services;
 using AroundTheWorld_Persistence;
-using Microsoft.EntityFrameworkCore;
-
+using AroundTheWorld_Persistence.Models;
+using AroundTheWorld_Persistence.Repositories;
 using Microsoft.AspNetCore.Builder;
+using Microsoft.AspNetCore.Hosting;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Hosting;
-using AroundTheWorld;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -18,12 +23,38 @@ builder.Services.AddAutoMapper(
     typeof(AroundTheWorld_Backend.MappingProfile),
     typeof(PresentationMappingProfile)
 );
+
 builder.Services.AddDbContext<AroundTheWorldDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
 builder.Services.AddIdentity<IdentityUser, IdentityRole>()
                .AddEntityFrameworkStores<AroundTheWorldDbContext>()
-.AddDefaultTokenProviders();
+               .AddDefaultTokenProviders();
+
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:3000")
+                  .AllowAnyHeader()
+                  .AllowAnyMethod();
+        });
+});
+
+builder.Services.AddScoped<IRepository<Group>, Repository<Group>>();
+builder.Services.AddScoped<IRepository<ApplicationUser>, Repository<ApplicationUser>>();
+builder.Services.AddScoped<IRepository<Location>, Repository<Location>>();
+builder.Services.AddScoped<IRepository<Media>, Repository<Media>>();
+builder.Services.AddScoped<IRepository<AroundTheWorld_Persistence.Models.Route>, Repository<AroundTheWorld_Persistence.Models.Route>>();
+builder.Services.AddScoped<IRepository<Sensor>, Repository<Sensor>>();
+builder.Services.AddScoped<IRepository<Review>, Repository<Review>>();
+builder.Services.AddScoped<IRepository<Position>, Repository<Position>>();
+builder.Services.AddScoped<IRepository<LocationRoute>, Repository<LocationRoute>>();
+builder.Services.AddScoped<UnitOfWork>();
+builder.Services.AddScoped<ILocationService, LocationService>();
 
 var app = builder.Build();
 
