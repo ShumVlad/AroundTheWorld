@@ -46,15 +46,15 @@ namespace AroundTheWorld_Backend.Services
             return true;
         } 
 
-        public async Task<string> Delete(string id)
+        public async Task<bool> Delete(string id)
         {
             if(id == null)
             {
-                return "Id is null";
+                return false;
             }
             await _unit.LocationRepository.Delete(id);
             _unit.Save();
-            return "Location has been deleted successfuly";
+            return true;
         }
 
         public Location Get(string id)

@@ -31,5 +31,17 @@ namespace AroundTheWorld.Controllers
             bool result = await _locationService.Create(locationDto);
             return result;
         }
+
+        [HttpPost]
+        [Route("Delete")]
+        public async Task<bool> Delete([FromBody] string id)
+        {
+            if (id == null)
+            {
+                return false;
+            }
+            bool result = await _locationService.Delete(id);
+            return result;
+        }
     }
 }
