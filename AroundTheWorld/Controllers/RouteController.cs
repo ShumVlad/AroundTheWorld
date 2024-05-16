@@ -1,6 +1,7 @@
 ﻿using AroundTheWorld.ViewModels;
 using AroundTheWorld_Backend.DTOs;
 using AroundTheWorld_Backend.Interfaces;
+using AroundTheWorld_Persistence.Models;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 using System.Runtime.CompilerServices;
@@ -42,6 +43,18 @@ namespace AroundTheWorld.Controllers
                 throw new ArgumentNullException("model");
             }
             bool result = await _routeService.Delete(id);
+            return result;
+        }
+
+        [HttpPost]
+        [Route("Get")]
+        public AroundTheWorld_Persistence.Models.Route Get(string id)
+        {
+            if (id == null)
+            {
+                throw new ArgumentNullException();
+            }
+            AroundTheWorld_Persistence.Models.Route result = _routeService.Get(id);
             return result;
         }
     }
