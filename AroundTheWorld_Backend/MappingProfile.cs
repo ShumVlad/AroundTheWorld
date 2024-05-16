@@ -9,6 +9,7 @@ namespace AroundTheWorld_Backend
         public MappingProfile()
         {
             CreateMap<LocationDTO, Location>();
+            CreateMap<RouteDTO, Route>();
         }
     }
 }

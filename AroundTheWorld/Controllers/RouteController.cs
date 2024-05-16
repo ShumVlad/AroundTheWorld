@@ -1,6 +1,9 @@
-﻿using AroundTheWorld_Backend.Interfaces;
+﻿using AroundTheWorld.ViewModels;
+using AroundTheWorld_Backend.DTOs;
+using AroundTheWorld_Backend.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using System.Runtime.CompilerServices;
 
 namespace AroundTheWorld.Controllers
 {
@@ -10,5 +13,36 @@ namespace AroundTheWorld.Controllers
     {
         private readonly IMapper _mapper;
         private readonly IRouteService _routeService;
+
+        public RouteController(IMapper mapper, IRouteService routeService)
+        {
+            _mapper = mapper;
+            _routeService = routeService;
+        }
+
+        [HttpPost]
+        [Route("Create")]
+        public async Task<bool> Create(RouteViewModel model)
+        {
+            if(model == null)
+            {
+                throw new ArgumentNullException("model");
+            }
+            var routeDTO = _mapper.Map<RouteDTO>(model);
+            bool result = await _routeService.Create(routeDTO);
+            return result;
+        }
+
+        [HttpPost]
+        [Route("Delete")]
+        public async Task<bool> Delete(string id)
+        {
+            if (id == null)
+            {
+                throw new ArgumentNullException("model");
+            }
+            bool result = await _routeService.Delete(id);
+            return result;
+        }
     }
 }
