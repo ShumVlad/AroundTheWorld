@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace AroundTheWorld_Backend.DTOs
 {
-    public interface RouteDTO
+    public class RouteDTO
     {
         public string Name { get; set; }
         public string Description { get; set; }
