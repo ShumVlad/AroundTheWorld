@@ -57,5 +57,17 @@ namespace AroundTheWorld.Controllers
             AroundTheWorld_Persistence.Models.Route result = _routeService.Get(id);
             return result;
         }
+
+        [HttpPost]
+        [Route("Update")]
+        public async Task<bool> Get(AroundTheWorld_Persistence.Models.Route route)
+        {
+            if (route == null)
+            {
+                throw new ArgumentNullException();
+            }
+            var result = await _routeService.Update(route);
+            return result;
+        }
     }
 }
