@@ -52,9 +52,15 @@ namespace AroundTheWorld_Backend.Services
             return result;
         }
 
-        public Task<bool> Update(Route route)
+        public async Task<bool> Update(Route route)
         {
-            throw new NotImplementedException();
+            if(route == null)
+            {
+                throw new ArgumentNullException(nameof(route));
+            }
+            _unit.RouteRepository.Update(route);
+            _unit.Save();
+            return true;
         }
     }
 }
