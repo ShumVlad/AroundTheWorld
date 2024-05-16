@@ -7,7 +7,7 @@ namespace AroundTheWorld_Backend.Interfaces
     {
         Task<bool> Create(RouteDTO routeDTO);
         Task<bool> Delete(string id);
-        Location Get(string id);
+        Route Get(string id);
         Task<bool> Update(Route route);
     }
 }

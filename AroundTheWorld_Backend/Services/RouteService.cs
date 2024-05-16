@@ -42,9 +42,14 @@ namespace AroundTheWorld_Backend.Services
             return true;
         }
 
-        public Location Get(string id)
+        public Route Get(string id)
         {
-            throw new NotImplementedException();
+            if (id == null)
+            {
+                throw new ArgumentNullException(nameof(id));
+            }
+            Route result = _unit.RouteRepository.Get(id);
+            return result;
         }
 
         public Task<bool> Update(Route route)
