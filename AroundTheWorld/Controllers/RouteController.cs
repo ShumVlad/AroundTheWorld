@@ -1,4 +1,5 @@
-﻿using AutoMapper;
+﻿using AroundTheWorld_Backend.Interfaces;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AroundTheWorld.Controllers
@@ -8,5 +9,6 @@ namespace AroundTheWorld.Controllers
     public class RouteController : ControllerBase
     {
         private readonly IMapper _mapper;
+        private readonly IRouteService _routeService;
     }
 }

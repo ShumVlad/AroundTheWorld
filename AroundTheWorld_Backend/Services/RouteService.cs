@@ -1,12 +1,13 @@
 ﻿
 
 using AroundTheWorld_Backend.DTOs;
+using AroundTheWorld_Backend.Interfaces;
 using AroundTheWorld_Persistence.Models;
 using AutoMapper;
 
 namespace AroundTheWorld_Backend.Services
 {
-    public class RouteService
+    public class RouteService : IRouteService
     {
         private UnitOfWork _unit;
         private IMapper _mapper;
@@ -28,6 +29,27 @@ namespace AroundTheWorld_Backend.Services
             await _unit.RouteRepository.Add(route);
             _unit.Save();
             return true;
+        }
+
+        public async Task<bool> Delete(string id)
+        {
+            if(id == null)
+            {
+                throw new ArgumentNullException(nameof(id));
+            }
+            await _unit.RouteRepository.Delete(id);
+            _unit.Save();
+            return true;
+        }
+
+        public Location Get(string id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<bool> Update(Route route)
+        {
+            throw new NotImplementedException();
         }
     }
 }
