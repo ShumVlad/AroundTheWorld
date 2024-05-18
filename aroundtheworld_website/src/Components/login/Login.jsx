@@ -1,13 +1,14 @@
 import React, {useState} from 'react'
 import './login.css';
 import axios from "axios";
-import {useNavigate} from 'react-router-dom'
+//import {useNavigate} from 'react-router-dom'
 
 const Login = () => {
     const [email, setEmail] = useState('')
     const [password, setPassword] = useState('')
-    const navigate=useNavigate();
+    //const navigate=useNavigate();
     const hadleSave =(e) => {
+      console.log("asdasdasd")
       e.preventDefault();
     
       const url ='https://localhost:7160/api/Identity/Login'; 
@@ -19,7 +20,8 @@ const Login = () => {
       axios.post(url, data)
       .then((result) => {
         const dt = result.data;
-        navigate("/"+dt.userId)
+        //navigate("/"+dt.userId)
+        console.log(dt);
       })
       .catch((error) =>{
         console.log(error);
