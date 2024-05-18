@@ -4,7 +4,6 @@ using AroundTheWorld_Backend.Interfaces;
 using AroundTheWorld_Persistence.Models;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
-using System.Runtime.CompilerServices;
 
 namespace AroundTheWorld.Controllers
 {

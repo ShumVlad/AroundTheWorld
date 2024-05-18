@@ -1,7 +1,6 @@
 ﻿using AroundTheWorld_Backend.Interfaces;
 using AroundTheWorld_Backend.Services;
 using AroundTheWorld_Persistence.Models;
-using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AroundTheWorld.Controllers

@@ -3,9 +3,6 @@ using AroundTheWorld_Backend.Interfaces;
 using AroundTheWorld_Persistence;
 using AroundTheWorld_Persistence.Models;
 using AutoMapper;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Web.Mvc;
 
 namespace AroundTheWorld_Backend.Services
 {
@@ -13,11 +10,9 @@ namespace AroundTheWorld_Backend.Services
     {
         private readonly UnitOfWork _unit;
         private readonly IMapper _mapper;
-        private readonly AroundTheWorldDbContext _context;
 
-        public LocationService(AroundTheWorldDbContext context, IMapper mapper, UnitOfWork unit)
+        public LocationService(IMapper mapper, UnitOfWork unit)
         {
-            _context = context;
             _mapper = mapper;
             _unit = unit;
         }

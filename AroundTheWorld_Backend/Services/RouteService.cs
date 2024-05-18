@@ -12,7 +12,6 @@ namespace AroundTheWorld_Backend.Services
     {
         private UnitOfWork _unit;
         private IMapper _mapper;
-        private AroundTheWorldDbContext _context;
 
         public RouteService(UnitOfWork unitOfWork, IMapper mapper)
         {

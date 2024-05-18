@@ -3,14 +3,12 @@
 using AroundTheWorld_Backend.Interfaces;
 using AroundTheWorld_Persistence;
 using AroundTheWorld_Persistence.Models;
-using AutoMapper;
 
 namespace AroundTheWorld_Backend.Services
 {
     public class LocationRouteService : ILocationRouteService
     {
         private UnitOfWork _unitOfWork;
-        private AroundTheWorldDbContext _context;
 
         public LocationRouteService(UnitOfWork unitOfWork)
         {
