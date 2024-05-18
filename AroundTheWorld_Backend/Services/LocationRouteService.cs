@@ -1,16 +1,18 @@
 ﻿
 
+using AroundTheWorld_Backend.Interfaces;
+using AroundTheWorld_Persistence;
 using AroundTheWorld_Persistence.Models;
 using AutoMapper;
 
 namespace AroundTheWorld_Backend.Services
 {
-    public class LocationRouteService
+    public class LocationRouteService : ILocationRouteService
     {
         private UnitOfWork _unitOfWork;
-        private Mapper _mapper;
+        private AroundTheWorldDbContext _context;
 
-        LocationRouteService(UnitOfWork unitOfWork, Mapper mapper)
+        public LocationRouteService(UnitOfWork unitOfWork)
         {
             _unitOfWork = unitOfWork;
         }

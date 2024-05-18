@@ -2,6 +2,7 @@
 
 using AroundTheWorld_Backend.DTOs;
 using AroundTheWorld_Backend.Interfaces;
+using AroundTheWorld_Persistence;
 using AroundTheWorld_Persistence.Models;
 using AutoMapper;
 
@@ -11,6 +12,7 @@ namespace AroundTheWorld_Backend.Services
     {
         private UnitOfWork _unit;
         private IMapper _mapper;
+        private AroundTheWorldDbContext _context;
 
         public RouteService(UnitOfWork unitOfWork, IMapper mapper)
         {

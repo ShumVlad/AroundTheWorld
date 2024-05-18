@@ -34,7 +34,7 @@ namespace AroundTheWorld.Controllers
             return result;
         }
 
-        [HttpPost]
+        [HttpDelete]
         [Route("Delete")]
         public async Task<bool> Delete(string id)
         {
@@ -46,7 +46,7 @@ namespace AroundTheWorld.Controllers
             return result;
         }
 
-        [HttpPost]
+        [HttpGet]
         [Route("Get")]
         public AroundTheWorld_Persistence.Models.Route Get(string id)
         {
@@ -58,7 +58,7 @@ namespace AroundTheWorld.Controllers
             return result;
         }
 
-        [HttpPost]
+        [HttpPut]
         [Route("Update")]
         public async Task<bool> Get(AroundTheWorld_Persistence.Models.Route route)
         {

@@ -1,4 +1,5 @@
-﻿using AroundTheWorld_Backend.Services;
+﻿using AroundTheWorld_Backend.Interfaces;
+using AroundTheWorld_Backend.Services;
 using AroundTheWorld_Persistence.Models;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
@@ -7,14 +8,15 @@ namespace AroundTheWorld.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class LocationRouteController : Controller
+    public class LocationRouteController : ControllerBase
     {
-        private readonly LocationRouteService _locationRouteService;
+        private ILocationRouteService _locationRouteService;
 
-        LocationRouteController(LocationRouteService locationRouteService)
+        public LocationRouteController(LocationRouteService locationRouteService)
         {
             _locationRouteService = locationRouteService;
         }
+
         [HttpPost]
         [Route("Create")]
         public async Task<bool> Create(LocationRoute locationRoute)

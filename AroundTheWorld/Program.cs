@@ -55,6 +55,7 @@ builder.Services.AddScoped<IRepository<Position>, Repository<Position>>();
 builder.Services.AddScoped<IRepository<LocationRoute>, Repository<LocationRoute>>();
 builder.Services.AddScoped<UnitOfWork>();
 builder.Services.AddScoped<ILocationService, LocationService>();
+builder.Services.AddScoped<ILocationRouteService, LocationRouteService>();
 builder.Services.AddScoped<IRouteService, RouteService>();
 
 var app = builder.Build();

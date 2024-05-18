@@ -26,14 +26,14 @@ namespace AroundTheWorld.Controllers
         {
             if (model == null)
             {
-                return false;
+                throw new ArgumentNullException(nameof(model));
             }
             var locationDto = _mapper.Map<LocationDTO>(model);
             bool result = await _locationService.Create(locationDto);
             return result;
         }
 
-        [HttpPost]
+        [HttpDelete]
         [Route("Delete")]
         public async Task<bool> Delete([FromBody] string id)
         {
@@ -45,7 +45,7 @@ namespace AroundTheWorld.Controllers
             return result;
         }
 
-        [HttpPost]
+        [HttpPut]
         [Route("Put")]
         public async Task<bool> Update([FromBody] Location location)
         {
@@ -57,7 +57,7 @@ namespace AroundTheWorld.Controllers
             return result;
         }
 
-        [HttpPost]
+        [HttpGet]
         [Route("Get")]
         public Location Get([FromBody] string id)
         {
