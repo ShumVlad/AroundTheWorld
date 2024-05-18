@@ -10,6 +10,7 @@ namespace AroundTheWorld
         {
             CreateMap<LocationViewModel, LocationDTO>();
             CreateMap<RouteViewModel, RouteDTO>();
+            CreateMap<LocationRouteViewModel, LocationRouteDTO>();
         }
     }
 }

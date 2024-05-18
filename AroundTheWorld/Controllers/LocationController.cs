@@ -59,7 +59,7 @@ namespace AroundTheWorld.Controllers
 
         [HttpGet]
         [Route("Get")]
-        public Location Get([FromBody] string id)
+        public Location Get(string id)
         {
             if (id == null)
             {

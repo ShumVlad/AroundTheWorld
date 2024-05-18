@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AroundTheWorld_Persistence.Models
 {
@@ -11,5 +12,10 @@ namespace AroundTheWorld_Persistence.Models
         public string LocationId { get; set; }
         [Required]
         public string RouteId { get; set; }
+
+        [ForeignKey(nameof(LocationId))]
+        public virtual Location Location { get; set; }
+        [ForeignKey(nameof(RouteId))]
+        public virtual Route Route { get; set; }
     }
 }

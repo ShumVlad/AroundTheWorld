@@ -8,12 +8,12 @@ namespace AroundTheWorld_Persistence.Models
         public string Id { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
-        public string Location_Id { get; set; }
-        public string User_Id { get; set; }
+        public string LocationId { get; set; }
+        public string UserId { get; set; }
 
-        [ForeignKey(nameof(Location_Id))]
+        [ForeignKey(nameof(LocationId))]
         public virtual Location Location { get; set; }
-        [ForeignKey(nameof(User_Id))]
+        [ForeignKey(nameof(UserId))]
         public virtual ApplicationUser User { get; set; }
     }
 }

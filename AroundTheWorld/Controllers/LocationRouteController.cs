@@ -1,6 +1,9 @@
-﻿using AroundTheWorld_Backend.Interfaces;
+﻿using AroundTheWorld.ViewModels;
+using AroundTheWorld_Backend.DTOs;
+using AroundTheWorld_Backend.Interfaces;
 using AroundTheWorld_Backend.Services;
 using AroundTheWorld_Persistence.Models;
+using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
 
 namespace AroundTheWorld.Controllers
@@ -10,21 +13,37 @@ namespace AroundTheWorld.Controllers
     public class LocationRouteController : ControllerBase
     {
         private ILocationRouteService _locationRouteService;
+        private IMapper _mapper;
 
-        public LocationRouteController(LocationRouteService locationRouteService)
+        public LocationRouteController(ILocationRouteService locationRouteService, IMapper mapper)
         {
             _locationRouteService = locationRouteService;
+            _mapper = mapper;
         }
 
         [HttpPost]
         [Route("Create")]
-        public async Task<bool> Create(LocationRoute locationRoute)
+        public async Task<bool> Create(LocationRouteViewModel model)
         {
-            if(locationRoute == null)
+            if(model == null)
             {
-                throw new ArgumentNullException(nameof(locationRoute));
+                throw new ArgumentNullException(nameof(model));
             }
-            var result = await _locationRouteService.CreateLocationRoute(locationRoute);
+
+            LocationRouteDTO locationRouteDTO = _mapper.Map<LocationRouteDTO>(model);
+            var result = await _locationRouteService.CreateLocationRoute(locationRouteDTO);
+            return result;
+        }
+
+        [HttpDelete]
+        [Route("Delete")]
+        public async Task<bool> Delete(string id)
+        {
+            if (id == null)
+            {
+                throw new ArgumentNullException(nameof(id));
+            }
+            var result = await _locationRouteService.DeleteLocationRoute(id);
             return result;
         }
     }
