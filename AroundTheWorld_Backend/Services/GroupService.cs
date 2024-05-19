@@ -1,6 +1,4 @@
-﻿
-
-using AroundTheWorld_Backend.Interfaces;
+﻿using AroundTheWorld_Backend.Interfaces;
 using AroundTheWorld_Persistence.Models;
 
 namespace AroundTheWorld_Backend.Services
@@ -16,6 +14,7 @@ namespace AroundTheWorld_Backend.Services
 
         public async Task<bool> Add(Group group)
         {
+            group.Id = Guid.NewGuid().ToString();
             await _unitOfWork.GroupRepository.Add(group);
             _unitOfWork.Save();
             return true;
