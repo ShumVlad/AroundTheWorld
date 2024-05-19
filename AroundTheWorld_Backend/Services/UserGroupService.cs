@@ -1,10 +1,11 @@
 ﻿using AroundTheWorld_Backend.DTOs;
+using AroundTheWorld_Backend.Interfaces;
 using AroundTheWorld_Persistence.Models;
 using AutoMapper;
 
 namespace AroundTheWorld_Backend.Services
 {
-    public class UserGroupService
+    public class UserGroupService : IUserGroupService
     {
         private UnitOfWork _unitOfWork;
 
@@ -36,7 +37,7 @@ namespace AroundTheWorld_Backend.Services
             return true;
         }
 
-        public async Task<bool> RemoveUserFromGroupRoute(string id)
+        public async Task<bool> RemoveUserFromGroup(string id)
         {
             await _unitOfWork.UserGroupRepository.Delete(id);
             _unitOfWork.Save();
