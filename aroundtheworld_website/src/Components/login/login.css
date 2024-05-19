@@ -1,0 +1,28 @@
+.goalMe__login{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 3rem;
+}
+
+.goalMe__login input{
+    flex: 1;
+    width: 200px;
+    margin-top: 0.5rem;
+    padding: 0.3rem 0.1rem;
+    border: none;
+    border-radius: 2%;
+    background-color: antiquewhite;
+}
+
+.goalMe__login button{
+    padding: 5px 25px;
+    margin-top: 1.5rem;
+    border: none;
+    border-radius: 8%;
+}
+
+.goalMe__login p{
+    margin-top: 0.1rem
+}

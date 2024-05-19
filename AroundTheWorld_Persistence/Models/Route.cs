@@ -2,15 +2,13 @@
 
 namespace AroundTheWorld_Persistence.Models
 {
-    public class Country
+    public class Route
     {
         [Key]
         public string Id { get; set; }
+        [Required]
         public string Name { get; set; }
+        [Required]
         public string Description { get; set; }
-        public double YCoordinate { get; set; }
-        public double XCoordinate { get; set; }
-        public string CapitalId { get; set; }
-
     }
 }

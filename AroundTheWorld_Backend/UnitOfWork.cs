@@ -1,34 +1,47 @@
 ﻿using AroundTheWorld_Persistence;
 using AroundTheWorld_Persistence.Models;
 using AroundTheWorld_Persistence.Repositories;
-using System.Diagnostics;
-using System.Diagnostics.Metrics;
-using System.Numerics;
 
 namespace AroundTheWorld_Backend
 {
-    internal class UnitOfWork
+    public class UnitOfWork
     {
-        private readonly AroundTheWorldDbContext context;
-        public readonly IRepository<City> CityRepository;
-        public readonly IRepository<Country> CountryRepository;
+        private readonly AroundTheWorldDbContext _context;
+
+        public readonly IRepository<Group> GroupRepository;
         public readonly IRepository<ApplicationUser> UserRepository;
-        public readonly IRepository<Place> PlaceRepository;
-        public readonly IRepository<Post> PostRepository;
-        public UnitOfWork(IRepository<City> cityRepository, IRepository<Country> countryRepository, IRepository<Place> placeRepository,
-            IRepository<ApplicationUser> userRepository, IRepository<Post> postRepository)
+        public readonly IRepository<Location> PlaceRepository;
+        public readonly IRepository<Media> MediaRepository;
+        public readonly IRepository<Location> LocationRepository;
+        public readonly IRepository<Route> RouteRepository;
+        public readonly IRepository<Sensor> SensorRepository;
+        public readonly IRepository<Review> ReviewRepository;
+        public readonly IRepository<Position> PositionRepository;
+        public readonly IRepository<LocationRoute> LocationRouteRepository;
+        public readonly IRepository<UserGroup> UserGroupRepository;
+        public UnitOfWork(IRepository<Group> groupRepository, IRepository<Media> mediaRepository, IRepository<Location> placeRepository,
+            IRepository<ApplicationUser> userRepository, IRepository<Route> routeRepository, IRepository<Sensor> sensorRepository,
+            IRepository<Review> reviewRepository, IRepository<Position> positionRepository, IRepository<Location> locationRepository, 
+            IRepository<LocationRoute> locationRouteRepository, IRepository<UserGroup> userGroupRepository, AroundTheWorldDbContext context)
+
         {
             PlaceRepository = placeRepository;
-            CountryRepository = countryRepository;
-            CityRepository = cityRepository;
-            PostRepository = postRepository;
+            PositionRepository = positionRepository;
+            SensorRepository = sensorRepository;
+            GroupRepository = groupRepository;
+            ReviewRepository = reviewRepository;
+            RouteRepository = routeRepository;
+            MediaRepository = mediaRepository;
             UserRepository = userRepository;
-            this.context = context;
+            LocationRouteRepository = locationRouteRepository;
+            LocationRepository = locationRepository;
+            UserGroupRepository = userGroupRepository;
+            _context = context; 
         }
 
         public void Save()
         {
-            context.SaveChanges();
+            _context.SaveChanges();
         }
     }
 }
