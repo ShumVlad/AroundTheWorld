@@ -12,8 +12,8 @@ namespace AroundTheWorld.Controllers
     [ApiController]
     public class LocationRouteController : ControllerBase
     {
-        private ILocationRouteService _locationRouteService;
-        private IMapper _mapper;
+        private readonly ILocationRouteService _locationRouteService;
+        private readonly IMapper _mapper;
 
         public LocationRouteController(ILocationRouteService locationRouteService, IMapper mapper)
         {

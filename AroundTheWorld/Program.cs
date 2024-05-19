@@ -59,6 +59,7 @@ builder.Services.AddScoped<ILocationService, LocationService>();
 builder.Services.AddScoped<ILocationRouteService, LocationRouteService>();
 builder.Services.AddScoped<IRouteService, RouteService>();
 builder.Services.AddScoped<IGroupService, GroupService>();
+builder.Services.AddScoped<IUserGroupService, UserGroupService>();
 
 var app = builder.Build();
 
