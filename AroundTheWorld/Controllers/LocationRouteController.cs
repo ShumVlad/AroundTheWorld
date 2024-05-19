@@ -31,7 +31,7 @@ namespace AroundTheWorld.Controllers
             }
 
             LocationRouteDTO locationRouteDTO = _mapper.Map<LocationRouteDTO>(model);
-            var result = await _locationRouteService.CreateLocationRoute(locationRouteDTO);
+            var result = await _locationRouteService.AddLocationRoute(locationRouteDTO);
             return result;
         }
 

@@ -14,7 +14,8 @@ namespace AroundTheWorld_Persistence
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Route> Routes { get; set; }
         public DbSet<Sensor> Sensors { get; set; }
-        public DbSet<LocationRoute> LocationRoutes { get; set; }       
+        public DbSet<LocationRoute> LocationRoutes { get; set; }     
+        public DbSet<UserGroup> userGroups { get; set; }
 
         public AroundTheWorldDbContext(DbContextOptions<AroundTheWorldDbContext> options) : base(options)
         {

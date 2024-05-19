@@ -53,6 +53,7 @@ builder.Services.AddScoped<IRepository<Sensor>, Repository<Sensor>>();
 builder.Services.AddScoped<IRepository<Review>, Repository<Review>>();
 builder.Services.AddScoped<IRepository<Position>, Repository<Position>>();
 builder.Services.AddScoped<IRepository<LocationRoute>, Repository<LocationRoute>>();
+builder.Services.AddScoped<IRepository<UserGroup>, Repository<UserGroup>>();
 builder.Services.AddScoped<UnitOfWork>();
 builder.Services.AddScoped<ILocationService, LocationService>();
 builder.Services.AddScoped<ILocationRouteService, LocationRouteService>();

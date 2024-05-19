@@ -16,7 +16,7 @@ namespace AroundTheWorld_Backend.Services
             _mapper = mapper;
         }
 
-        public async Task<bool> CreateLocationRoute(LocationRouteDTO locationRouteDTO)
+        public async Task<bool> AddLocationRoute(LocationRouteDTO locationRouteDTO)
         {
             if (locationRouteDTO == null)
             {
