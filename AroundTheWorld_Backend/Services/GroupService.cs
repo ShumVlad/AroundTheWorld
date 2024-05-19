@@ -1,10 +1,11 @@
 ﻿
 
+using AroundTheWorld_Backend.Interfaces;
 using AroundTheWorld_Persistence.Models;
 
 namespace AroundTheWorld_Backend.Services
 {
-    public class GroupService
+    public class GroupService : IGroupService
     {
         private UnitOfWork _unitOfWork;
 
