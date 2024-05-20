@@ -10,6 +10,7 @@ namespace AroundTheWorld_Backend.DTOs
     public class LocationRouteDTO
     {
         public int Order { get; set; }
+        public bool IsVisited { get; set; }
         [Required]
         public string LocationId { get; set; }
         [Required]

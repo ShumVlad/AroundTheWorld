@@ -1,7 +1,9 @@
 ﻿using AroundTheWorld_Backend.DTOs;
 using AroundTheWorld_Backend.Interfaces;
 using AroundTheWorld_Persistence.Models;
+using AroundTheWorld_Persistence.Repositories.Interfaces;
 using AutoMapper;
+using System.Text.RegularExpressions;
 
 namespace AroundTheWorld_Backend.Services
 {
@@ -9,6 +11,8 @@ namespace AroundTheWorld_Backend.Services
     {
         private UnitOfWork _unitOfWork;
         private IMapper _mapper;
+        private ILocationRouteExtraRepository _extraRepository;
+        private ILocationService _locationService;
 
         public LocationRouteService(UnitOfWork unitOfWork, IMapper mapper)
         {
@@ -47,9 +51,15 @@ namespace AroundTheWorld_Backend.Services
             return true;
         }
 
-        /*public async Task<List<Location>> GetLocationsInRoute(string routeId)
+        public async Task<List<Location>> GetLocationsInRoute(string routeId)
         {
-            await
-        }*/
+            List<string> locationsId = _extraRepository.GetLocationIdsFromRoute(routeId);
+            List<Location> locations = new List<Location>();
+            for(int i = 0; i < locationsId.Count; i++)
+            {
+                locations.Add(_locationService.Get(locationsId[i]));
+            }
+            return locations;
+        }
     }
 }
