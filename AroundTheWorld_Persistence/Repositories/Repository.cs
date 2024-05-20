@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AroundTheWorld_Persistence.Repositories.Interfaces;
+using Microsoft.EntityFrameworkCore;
 
 namespace AroundTheWorld_Persistence.Repositories
 {

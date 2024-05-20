@@ -43,5 +43,10 @@ namespace AroundTheWorld_Backend.Services
             _unitOfWork.Save();
             return true;
         }
+
+        public List<UserGroup> GetUsers(string groupId)
+        {
+            
+        }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using AroundTheWorld_Persistence;
 using AroundTheWorld_Persistence.Models;
-using AroundTheWorld_Persistence.Repositories;
+using AroundTheWorld_Persistence.Repositories.Interfaces;
 
 namespace AroundTheWorld_Backend
 {

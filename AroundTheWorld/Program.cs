@@ -5,6 +5,7 @@ using AroundTheWorld_Backend.Services;
 using AroundTheWorld_Persistence;
 using AroundTheWorld_Persistence.Models;
 using AroundTheWorld_Persistence.Repositories;
+using AroundTheWorld_Persistence.Repositories.Interfaces;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Identity;
