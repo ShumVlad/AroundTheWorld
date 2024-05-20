@@ -44,7 +44,7 @@ namespace AroundTheWorld_Backend.Services
             return true;
         }
 
-        public List<UserGroup> GetUsers(string groupId)
+        public List<string> GetUsers(string groupId)
         {
             
         }

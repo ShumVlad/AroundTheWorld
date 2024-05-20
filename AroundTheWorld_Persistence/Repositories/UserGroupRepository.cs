@@ -1,4 +1,5 @@
 ﻿using AroundTheWorld_Persistence.Models;
+using AroundTheWorld_Persistence.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using System;
@@ -10,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace AroundTheWorld_Persistence.Repositories
 {
-    public class UserGroupRepository
+    public class UserGroupRepository : IUserGroupRepository
     {
         private readonly AroundTheWorldDbContext _context;
         private readonly DbSet<UserGroup> _dbSet;
