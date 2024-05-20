@@ -11,7 +11,7 @@ using System.Threading.Tasks;
 
 namespace AroundTheWorld_Persistence.Repositories
 {
-    public class UserGroupRepository : IUserGroupRepository
+    public class UserGroupRepository : IUserGroupExtraRepository
     {
         private readonly AroundTheWorldDbContext _context;
         private readonly DbSet<UserGroup> _dbSet;
