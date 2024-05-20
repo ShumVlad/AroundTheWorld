@@ -1,18 +1,20 @@
 import React from 'react';
 
-const Location = ({ location }) => {
-    if (!location) return null;
+class Location extends React.Component  {
 
-    return (
-        <div className="location-details">
-            <h2>{location.name}</h2>
-            <p>{location.type}</p>
-            <p>{location.description}</p>
-            <p>{location.address}</p>
-            <p>Latitude: {location.latitude}</p>
-            <p>Longitude: {location.longitude}</p>
-        </div>
-    );
+    render() {
+        return (
+            <div >
+                <div className="aroundTheWorld__location_container-element">
+                    
+                </div> 
+                <div className="aroundTheWorld__location_container-element"></div>
+                <div className="aroundTheWorld__location_container-element"></div>
+                <div className="aroundTheWorld__location_container-element"></div>
+            </div>
+        )
+    }
+
 };
 
 export default Location;
