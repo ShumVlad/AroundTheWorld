@@ -8,6 +8,6 @@ namespace AroundTheWorld_Persistence.Repositories.Interfaces
 {
     public interface ILocationRouteExtraRepository
     {
-        List<string> GetLocationIdsFromRoute(string routeId);
+        Task<List<string>> GetLocationIdsFromRoute(string routeId);
     }
 }

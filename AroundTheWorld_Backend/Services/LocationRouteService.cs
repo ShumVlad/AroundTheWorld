@@ -14,10 +14,12 @@ namespace AroundTheWorld_Backend.Services
         private ILocationRouteExtraRepository _extraRepository;
         private ILocationService _locationService;
 
-        public LocationRouteService(UnitOfWork unitOfWork, IMapper mapper)
+        public LocationRouteService(UnitOfWork unitOfWork, IMapper mapper, ILocationRouteExtraRepository locationRouteExtraRepository, ILocationService locationService)
         {
             _unitOfWork = unitOfWork;
             _mapper = mapper;
+            _extraRepository = locationRouteExtraRepository;
+            _locationService = locationService;
         }
 
         public async Task<bool> AddLocationRoute(LocationRouteDTO locationRouteDTO)
@@ -53,7 +55,7 @@ namespace AroundTheWorld_Backend.Services
 
         public async Task<List<Location>> GetLocationsInRoute(string routeId)
         {
-            List<string> locationsId = _extraRepository.GetLocationIdsFromRoute(routeId);
+            List<string> locationsId = await _extraRepository.GetLocationIdsFromRoute(routeId);
             List<Location> locations = new List<Location>();
             for(int i = 0; i < locationsId.Count; i++)
             {

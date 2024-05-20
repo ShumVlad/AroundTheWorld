@@ -46,5 +46,17 @@ namespace AroundTheWorld.Controllers
             var result = await _locationRouteService.DeleteLocationRoute(id);
             return result;
         }
+
+        [HttpGet]
+        [Route("GetLocationsFromRoute")]
+        public async Task<List<Location>> GetLocationsFromRoute(string routeid)
+        {
+            if (routeid == null)
+            {
+                throw new ArgumentNullException(nameof(routeid));
+            }
+            List<Location> locations= await _locationRouteService.GetLocationsInRoute(routeid);
+            return locations;
+        }
     }
 }

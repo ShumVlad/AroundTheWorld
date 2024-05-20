@@ -1,6 +1,7 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import Map from '../../Components/Map/Map';
+import axios from "axios";
 
 const locationsData = [
   {
@@ -14,6 +15,15 @@ const locationsData = [
       longitude: 9.8944579,
   }
 ];
+const [routeId, setrouteId] = useState('');
+
+const getLocations = () => {
+    axios.get('https://localhost:7172/api/Trip/GetAll', { params: { userId: userId } })
+    .then((result) => {
+        const dt = result.data;
+        setData(result.data)
+      })
+}
 
 class Route extends React.Component {
     render(){
