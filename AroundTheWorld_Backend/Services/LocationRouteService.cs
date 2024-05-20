@@ -46,5 +46,10 @@ namespace AroundTheWorld_Backend.Services
             _unitOfWork.Save();
             return true;
         }
+
+        /*public async Task<List<Location>> GetLocationsInRoute(string routeId)
+        {
+            await
+        }*/
     }
 }

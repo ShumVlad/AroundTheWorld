@@ -55,13 +55,13 @@ builder.Services.AddScoped<IRepository<Review>, Repository<Review>>();
 builder.Services.AddScoped<IRepository<Position>, Repository<Position>>();
 builder.Services.AddScoped<IRepository<LocationRoute>, Repository<LocationRoute>>();
 builder.Services.AddScoped<IRepository<UserGroup>, Repository<UserGroup>>();
+builder.Services.AddScoped<IUserGroupExtraRepository, UserGroupExtraRepository>();
 builder.Services.AddScoped<UnitOfWork>();
 builder.Services.AddScoped<ILocationService, LocationService>();
 builder.Services.AddScoped<ILocationRouteService, LocationRouteService>();
 builder.Services.AddScoped<IRouteService, RouteService>();
 builder.Services.AddScoped<IGroupService, GroupService>();
 builder.Services.AddScoped<IUserGroupService, UserGroupService>();
-builder.Services.AddScoped<IExtraUserGroupRepository, UserGroupService>();
 
 var app = builder.Build();
 

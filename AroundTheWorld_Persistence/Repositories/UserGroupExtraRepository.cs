@@ -1,32 +1,25 @@
 ﻿using AroundTheWorld_Persistence.Models;
 using AroundTheWorld_Persistence.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging;
-using System;
 using System.Collections.Generic;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace AroundTheWorld_Persistence.Repositories
 {
-    public class UserGroupRepository : IUserGroupExtraRepository
+    public class UserGroupExtraRepository : IUserGroupExtraRepository
     {
         private readonly AroundTheWorldDbContext _context;
-        private readonly DbSet<UserGroup> _dbSet;
 
-        public UserGroupRepository(AroundTheWorldDbContext context, DbSet<UserGroup> dbSet)
+        public UserGroupExtraRepository(AroundTheWorldDbContext context)
         {
             _context = context;
-            _dbSet = dbSet;
         }
 
-        public List<string> GetUserIdsFromGroup(string groupId) 
+        public List<string> GetUserIdsFromGroup(string groupId)
         {
             List<UserGroup> userGroups = new List<UserGroup>();
 
-            var result = from uG in _dbSet
+            var result = from uG in _context.userGroups
                          where uG.GroupId.Equals(groupId)
                          select uG;
             userGroups = result.ToList();

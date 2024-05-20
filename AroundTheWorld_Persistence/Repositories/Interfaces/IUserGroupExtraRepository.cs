@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace AroundTheWorld_Persistence.Repositories.Interfaces
 {
-    public interface IUserGroupRepository
+    public interface IUserGroupExtraRepository
     {
         List<string> GetUserIdsFromGroup(string groupId);
     }
