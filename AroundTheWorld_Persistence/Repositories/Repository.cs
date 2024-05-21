@@ -1,4 +1,6 @@
-﻿using AroundTheWorld_Persistence.Repositories.Interfaces;
+﻿using System.Linq;
+using System.Threading.Tasks;
+using AroundTheWorld_Persistence.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
 namespace AroundTheWorld_Persistence.Repositories
@@ -40,6 +42,11 @@ namespace AroundTheWorld_Persistence.Repositories
             _dbSet.Attach(entity);
             _context.Entry(entity).State = EntityState.Modified;
             return Task.CompletedTask;
+        }
+
+        public async Task<List<T>> GetPaginated(int page, int pageSize)
+        {
+            return await _dbSet.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
         }
     }
 }

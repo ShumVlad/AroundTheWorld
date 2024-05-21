@@ -2,14 +2,19 @@ import React, { useEffect, useState, useRef, useCallback } from 'react';
 import axios from 'axios';
 import Location from '../Location/Location';
 
-const Locations = () =>  {
+const Home = () => {
     const [locations, setLocations] = useState([]);
     const [page, setPage] = useState(1);
     const [hasMore, setHasMore] = useState(true);
     const observer = useRef();
+
+    useEffect(() => {
+        fetchLocations(page);
+    }, [page]);
+
     const fetchLocations = async (page) => {
         try {
-            const response = await axios.get('https://localhost:7160/api/Location/GetAll', { params: { page } });
+            const response = await axios.get('https://localhost:7160/api/LocationRoute/GetLocations', { params: { page } });
             setLocations(prevLocations => [...prevLocations, ...response.data]);
             setHasMore(response.data.length > 0);
         } catch (error) {
@@ -28,7 +33,7 @@ const Locations = () =>  {
     }, [hasMore]);
 
     return (
-        <div className="aroundTheWorld__location_container">
+        <div>
             {locations.map((location, index) => {
                 if (locations.length === index + 1) {
                     return <Location ref={lastLocationElementRef} key={location.id} data={location} />;
@@ -37,7 +42,7 @@ const Locations = () =>  {
                 }
             })}
         </div>
-        );
+    );
 };
 
-export default Locations;
+export default Home;

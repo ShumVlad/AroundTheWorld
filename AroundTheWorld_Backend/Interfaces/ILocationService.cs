@@ -9,5 +9,6 @@ namespace AroundTheWorld_Backend.Interfaces
         Task<bool> Delete(string id);
         Location Get(string id);
         Task<bool> Update(Location location);
+        Task<List<Location>> GetPaginatedLocations(int page, int pageSize);
     }
 }

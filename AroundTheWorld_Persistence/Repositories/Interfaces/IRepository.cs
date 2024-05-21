@@ -17,5 +17,6 @@ namespace AroundTheWorld_Persistence.Repositories.Interfaces
         T Get(string id);
 
         List<T> GetAll();
+        Task<List<T>> GetPaginated(int page, int pageSize);
     }
 }
