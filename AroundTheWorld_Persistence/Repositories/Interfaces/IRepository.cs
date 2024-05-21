@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AroundTheWorld_Persistence.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -18,5 +19,6 @@ namespace AroundTheWorld_Persistence.Repositories.Interfaces
 
         List<T> GetAll();
         Task<List<T>> GetPaginated(int page, int pageSize);
+        Task<List<GetRoute>> GetMyRoutes(string userId);
     }
 }

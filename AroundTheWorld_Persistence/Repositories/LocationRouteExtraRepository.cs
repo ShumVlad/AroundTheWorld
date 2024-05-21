@@ -19,19 +19,13 @@ namespace AroundTheWorld_Persistence.Repositories
 
         public async Task<List<string>> GetLocationIdsFromRoute(string routeId)
         {
-            List<LocationRoute> locationRoutes = new List<LocationRoute>();
+            List<string> locationsIds = new List<string>();
 
             var result = from uG in _context.LocationRoutes
                          where uG.RouteId.Equals(routeId)
-                         select uG;
-            locationRoutes = result.ToList();
-
-            List<string> locationsId = new List<string>();
-            for (int i = 0; i < locationRoutes.Count; i++)
-            {
-                locationsId.Add(locationRoutes[i].LocationId);
-            }
-            return locationsId;
+                         select uG.LocationId;
+            locationsIds = result.ToList();
+            return locationsIds;
         }
 
     }

@@ -1,20 +1,18 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace AroundTheWorld_Persistence.Models
 {
-    public class Route
+    public class GetRoute
     {
-        [Key]
         public string Id { get; set; }
-        [Required]
         public string Name { get; set; }
-        [Required]
         public string Description { get; set; }
         public bool IsFinished { get; set; }
         public string CompanyId { get; set; }
-
-        [ForeignKey(nameof(CompanyId))]
-        public virtual Company Company { get; set; }
+        public string CompanyName { get; set; }
     }
 }

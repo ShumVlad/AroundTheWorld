@@ -1,5 +1,6 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
+using AroundTheWorld_Persistence.Models;
 using AroundTheWorld_Persistence.Repositories.Interfaces;
 using Microsoft.EntityFrameworkCore;
 
@@ -47,6 +48,25 @@ namespace AroundTheWorld_Persistence.Repositories
         public async Task<List<T>> GetPaginated(int page, int pageSize)
         {
             return await _dbSet.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
+        }
+
+        public async Task<List<GetRoute>> GetMyRoutes(string userId)
+        {
+            List<GetRoute> routes = await (from ug in _context.userGroups
+                                                       join g in _context.Groups on ug.GroupId equals g.Id
+                                                       join r in _context.Routes on g.RouteId equals r.Id
+                                                       join c in _context.Companies on r.CompanyId equals c.Id
+                                                       where ug.UserId == userId
+                                                       select new GetRoute
+                                                       {
+                                                           Id = r.Id,
+                                                           Name = r.Name,
+                                                           Description = r.Description,
+                                                           IsFinished = r.IsFinished,
+                                                           CompanyName = c.Name,
+                                                           CompanyId = c.Id
+                                                       }).ToListAsync();
+            return routes;
         }
     }
 }

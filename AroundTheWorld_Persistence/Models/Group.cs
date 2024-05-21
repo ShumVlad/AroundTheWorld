@@ -7,10 +7,11 @@ namespace AroundTheWorld_Persistence.Models
     {
         [Key]
         public string Id { get; set; }
+        public string Name { get; set; }
         [Required]
-        public string Route_Id { get; set; }
+        public string RouteId { get; set; }
 
-        [ForeignKey(nameof(Route_Id))]
+        [ForeignKey(nameof(RouteId))]
         public virtual Route Route { get; set; }
     }
 }
