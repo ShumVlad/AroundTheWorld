@@ -59,7 +59,7 @@ namespace AroundTheWorld.Controllers
 
         [HttpPut]
         [Route("Update")]
-        public async Task<bool> Get(AroundTheWorld_Persistence.Models.Route route)
+        public async Task<bool> Update(AroundTheWorld_Persistence.Models.Route route)
         {
             if (route == null)
             {

@@ -16,6 +16,7 @@ namespace AroundTheWorld_Persistence
         public DbSet<Sensor> Sensors { get; set; }
         public DbSet<LocationRoute> LocationRoutes { get; set; }     
         public DbSet<UserGroup> userGroups { get; set; }
+        public DbSet<Company> Companies { get; set; }
 
         public AroundTheWorldDbContext(DbContextOptions<AroundTheWorldDbContext> options) : base(options)
         {

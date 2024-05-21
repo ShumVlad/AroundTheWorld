@@ -19,11 +19,11 @@ namespace AroundTheWorld_Backend
         public readonly IRepository<Position> PositionRepository;
         public readonly IRepository<LocationRoute> LocationRouteRepository;
         public readonly IRepository<UserGroup> UserGroupRepository;
+        public readonly IRepository<Company> CompanyRepository;
         public UnitOfWork(IRepository<Group> groupRepository, IRepository<Media> mediaRepository, IRepository<Location> placeRepository,
             IRepository<ApplicationUser> userRepository, IRepository<Route> routeRepository, IRepository<Sensor> sensorRepository,
             IRepository<Review> reviewRepository, IRepository<Position> positionRepository, IRepository<Location> locationRepository, 
-            IRepository<LocationRoute> locationRouteRepository, IRepository<UserGroup> userGroupRepository, AroundTheWorldDbContext context)
-
+            IRepository<LocationRoute> locationRouteRepository, IRepository<UserGroup> userGroupRepository, IRepository<Company> companyRepository, AroundTheWorldDbContext context)
         {
             PlaceRepository = placeRepository;
             PositionRepository = positionRepository;
@@ -36,6 +36,7 @@ namespace AroundTheWorld_Backend
             LocationRouteRepository = locationRouteRepository;
             LocationRepository = locationRepository;
             UserGroupRepository = userGroupRepository;
+            CompanyRepository = companyRepository;
             _context = context; 
         }
 

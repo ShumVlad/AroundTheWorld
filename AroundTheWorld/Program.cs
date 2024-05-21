@@ -57,6 +57,7 @@ builder.Services.AddScoped<IRepository<LocationRoute>, Repository<LocationRoute>
 builder.Services.AddScoped<IRepository<UserGroup>, Repository<UserGroup>>();
 builder.Services.AddScoped<IUserGroupExtraRepository, UserGroupExtraRepository>();
 builder.Services.AddScoped<ILocationRouteExtraRepository, LocationRouteExtraRepository>();
+builder.Services.AddScoped<IRepository<Company>, Repository<Company>>();
 builder.Services.AddScoped<UnitOfWork>();
 builder.Services.AddScoped<ILocationService, LocationService>();
 builder.Services.AddScoped<ILocationRouteService, LocationRouteService>();

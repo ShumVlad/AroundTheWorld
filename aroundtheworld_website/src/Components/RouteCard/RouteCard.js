@@ -10,10 +10,10 @@ const RouteCard = React.forwardRef((props, ref) => {
                 {props.data.description}
             </div>
             <div className="aroundTheWorld__routeCard_container-element">
-                {props.data.address}
+                {props.data.companyName}
             </div>
             <div className="aroundTheWorld__routeCard_container-element">
-                {props.data.type}
+                {props.data.isFinished}
             </div>
         </div>
     );

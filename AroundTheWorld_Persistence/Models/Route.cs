@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace AroundTheWorld_Persistence.Models
 {
@@ -11,5 +12,9 @@ namespace AroundTheWorld_Persistence.Models
         [Required]
         public string Description { get; set; }
         public bool IsFinisched { get; set; }
+        public string CompanyId { get; set; }
+
+        [ForeignKey(nameof(CompanyId))]
+        public virtual Company Company { get; set; }
     }
 }
