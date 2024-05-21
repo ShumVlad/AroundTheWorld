@@ -9,5 +9,6 @@ namespace AroundTheWorld_Backend.Interfaces
         Task<bool> Delete(string id);
         Route Get(string id);
         Task<bool> Update(Route route);
+        Task<List<GetRouteDto>> GetMyRoutes(string userId);
     }
 }

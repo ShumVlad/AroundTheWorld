@@ -1,17 +1,17 @@
-﻿using Microsoft.Extensions.Logging;
+﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace AroundTheWorld_Persistence.Models
 {
-    public class Location
+    public class Company
     {
         [Key]
         public string Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
-        public string Address { get; set; }
-        public string Type { get; set; }
-        public double Latitude { get; set; }
-        public double Longitude { get; set; }
     }
 }

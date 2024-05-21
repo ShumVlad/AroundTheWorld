@@ -8,6 +8,7 @@ namespace AroundTheWorld_Persistence.Models
         [Key]
         public string Id { get; set; }
         public int Order { get; set; }
+        public bool IsVisited { get; set; }
         [Required]
         public string LocationId { get; set; }
         [Required]

@@ -1,4 +1,5 @@
 ﻿using AroundTheWorld.ViewModels;
+using AroundTheWorld.ViewModels.IdentityModels;
 using AroundTheWorld_Backend.DTOs;
 using AroundTheWorld_Backend.Interfaces;
 using AroundTheWorld_Persistence.Models;
@@ -59,13 +60,26 @@ namespace AroundTheWorld.Controllers
 
         [HttpPut]
         [Route("Update")]
-        public async Task<bool> Get(AroundTheWorld_Persistence.Models.Route route)
+        public async Task<bool> Update(AroundTheWorld_Persistence.Models.Route route)
         {
             if (route == null)
             {
                 throw new ArgumentNullException();
             }
             var result = await _routeService.Update(route);
+            return result;
+        }
+
+        [HttpGet]
+        [Route("GetMyRoutes")]
+        public async Task<List<GetRouteViewModel>> GetMyRoutes(string userId)
+        {
+            if (userId == null)
+            {
+                throw new ArgumentNullException();
+            }
+            List<GetRouteDto> getRoutesDto = await _routeService.GetMyRoutes(userId);
+            List<GetRouteViewModel> result = _mapper.Map<List<GetRouteViewModel>>(getRoutesDto);
             return result;
         }
     }

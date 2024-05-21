@@ -11,6 +11,7 @@ namespace AroundTheWorld_Backend
             CreateMap<LocationDTO, Location>();
             CreateMap<RouteDTO, Route>();
             CreateMap<LocationRouteDTO, LocationRoute>();
+            CreateMap<GetRoute, GetRouteDto>();
         }
     }
 }

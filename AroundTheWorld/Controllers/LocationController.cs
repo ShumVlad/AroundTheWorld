@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
 using AroundTheWorld_Backend.Interfaces;
 using AroundTheWorld.ViewModels;
 using AutoMapper;
@@ -59,14 +61,22 @@ namespace AroundTheWorld.Controllers
 
         [HttpGet]
         [Route("Get")]
-        public Location Get(string id)
+        public async Task<Location> Get(string id)
         {
             if (id == null)
             {
-                //return ;
+                throw new Exception(nameof(id));
             }
             Location result = _locationService.Get(id);
             return result;
+        }
+
+        [HttpGet]
+        [Route("GetPaginated")]
+        public async Task<ActionResult<List<Location>>> GetPaginated(int page = 1, int pageSize = 2)
+        {
+            var locations = await _locationService.GetPaginatedLocations(page, pageSize);
+            return Ok(locations);
         }
     }
 }

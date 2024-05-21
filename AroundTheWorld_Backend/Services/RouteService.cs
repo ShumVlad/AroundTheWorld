@@ -5,6 +5,7 @@ using AroundTheWorld_Backend.Interfaces;
 using AroundTheWorld_Persistence;
 using AroundTheWorld_Persistence.Models;
 using AutoMapper;
+using Microsoft.AspNetCore.Routing;
 
 namespace AroundTheWorld_Backend.Services
 {
@@ -62,6 +63,17 @@ namespace AroundTheWorld_Backend.Services
             _unit.RouteRepository.Update(route);
             _unit.Save();
             return true;
+        }
+
+        public async Task<List<GetRouteDto>> GetMyRoutes(string userId)
+        {
+            if (userId == null)
+            {
+                throw new ArgumentNullException(nameof(userId));
+            }
+            List<GetRoute> routes = await _unit.RouteRepository.GetMyRoutes(userId);
+            List<GetRouteDto> getRouteDtos = _mapper.Map<List<GetRouteDto>>(routes);
+            return getRouteDtos;
         }
     }
 }

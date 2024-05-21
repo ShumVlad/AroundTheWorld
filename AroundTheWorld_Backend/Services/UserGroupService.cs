@@ -1,6 +1,7 @@
 ﻿using AroundTheWorld_Backend.DTOs;
 using AroundTheWorld_Backend.Interfaces;
 using AroundTheWorld_Persistence.Models;
+using AroundTheWorld_Persistence.Repositories.Interfaces;
 using AutoMapper;
 
 namespace AroundTheWorld_Backend.Services
@@ -8,10 +9,12 @@ namespace AroundTheWorld_Backend.Services
     public class UserGroupService : IUserGroupService
     {
         private UnitOfWork _unitOfWork;
+        private IUserGroupExtraRepository _extraRepository;
 
-        public UserGroupService(UnitOfWork unitOfWork)
+        public UserGroupService(UnitOfWork unitOfWork, IUserGroupExtraRepository extraRepository)
         {
             _unitOfWork = unitOfWork;
+            _extraRepository = extraRepository;
         }
 
         public async Task<bool> AddUserToGroup(UserGroup userGroup)
@@ -42,6 +45,12 @@ namespace AroundTheWorld_Backend.Services
             await _unitOfWork.UserGroupRepository.Delete(id);
             _unitOfWork.Save();
             return true;
+        }
+
+        public List<string> GetUsers(string groupId)
+        {
+            List<string> userIds = _extraRepository.GetUserIdsFromGroup(groupId);
+            return userIds;
         }
     }
 }

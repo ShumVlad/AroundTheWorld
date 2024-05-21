@@ -1,10 +1,11 @@
-﻿using System;
+﻿using AroundTheWorld_Persistence.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace AroundTheWorld_Persistence.Repositories
+namespace AroundTheWorld_Persistence.Repositories.Interfaces
 {
     public interface IRepository<T>
     {
@@ -17,5 +18,7 @@ namespace AroundTheWorld_Persistence.Repositories
         T Get(string id);
 
         List<T> GetAll();
+        Task<List<T>> GetPaginated(int page, int pageSize);
+        Task<List<GetRoute>> GetMyRoutes(string userId);
     }
 }

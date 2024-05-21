@@ -1,6 +1,7 @@
-﻿using AroundTheWorld_Backend.DTOs;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
+using AroundTheWorld_Backend.DTOs;
 using AroundTheWorld_Backend.Interfaces;
-using AroundTheWorld_Persistence;
 using AroundTheWorld_Persistence.Models;
 using AutoMapper;
 
@@ -39,11 +40,11 @@ namespace AroundTheWorld_Backend.Services
             await _unit.LocationRepository.Add(location);
             _unit.Save();
             return true;
-        } 
+        }
 
         public async Task<bool> Delete(string id)
         {
-            if(id == null)
+            if (id == null)
             {
                 return false;
             }
@@ -56,6 +57,11 @@ namespace AroundTheWorld_Backend.Services
         {
             Location result = _unit.LocationRepository.Get(id);
             return result;
+        }
+
+        public async Task<List<Location>> GetPaginatedLocations(int page, int pageSize)
+        {
+            return await _unit.LocationRepository.GetPaginated(page, pageSize);
         }
     }
 }
