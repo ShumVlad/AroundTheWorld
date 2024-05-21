@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useRef, useCallback } from 'react';
 import axios from 'axios';
-import Location from '../Location/Location';
+import Location from '../LocationCard/LocationCard';
 
 const Home = () => {
     const [locations, setLocations] = useState([]);

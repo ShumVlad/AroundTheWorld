@@ -2,7 +2,7 @@ import React from 'react';
 import GoogleMapReact from 'google-map-react';
 import MyLocationIcon from '@mui/icons-material/MyLocation';
 import StarIcon from '@mui/icons-material/Star';
-import Location from '../Location/Location';
+import Location from '../LocationCard/LocationCard';
 
 class Map extends React.Component {
     constructor(props) {
