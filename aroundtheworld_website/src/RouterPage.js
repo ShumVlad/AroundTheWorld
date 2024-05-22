@@ -3,6 +3,7 @@ import Home from './Home';
 import Route from '././Containers/Route/Route'
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import MyRoutes from "./Containers/MyRoutes/MyRoutes";
+import CreateLocation from "./Containers/CreateLocation/CrateLocation";
 
 const router = createBrowserRouter([
     {
@@ -16,6 +17,10 @@ const router = createBrowserRouter([
     {
         path: '/MyRoutes',
         element: <MyRoutes/>
+    },
+    {
+        path: '/CreateLocation',
+        element: <CreateLocation/>
     }
 ]);
    

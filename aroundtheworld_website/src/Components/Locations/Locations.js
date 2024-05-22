@@ -14,7 +14,7 @@ const Locations = () => {
 
     const fetchLocations = async (page) => {
         try {
-            const response = await axios.get('https://localhost:7160/api/LocationRoute/GetLocations', { params: { page } });
+            const response = await axios.get('https://localhost:7160/api/Location/GetPaginated', { params: { page } });
             setLocations(prevLocations => [...prevLocations, ...response.data]);
             setHasMore(response.data.length > 0);
         } catch (error) {
