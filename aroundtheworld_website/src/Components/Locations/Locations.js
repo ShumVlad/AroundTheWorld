@@ -2,7 +2,7 @@ import React, { useEffect, useState, useRef, useCallback } from 'react';
 import axios from 'axios';
 import Location from '../LocationCard/LocationCard';
 
-const Home = () => {
+const Locations = () => {
     const [locations, setLocations] = useState([]);
     const [page, setPage] = useState(1);
     const [hasMore, setHasMore] = useState(true);
@@ -45,4 +45,4 @@ const Home = () => {
     );
 };
 
-export default Home;
+export default Locations;

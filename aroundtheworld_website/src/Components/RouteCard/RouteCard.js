@@ -2,18 +2,18 @@ import React from 'react';
 
 const RouteCard = React.forwardRef((props, ref) => {
     return (
-        <div ref={ref}>
-            <div className="aroundTheWorld__routeCard_container-element">
-                {props.data.name}
-            </div> 
-            <div className="aroundTheWorld__routeCard_container-element">
-                {props.data.description}
+        <div ref={ref} className="route-card">
+            <div className="route-card-element">
+                <strong>Name:</strong> {props.data.name}
             </div>
-            <div className="aroundTheWorld__routeCard_container-element">
-                {props.data.companyName}
+            <div className="route-card-element">
+                <strong>Description:</strong> {props.data.description}
             </div>
-            <div className="aroundTheWorld__routeCard_container-element">
-                {props.data.isFinished}
+            <div className="route-card-element">
+                <strong>Company:</strong> {props.data.companyName}
+            </div>
+            <div className="route-card-element">
+                <strong>Status:</strong> {props.data.isFinished ? "Finished" : "Ongoing"}
             </div>
         </div>
     );
