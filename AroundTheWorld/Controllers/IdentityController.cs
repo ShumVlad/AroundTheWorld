@@ -66,7 +66,8 @@ namespace AroundTheWorld.Controllers
                 {
                     token = new JwtSecurityTokenHandler().WriteToken(token),
                     userId = user.Id,
-                    userRole = userRoles[0]
+                    userRole = userRoles[0],
+                    userName = user.UserName
                 });
             }
             return Unauthorized();

@@ -1,6 +1,6 @@
 import React, { useState, useContext } from 'react';
 import axios from "axios";
-import { AuthContext } from '../../constext/AuthContext';
+import { AuthContext } from '../../context/AuthContext';
 import './login.css';
 
 const Login = () => {
@@ -19,8 +19,8 @@ const Login = () => {
 
         axios.post(url, data)
             .then((result) => {
-                const { userId, token } = result.data;
-                setAuthState({ userId, token });  // Update the context
+                const { userId, token, userName } = result.data;
+                setAuthState({ userId, token, userName }); 
                 // navigate("/" + userId);  // Uncomment if you want to navigate after login
                 console.log(result.data);
             })

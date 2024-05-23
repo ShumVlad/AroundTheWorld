@@ -1,10 +1,13 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import axios from 'axios';
 import RouteCard from '../../Components/RouteCard/RouteCard';
+import { AuthContext } from '../../context/AuthContext';
+import Navbar from '../../Components/navbar/Navbar';
 
 const MyRoutes = () => {
     const [data, setData] = useState([]);
-    const userId = '32a4f073-df07-4deb-b524-75312c4c9d14'; // Replace this with the actual user ID
+    const { authState } = useContext(AuthContext);
+    const userId = authState.userId;
 
     useEffect(() => {
         getData();
@@ -22,6 +25,7 @@ const MyRoutes = () => {
 
     return (
         <div className="my-routes">
+            <Navbar />
             {data.map((route) => (
                 <RouteCard key={route.id} data={route} />
             ))}
