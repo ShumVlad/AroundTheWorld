@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import GoogleMapReact from 'google-map-react';
@@ -12,7 +13,7 @@ const CreateLocationPage = () => {
         type: '',
         latitude: '',
         longitude: '',
-        imageUrl: ''  // Changed from image to imageUrl
+        imageUrl: ''
     });
     const [marker, setMarker] = useState(null);
 
@@ -57,38 +58,30 @@ const CreateLocationPage = () => {
 
     return (
         <div>
-            <form onSubmit={handleSubmit} encType="multipart/form-data">
+            <form onSubmit={handleSubmit}>
                 <div>
-                    <label>Name:</label>
-                    <input type="text" name="name" value={formData.name} onChange={handleChange} required />
+                    <label>Name</label>
+                    <input type="text" name="name" value={formData.name} onChange={handleChange} />
                 </div>
                 <div>
-                    <label>Description:</label>
-                    <textarea name="description" value={formData.description} onChange={handleChange} required />
+                    <label>Description</label>
+                    <input type="text" name="description" value={formData.description} onChange={handleChange} />
                 </div>
                 <div>
-                    <label>Address:</label>
-                    <input type="text" name="address" value={formData.address} onChange={handleChange} required />
+                    <label>Address</label>
+                    <input type="text" name="address" value={formData.address} onChange={handleChange} />
                 </div>
                 <div>
-                    <label>Type:</label>
-                    <input type="text" name="type" value={formData.type} onChange={handleChange} required />
+                    <label>Type</label>
+                    <input type="text" name="type" value={formData.type} onChange={handleChange} />
                 </div>
                 <div>
-                    <label>Latitude:</label>
-                    <input type="number" name="latitude" value={formData.latitude} onChange={handleChange} required readOnly />
-                </div>
-                <div>
-                    <label>Longitude:</label>
-                    <input type="number" name="longitude" value={formData.longitude} onChange={handleChange} required readOnly />
-                </div>
-                <div>
-                <label>Image URL:</label>
-                    <input type="text" name="imageUrl" value={formData.imageUrl} onChange={handleChange} required />
+                    <label>Image URL</label>
+                    <input type="text" name="imageUrl" value={formData.imageUrl} onChange={handleChange} />
                 </div>
                 <button type="submit">Create Location</button>
             </form>
-            <div style={{ height: '80vh' }}>
+            <div style={{ height: '400px', width: '100%' }}>
                 <GoogleMapReact
                     bootstrapURLKeys={{ key: 'AIzaSyAderMV7HrObn9AQegVS6M3rENgMe5yLu0' }}
                     defaultCenter={{
@@ -112,6 +105,12 @@ const CreateLocationPage = () => {
                     />
                 </GoogleMapReact>
             </div>
+            {formData.imageUrl && (
+                <div>
+                    <h2>Preview Image:</h2>
+                    <img src={formData.imageUrl} alt="Location" style={{ maxWidth: '100%', maxHeight: '300px' }} />
+                </div>
+            )}
         </div>
     );
 };
