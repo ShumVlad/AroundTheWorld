@@ -1,56 +1,39 @@
-.aroundTheWorld__locationCard_container{
+.aroundTheWorld__locationCard_container {
     justify-content: space-between;
     margin: 1rem;
     padding: 1rem;
     display: flex;
     flex-direction: column;
     align-items: center;
-    margin: 100rem, 100rem;
-    padding: 100rem, 100rem;
     color: #fff;
     font-size: 18px;
-    background:-moz-radial-gradient(circle at 3% 25%, rgba(0, 40, 83, 1) 0%, rgba(4, 12, 24, 1) 100%);
-    /* safari 5.1+,chrome 10+ */
-    background:-webkit-radial-gradient(circle at 3% 25%, rgba(0, 40, 83, 1) 0%, rgba(4, 12, 24, 1) 100%);
-    /* opera 11.10+ */
-    background:-o-radial-gradient(circle at 3% 25%, rgba(0, 40, 83, 1) 0%, rgba(4, 12, 24, 1) 100%);
-    /* ie 10+ */
-    background:-ms-radial-gradient(circle at 3% 25%, rgba(0, 40, 83, 1) 0%, rgba(4, 12, 24, 1) 100%);
-    /* global 92%+ browsers support */
-    background:radial-gradient(circle at 3% 25%, rgba(0, 40, 83, 1) 0%, rgba(4, 12, 24, 1) 100%);
+    background: radial-gradient(circle at 3% 25%, rgba(0, 40, 83, 1) 0%, rgba(4, 12, 24, 1) 100%);
 }
 
-.aroundTheWorld__locationCard_container-textElements{
-    justify-content: space-between;
-    margin: 1rem;
-    padding: 1rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 100rem, 100rem;
-    padding: 100rem, 100rem;
-    color: #fff;
+.aroundTheWorld__locationCard_container-header {
+    margin-bottom: 1rem;
+    font-size: 24px;
+    font-weight: bold;
 }
 
-.aroundTheWorld__locationCard_container{
-    justify-content: space-between;
-    margin: 1rem;
-    padding: 1rem;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    margin: 100rem, 100rem;
-    padding: 100rem, 100rem;
-    color: #fff;
-}
-
-.aroundTheWorld__locationCard_container-box{
+.aroundTheWorld__locationCard_container-box {
     justify-content: space-between;
     margin: 1rem;
     padding: 1rem;
     display: flex;
     flex-direction: row;
-    margin: 100rem, 100rem;
-    padding: 100rem, 100rem;
+    align-items: center;
     color: #fff;
+}
+
+.aroundTheWorld__locationCard_container-textElements {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-left: 1rem;
+    color: #fff;
+}
+
+.aroundTheWorld__locationCard_container-element {
+    margin-bottom: 0.5rem;
 }

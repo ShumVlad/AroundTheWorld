@@ -19,6 +19,7 @@ const Navbar = () => {
     return (
         <div className='goalMe__navbar'>
             <div className='goalMe__navbar-links'>
+            <a className="nav-link" onClick={() => handleNavigate('/')}>AroundTheWorld</a>
                 <a className="nav-link" onClick={() => handleNavigate('/my-routes')}>My Routes</a>
             </div>
             <div className="goalMe__navbar-menu">

@@ -1,4 +1,5 @@
 import React from 'react';
+import './routeCard.css';
 
 const RouteCard = React.forwardRef((props, ref) => {
     return (
