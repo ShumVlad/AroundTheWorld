@@ -49,13 +49,13 @@ namespace AroundTheWorld.Controllers
 
         [HttpGet]
         [Route("GetLocationsFromRoute")]
-        public async Task<List<Location>> GetLocationsFromRoute(string routeid)
+        public async Task<List<GetLocationFromRouteDto>> GetLocationsFromRoute(string routeid)
         {
             if (routeid == null)
             {
                 throw new ArgumentNullException(nameof(routeid));
             }
-            List<Location> locations= await _locationRouteService.GetLocationsInRoute(routeid);
+            List<GetLocationFromRouteDto> locations= await _locationRouteService.GetLocationsInRoute(routeid);
             return locations;
         }
     }

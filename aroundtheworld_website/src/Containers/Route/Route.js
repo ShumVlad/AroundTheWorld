@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import Map from '../../Components/Map/Map';
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import Location from '../../Components/LocationCard/LocationCard'
 
 const Route = () => {
     const { routeId } = useParams();
@@ -24,6 +25,11 @@ const Route = () => {
     return (
         <div>
             <Map locations={locationsData} />
+            <div>
+            {locationsData.map((location, index) => {
+                return <Location key={location.id} data={location} />;
+            })}
+        </div>
         </div>
     );
 };
