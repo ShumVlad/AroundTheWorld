@@ -1,7 +1,11 @@
 import React from 'react';
 import './locationCard.css';
 
-const Location = React.forwardRef((props, ref) => {
+const LocationCard = React.forwardRef((props, ref) => {
+    if (!props.data) {
+        return null;
+    }
+
     return (
         <div ref={ref}>
             <div className="aroundTheWorld__locationCard_container">
@@ -27,4 +31,4 @@ const Location = React.forwardRef((props, ref) => {
     );
 });
 
-export default Location;
+export default LocationCard;

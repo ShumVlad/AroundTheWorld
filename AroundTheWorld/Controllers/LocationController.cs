@@ -78,5 +78,13 @@ namespace AroundTheWorld.Controllers
             var locations = await _locationService.GetPaginatedLocations(page, pageSize);
             return Ok(locations);
         }
+
+        [HttpGet]
+        [Route("GetAll")]
+        public async Task<List<Location>> GetAll()
+        {
+            var locations = await _locationService.GetAll();
+            return locations;
+        }
     }
 }

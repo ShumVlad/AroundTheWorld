@@ -1,4 +1,6 @@
-﻿namespace AroundTheWorld.ViewModels
+﻿using AroundTheWorld_Persistence.Models;
+
+namespace AroundTheWorld.ViewModels
 {
     public class RouteViewModel
     {
@@ -6,5 +8,6 @@
         public string Description { get; set; }
         public bool IsFinisched { get; set; }
         public string CompanyId { get; set; }
+        public List<Location> Locations { get; set; }
     }
 }

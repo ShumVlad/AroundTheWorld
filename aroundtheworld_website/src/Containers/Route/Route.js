@@ -6,6 +6,7 @@ import { useParams } from "react-router-dom";
 const Route = () => {
     const { routeId } = useParams();
     const [locationsData, setLocationsData] = useState([]);
+    
     useEffect(() => {
         getLocations();
     }, [routeId]);

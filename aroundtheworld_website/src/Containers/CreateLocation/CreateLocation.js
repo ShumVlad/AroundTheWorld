@@ -81,7 +81,7 @@ const CreateLocationPage = () => {
                 </div>
                 <button type="submit">Create Location</button>
             </form>
-            <div style={{ height: '400px', width: '100%' }}>
+            <div style={{ height: '80vh' }}>
                 <GoogleMapReact
                     bootstrapURLKeys={{ key: 'AIzaSyAderMV7HrObn9AQegVS6M3rENgMe5yLu0' }}
                     defaultCenter={{

@@ -3,11 +3,13 @@ import axios from 'axios';
 import RouteCard from '../../Components/RouteCard/RouteCard';
 import { AuthContext } from '../../context/AuthContext';
 import Navbar from '../../Components/navbar/Navbar';
+import { useNavigate } from 'react-router-dom';
 
 const MyRoutes = () => {
     const [data, setData] = useState([]);
     const { authState } = useContext(AuthContext);
     const userId = authState.userId;
+    const navigate = useNavigate();
 
     useEffect(() => {
         if (userId) {
@@ -25,13 +27,21 @@ const MyRoutes = () => {
             });
     };
 
+    const handleRouteClick = (routeId) => {
+        navigate(`/route-page/${routeId}`);
+    };
+
     return (
         <div className="my-routes">
             <Navbar />
             {userId ? (
                 data.length > 0 ? (
                     data.map((route) => (
-                        <RouteCard key={route.id} data={route} />
+                        <RouteCard
+                            key={route.id}
+                            data={route}
+                            onClick={() => handleRouteClick(route.id)}
+                        />
                     ))
                 ) : (
                     <p>No routes found.</p>

@@ -13,14 +13,16 @@ namespace AroundTheWorld_Backend.Services
     {
         private UnitOfWork _unit;
         private IMapper _mapper;
+        private ILocationRouteService _locationRouteService;
 
-        public RouteService(UnitOfWork unitOfWork, IMapper mapper)
+        public RouteService(UnitOfWork unitOfWork, IMapper mapper, ILocationRouteService locationRouteService)
         {
             _unit = unitOfWork;
             _mapper = mapper;
+            _locationRouteService = locationRouteService;
         }
 
-        public async Task<bool> Create(RouteDTO routeDTO)
+        public async Task<bool> Create(RouteDTO routeDTO, List<Location> locations)
         {
             if(routeDTO == null)
             {
@@ -30,6 +32,15 @@ namespace AroundTheWorld_Backend.Services
             route.Id = Guid.NewGuid().ToString();
             await _unit.RouteRepository.Add(route);
             _unit.Save();
+            LocationRouteDTO locationRouteouteDTO = new LocationRouteDTO();
+            locationRouteouteDTO.IsVisited = false;
+            locationRouteouteDTO.RouteId = route.Id;
+            for (int i = 0; i < locations.Count; i++)
+            {
+                locationRouteouteDTO.LocationId = locations[i].Id;
+                locationRouteouteDTO.Order = i+1;
+                await _locationRouteService.AddLocationRoute(locationRouteouteDTO);
+            }
             return true;
         }
 

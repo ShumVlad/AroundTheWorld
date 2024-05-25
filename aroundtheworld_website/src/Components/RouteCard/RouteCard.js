@@ -1,23 +1,14 @@
 import React from 'react';
-import './routeCard.css';
+import './routeCard.css'; // Adjust the import path if necessary
 
-const RouteCard = React.forwardRef((props, ref) => {
+const RouteCard = ({ data, onClick }) => {
     return (
-        <div ref={ref} className="route-card">
-            <div className="route-card-element">
-                <strong>Name:</strong> {props.data.name}
-            </div>
-            <div className="route-card-element">
-                <strong>Description:</strong> {props.data.description}
-            </div>
-            <div className="route-card-element">
-                <strong>Company:</strong> {props.data.companyName}
-            </div>
-            <div className="route-card-element">
-                <strong>Status:</strong> {props.data.isFinished ? "Finished" : "Ongoing"}
-            </div>
+        <div className="route-card" onClick={onClick}>
+            <h2>{data.name}</h2>
+            <p>{data.companyName}</p>
+            <p>{data.isFinished}</p>
         </div>
     );
-});
+};
 
 export default RouteCard;

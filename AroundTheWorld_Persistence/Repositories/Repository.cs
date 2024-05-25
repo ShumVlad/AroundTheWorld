@@ -33,7 +33,7 @@ namespace AroundTheWorld_Persistence.Repositories
             return _dbSet.Find(id);
         }
 
-        public List<T> GetAll()
+        public async Task<List<T>> GetAll()
         {
             return _dbSet.ToList();
         }

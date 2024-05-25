@@ -1,4 +1,6 @@
-﻿namespace AroundTheWorld.ViewModels.IdentityModels
+﻿using AroundTheWorld_Persistence.Models;
+
+namespace AroundTheWorld.ViewModels.IdentityModels
 {
     public class GetRouteViewModel
     {
