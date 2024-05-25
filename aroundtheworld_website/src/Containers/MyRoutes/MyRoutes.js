@@ -10,8 +10,10 @@ const MyRoutes = () => {
     const userId = authState.userId;
 
     useEffect(() => {
-        getData();
-    }, []);
+        if (userId) {
+            getData();
+        }
+    }, [userId]);
 
     const getData = () => {
         axios.get('https://localhost:7160/api/Route/GetMyRoutes', { params: { userId } })
@@ -26,9 +28,17 @@ const MyRoutes = () => {
     return (
         <div className="my-routes">
             <Navbar />
-            {data.map((route) => (
-                <RouteCard key={route.id} data={route} />
-            ))}
+            {userId ? (
+                data.length > 0 ? (
+                    data.map((route) => (
+                        <RouteCard key={route.id} data={route} />
+                    ))
+                ) : (
+                    <p>No routes found.</p>
+                )
+            ) : (
+                <p>Please log in to view your routes.</p>
+            )}
         </div>
     );
 };
