@@ -11,7 +11,7 @@ const Registration = () => {
     const hadleSave =(e) => {
       e.preventDefault();
     
-      const url ='https://localhost:7044/api/Identity/Registration'; 
+      const url ='https://localhost:7160/api/Identity/register-traveler'; 
       const data = {
         Username: name,
         Email: email,
@@ -21,7 +21,6 @@ const Registration = () => {
       axios.post(url, data)
       .then((result) => {
         const dt = result.data;
-        navigate("/my-trips/"+dt.userId+"/"+dt.userroles[0])
       })
       .catch((error) =>{
         console.log(error);

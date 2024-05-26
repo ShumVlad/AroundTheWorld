@@ -3,6 +3,7 @@ import Map from '../../Components/Map/Map';
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import Location from '../../Components/LocationCard/LocationCard'
+import Navbar from '../../Components/navbar/Navbar'
 
 const Route = () => {
     const { routeId } = useParams();
@@ -24,12 +25,13 @@ const Route = () => {
 
     return (
         <div>
+            <Navbar />
             <Map locations={locationsData} />
             <div>
             {locationsData.map((location, index) => {
                 return <Location key={location.id} data={location} />;
             })}
-        </div>
+            </div>
         </div>
     );
 };

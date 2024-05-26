@@ -52,7 +52,8 @@ builder.Services.AddScoped<IRepository<Media>, Repository<Media>>();
 builder.Services.AddScoped<IRepository<AroundTheWorld_Persistence.Models.Route>, Repository<AroundTheWorld_Persistence.Models.Route>>();
 builder.Services.AddScoped<IRepository<Sensor>, Repository<Sensor>>();
 builder.Services.AddScoped<IRepository<Review>, Repository<Review>>();
-builder.Services.AddScoped<IRepository<Position>, Repository<Position>>();
+builder.Services.AddScoped<IRepository<UserPosition>, Repository<UserPosition>>();
+builder.Services.AddScoped<IRepository<RentItem>, Repository<RentItem>>();
 builder.Services.AddScoped<IRepository<LocationRoute>, Repository<LocationRoute>>();
 builder.Services.AddScoped<IRepository<UserGroup>, Repository<UserGroup>>();
 builder.Services.AddScoped<IUserGroupExtraRepository, UserGroupExtraRepository>();
@@ -64,6 +65,7 @@ builder.Services.AddScoped<ILocationRouteService, LocationRouteService>();
 builder.Services.AddScoped<IRouteService, RouteService>();
 builder.Services.AddScoped<IGroupService, GroupService>();
 builder.Services.AddScoped<IUserGroupService, UserGroupService>();
+builder.Services.AddScoped<IRentItemService, RentItemService>();
 
 var app = builder.Build();
 

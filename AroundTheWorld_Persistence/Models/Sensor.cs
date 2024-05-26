@@ -10,9 +10,10 @@ namespace AroundTheWorld_Persistence.Models
         public string Name { get; set; }
         public string Type { get; set; }
         public string Description { get; set; }
-        public string Position_Id { get; set; }
-
-        [ForeignKey(nameof(Position_Id))]
-        public virtual Position Position { get; set; }
+        public double Latitude { get; set; }
+        public double Longitude { get; set; }
+        public string RentItemId { get; set; }
+        [ForeignKey(nameof(RentItemId))]
+        public virtual RentItem RentItem { get; set; }
     }
 }

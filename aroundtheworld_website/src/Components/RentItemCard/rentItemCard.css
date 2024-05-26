@@ -1,0 +1,39 @@
+.aroundTheWorld__rentItemCard_container {
+    justify-content: space-between;
+    margin: 1rem;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #fff;
+    font-size: 18px;
+    background: radial-gradient(circle at 3% 25%, rgba(0, 40, 83, 1) 0%, rgba(4, 12, 24, 1) 100%);
+}
+
+.aroundTheWorld__rentItemCard_container-header {
+    margin-bottom: 1rem;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.aroundTheWorld__rentItemCard_container-box {
+    justify-content: space-between;
+    margin: 1rem;
+    padding: 1rem;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    color: #fff;
+}
+
+.aroundTheWorld__rentItemCard_container-textElements {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-left: 1rem;
+    color: #fff;
+}
+
+.aroundTheWorld__rentItemCard_container-element {
+    margin-bottom: 0.5rem;
+}

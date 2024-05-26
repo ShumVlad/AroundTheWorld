@@ -68,5 +68,13 @@ namespace AroundTheWorld_Persistence.Repositories
                                                        }).ToListAsync();
             return routes;
         }
+
+        public async Task<List<RentItem>> GetRentItemsForCompany(string companyId)
+        {
+            List<RentItem> rentItems = await (from rentItem in _context.RentItems
+                                              where rentItem.CompanyId.Equals(companyId)
+                                              select rentItem).ToListAsync();
+            return rentItems;
+        }
     }
 }

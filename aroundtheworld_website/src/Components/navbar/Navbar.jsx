@@ -21,6 +21,7 @@ const Navbar = () => {
             <div className='goalMe__navbar-links'>
             <a className="nav-link" onClick={() => handleNavigate('/')}>AroundTheWorld</a>
                 <a className="nav-link" onClick={() => handleNavigate('/my-routes')}>My Routes</a>
+                <a className="nav-link" onClick={() => handleNavigate('/rent-items')}>Rent Items</a>
             </div>
             <div className="goalMe__navbar-menu">
                 {authState.userId ? (

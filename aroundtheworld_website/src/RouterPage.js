@@ -5,6 +5,7 @@ import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import MyRoutes from "./Containers/MyRoutes/MyRoutes";
 import CreateLocation from "./Containers/CreateLocation/CreateLocation";
 import CreateRoute from './Containers/CreateRoute/CreateRoute';
+import RentItems from './Containers/RentItems/RentItems'
 
 const router = createBrowserRouter([
     {
@@ -26,6 +27,10 @@ const router = createBrowserRouter([
     {
         path: '/create-route',
         element: <CreateRoute />
+    },
+    {
+        path: '/rent-items',
+        element: <RentItems />
     },
 ]);
 
