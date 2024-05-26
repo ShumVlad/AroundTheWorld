@@ -1,12 +1,30 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using AroundTheWorld_Backend.Interfaces;
+using AroundTheWorld_Persistence.Models;
+using Microsoft.AspNetCore.Mvc;
 
 namespace AroundTheWorld.Controllers
 {
-    public class CompanyController : Controller
+    [Route("api/[controller]")]
+    [ApiController]
+    public class CompanyController : ControllerBase
     {
-        public IActionResult Index()
+        private readonly ICompanyService _companyService;
+
+        public CompanyController(ICompanyService companyService)
         {
-            return View();
+            _companyService = companyService;
+        }
+
+        [HttpPost]
+        [Route("Add")]
+        public async Task<string> Add(Company company)
+        {
+            if(company == null)
+            {
+                throw new ArgumentNullException();
+            }
+            var result = await _companyService.Add(company);
+            return result;
         }
     }
 }

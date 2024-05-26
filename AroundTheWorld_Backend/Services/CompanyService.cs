@@ -1,4 +1,5 @@
 ﻿using AroundTheWorld_Backend.Interfaces;
+using AroundTheWorld_Persistence.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -16,9 +17,12 @@ namespace AroundTheWorld_Backend.Services
             _unit = unitOfWork;
         }
 
-        public async Task<string> Add(CompanyService company)
+        public async Task<string> Add(Company company)
         {
-
+            company.Id = Guid.NewGuid().ToString();
+            await _unit.CompanyRepository.Add(company);
+            _unit.Save();
+            return company.Id;
         }
         
     }
