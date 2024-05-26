@@ -66,6 +66,7 @@ builder.Services.AddScoped<IRouteService, RouteService>();
 builder.Services.AddScoped<IGroupService, GroupService>();
 builder.Services.AddScoped<IUserGroupService, UserGroupService>();
 builder.Services.AddScoped<IRentItemService, RentItemService>();
+builder.Services.AddScoped<ICompanyService, CompanyService>();
 
 var app = builder.Build();
 
