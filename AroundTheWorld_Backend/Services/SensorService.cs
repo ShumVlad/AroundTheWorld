@@ -22,5 +22,12 @@ namespace AroundTheWorld_Backend.Services
             _unit.Save();
             return result;
         }
+
+        public async Task<bool> Update(Sensor sensor)
+        {
+            await _unit.SensorRepository.Update(sensor);
+            _unit.Save();
+            return true;
+        }
     }
 }

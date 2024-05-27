@@ -18,6 +18,7 @@ namespace AroundTheWorld_Persistence.Models
         public double Price { get; set; }
 
         public string ImageLink { get; set; }
+        public bool IsRented { get; set; }
 
         [Required]
         public string CompanyId { get; set; }
