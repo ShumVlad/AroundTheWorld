@@ -1,87 +1,106 @@
-#include <windows.h>
-#include <winhttp.h>
-#include <iostream>
+#include <SoftwareSerial.h>
+#include <TinyGPS++.h>
 
-#pragma comment(lib, "winhttp.lib")
+// Replace with your server details
+const char* server = "your_server_address";  // e.g., "192.168.0.10" or "example.com"
+const int port = 80;
 
-class SensorSender {
+// Pins for GPS and GSM modules
+#define RX_PIN 4
+#define TX_PIN 3
+#define GSM_RX 7
+#define GSM_TX 8
+
+class GPSSensor {
 public:
-    void SendRequest(const std::wstring& serverUrl) {
-        // Initialize WinHTTP session
-        HINTERNET hSession = WinHttpOpen(L"AroundTheWorld Sensor Client",
-            WINHTTP_ACCESS_TYPE_DEFAULT_PROXY,
-            WINHTTP_NO_PROXY_NAME,
-            WINHTTP_NO_PROXY_BYPASS,
-            0);
-        if (hSession) {
-            // Initialize WinHTTP connection
-            HINTERNET hConnect = WinHttpConnect(hSession, serverUrl.c_str(), INTERNET_DEFAULT_HTTP_PORT, 0);
-            if (hConnect) {
-                // Create request handle
-                HINTERNET hRequest = WinHttpOpenRequest(hConnect, L"POST", L"/api/Sensor/Update", NULL, WINHTTP_NO_REFERER, WINHTTP_DEFAULT_ACCEPT_TYPES, 0);
-                if (hRequest) {
-                    // Send the request
-                    if (WinHttpSendRequest(hRequest, WINHTTP_NO_ADDITIONAL_HEADERS, 0, WINHTTP_NO_REQUEST_DATA, 0, 0, 0)) {
-                        if (WinHttpReceiveResponse(hRequest, NULL)) {
-                            // Read response
-                            DWORD dwSize = 0;
-                            DWORD dwDownloaded = 0;
-                            LPSTR pszOutBuffer;
-                            BOOL  bResults = FALSE;
+    GPSSensor(int rxPin, int txPin, int gsmRxPin, int gsmTxPin)
+        : gpsSerial(rxPin, txPin), gsmSerial(gsmRxPin, gsmTxPin) {}
 
-                            do {
-                                // Keep checking for data until there is nothing left.
-                                dwSize = 0;
-                                if (!WinHttpQueryDataAvailable(hRequest, &dwSize)) {
-                                    printf("Error %u in WinHttpQueryDataAvailable.\n", GetLastError());
-                                }
+    void begin() {
+        Serial.begin(9600);
+        gpsSerial.begin(9600);
+        gsmSerial.begin(9600);
 
-                                // Allocate memory for the buffer.
-                                pszOutBuffer = new char[dwSize + 1];
-                                if (!pszOutBuffer) {
-                                    printf("Out of memory\n");
-                                    dwSize = 0;
-                                }
-                                else {
-                                    // Read the data.
-                                    ZeroMemory(pszOutBuffer, dwSize + 1);
+        // Initialize GSM module
+        gsmSerial.println("AT"); // Check communication
+        delay(1000);
+        gsmSerial.println("AT+CPIN?"); // Check SIM status
+        delay(1000);
+        gsmSerial.println("AT+CREG?"); // Check network registration
+        delay(1000);
+        gsmSerial.println("AT+CGATT?"); // Check GPRS status
+        delay(1000);
+        gsmSerial.println("AT+CIPSHUT"); // Reset IP session
+        delay(1000);
+        gsmSerial.println("AT+CIPMUX=0"); // Single connection mode
+        delay(1000);
+        gsmSerial.println("AT+CSTT=\"your_apn\",\"your_user\",\"your_pass\""); // Start task and set APN
+        delay(1000);
+        gsmSerial.println("AT+CIICR"); // Bring up wireless connection
+        delay(1000);
+        gsmSerial.println("AT+CIFSR"); // Get local IP address
+        delay(1000);
+    }
 
-                                    if (!WinHttpReadData(hRequest, (LPVOID)pszOutBuffer, dwSize, &dwDownloaded)) {
-                                        printf("Error %u in WinHttpReadData.\n", GetLastError());
-                                    }
-                                    else {
-                                        // Print data.
-                                        printf("%s", pszOutBuffer);
-                                    }
+    void update() {
+        while (gpsSerial.available() > 0) {
+            gps.encode(gpsSerial.read());
+        }
 
-                                    // Free the memory allocated to the buffer.
-                                    delete[] pszOutBuffer;
-                                }
-                            } while (dwSize > 0);
-                        }
-                    }
-                    WinHttpCloseHandle(hRequest);
-                }
-                WinHttpCloseHandle(hConnect);
-            }
-            WinHttpCloseHandle(hSession);
+        if (gps.location.isUpdated()) {
+            float latitude = gps.location.lat();
+            float longitude = gps.location.lng();
+
+            // Print location to Serial Monitor
+            Serial.print("Latitude: ");
+            Serial.println(latitude, 6);
+            Serial.print("Longitude: ");
+            Serial.println(longitude, 6);
+
+            // Send location to server
+            sendLocation(latitude, longitude);
+
+            delay(30000); // Delay for 30 seconds
         }
     }
 
-    void StartSending(const std::wstring& serverUrl, int intervalInSeconds) {
-        while (true) {
-            SendRequest(serverUrl);
-            Sleep(intervalInSeconds * 1000); // Convert seconds to milliseconds
+private:
+    SoftwareSerial gpsSerial;
+    SoftwareSerial gsmSerial;
+    TinyGPSPlus gps;
+
+    void sendLocation(float latitude, float longitude) {
+        if (gsmSerial.available()) {
+            gsmSerial.println("AT+CIPSTART=\"TCP\",\"" + String(server) + "\"," + String(port)); // Start connection
+            delay(5000);
+
+            if (gsmSerial.find("CONNECT OK")) {
+                String postData = "Id=c5217b8a-358c-4511-9139-ea263ac0ec08&Latitude=" + String(latitude, 6) + "&Longitude=" + String(longitude, 6) + "&Timestamp=" + String(millis());
+
+                gsmSerial.print("AT+CIPSEND="); // Send data length
+                gsmSerial.println(postData.length());
+                delay(100);
+                gsmSerial.print(postData); // Send data
+                delay(100);
+                gsmSerial.write(0x1A); // End of data
+                delay(5000);
+
+                gsmSerial.println("AT+CIPCLOSE"); // Close connection
+                delay(1000);
+            }
+            else {
+                Serial.println("Connection failed");
+            }
         }
     }
 };
 
-int main() {
-    SensorSender sender;
-    std::wstring serverUrl = L"https://localhost:7160";
-    int intervalInSeconds = 30;
+GPSSensor sensor(RX_PIN, TX_PIN, GSM_RX, GSM_TX);
 
-    sender.StartSending(serverUrl, intervalInSeconds);
+void setup() {
+    sensor.begin();
+}
 
-    return 0;
+void loop() {
+    sensor.update();
 }
