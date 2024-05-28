@@ -11,7 +11,7 @@ const RegisterWorker = React.forwardRef((props, ref) => {
     const hadleSave =(e) => {
         e.preventDefault();
       
-        const url ='https://localhost:7044/api/Identity/Registration'; 
+        const url ='https://localhost:7160/api/Identity/Registration'; 
         const data = {
           Username: name,
           Email: email,

@@ -4,7 +4,8 @@ namespace AroundTheWorld_Backend.Interfaces
 {
     public interface ISensorService
     {
-        Task<TaskStatus> Add(Sensor sensor);
+        Task<bool> Add(Sensor sensor);
         Task<bool> Update(Sensor sensor);
+        Task<List<Sensor>> GetAll();
     }
 }

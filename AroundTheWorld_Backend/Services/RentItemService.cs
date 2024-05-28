@@ -24,6 +24,7 @@ namespace AroundTheWorld_Backend.Services
 
         public async Task<bool> Add(RentItem rentItem)
         {
+            rentItem.Id = Guid.NewGuid().ToString();
             await _unit.RentItemRepository.Add(rentItem);
             _unit.Save();
             return true;

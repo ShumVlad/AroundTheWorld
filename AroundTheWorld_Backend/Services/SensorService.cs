@@ -1,4 +1,5 @@
-﻿using AroundTheWorld_Persistence.Models;
+﻿using AroundTheWorld_Backend.Interfaces;
+using AroundTheWorld_Persistence.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace AroundTheWorld_Backend.Services
 {
-    public class SensorService
+    public class SensorService :ISensorService
     {
         private readonly UnitOfWork _unit;
         public SensorService(UnitOfWork unit)
@@ -15,12 +16,12 @@ namespace AroundTheWorld_Backend.Services
             _unit = unit;
         }
 
-        public async Task<TaskStatus> Add(Sensor sensor)
+        public async Task<bool> Add(Sensor sensor)
         {
             sensor.Id = Guid.NewGuid().ToString();
-            var result = await (Task<TaskStatus>)_unit.SensorRepository.Add(sensor);
+            await _unit.SensorRepository.Add(sensor);
             _unit.Save();
-            return result;
+            return true;
         }
 
         public async Task<bool> Update(Sensor sensor)
@@ -28,6 +29,11 @@ namespace AroundTheWorld_Backend.Services
             await _unit.SensorRepository.Update(sensor);
             _unit.Save();
             return true;
+        }
+
+        public async Task<List<Sensor>> GetAll()
+        {
+            return await _unit.SensorRepository.GetAll();
         }
     }
 }

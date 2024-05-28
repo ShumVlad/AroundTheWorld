@@ -18,7 +18,7 @@ namespace AroundTheWorld.Controllers
 
         [HttpPost]
         [Route("Add")]
-        public async Task<TaskStatus> Add(Sensor sensor)
+        public async Task<bool> Add(Sensor sensor)
         {
             if (sensor == null)
             {
@@ -30,7 +30,7 @@ namespace AroundTheWorld.Controllers
 
         [HttpPut]
         [Route("Update")]
-        public async Task<bool> Update(AroundTheWorld_Persistence.Models.Route sensor)
+        public async Task<bool> Update(Sensor sensor)
         {
             if (sensor == null)
             {
@@ -38,6 +38,14 @@ namespace AroundTheWorld.Controllers
             }
             var result = await _sensorService.Update(sensor);
             return result;
+        }
+
+        [HttpGet]
+        [Route("GetAll")]
+        public async Task<List<Sensor>> GetAll()
+        {
+            var locations = await _sensorService.GetAll();
+            return locations;
         }
     }
 }
