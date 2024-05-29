@@ -1,4 +1,5 @@
-﻿using AroundTheWorld_Backend.Interfaces;
+﻿using AroundTheWorld_Backend.DTOs;
+using AroundTheWorld_Backend.Interfaces;
 using AroundTheWorld_Persistence.Models;
 using System;
 using System.Collections.Generic;
@@ -24,8 +25,12 @@ namespace AroundTheWorld_Backend.Services
             return true;
         }
 
-        public async Task<bool> Update(Sensor sensor)
+        public async Task<bool> UpdateLocation(UpdateSensorLocationDto sensorDto)
         {
+            Sensor sensor = _unit.SensorRepository.Get(sensorDto.Id);
+            sensor.Longitude = sensorDto.Longitude;
+            sensor.Latitude = sensorDto.Latitude;
+            sensor.Timestamp = sensorDto.Timestamp;
             await _unit.SensorRepository.Update(sensor);
             _unit.Save();
             return true;

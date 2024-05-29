@@ -1,4 +1,5 @@
-﻿using AroundTheWorld_Backend.Interfaces;
+﻿using AroundTheWorld_Backend.DTOs;
+using AroundTheWorld_Backend.Interfaces;
 using AroundTheWorld_Backend.Services;
 using AroundTheWorld_Persistence.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -29,14 +30,15 @@ namespace AroundTheWorld.Controllers
         }
 
         [HttpPut]
-        [Route("Update")]
-        public async Task<bool> Update(Sensor sensor)
+        [Route("UpdateLocation")]
+        public async Task<bool> UpdateLocation(UpdateSensorLocationDto sensor)
         {
             if (sensor == null)
             {
                 throw new ArgumentNullException();
             }
-            var result = await _sensorService.Update(sensor);
+
+            var result = await _sensorService.UpdateLocation(sensor);
             return result;
         }
 

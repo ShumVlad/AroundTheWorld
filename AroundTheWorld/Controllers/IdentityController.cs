@@ -114,8 +114,8 @@ namespace AroundTheWorld.Controllers
         }
 
         [HttpPost]
-        [Route("register-company")]
-        public async Task<IActionResult> RegisterAdmin([FromBody] TravelerRegistrationModel model)
+        [Route("register-worker")]
+        public async Task<IActionResult> RegisterAdmin([FromBody] GuideRegistrationViewModel model)
         {
             var userExists = await _userManager.FindByEmailAsync(model.Email);
             if (userExists != null)
@@ -127,7 +127,8 @@ namespace AroundTheWorld.Controllers
             {
                 Email = model.Email,
                 SecurityStamp = Guid.NewGuid().ToString(),
-                UserName = model.Username
+                UserName = model.Username,
+                CompanyId = model.CompanyId
             };
 
 
@@ -137,19 +138,51 @@ namespace AroundTheWorld.Controllers
                 return StatusCode(StatusCodes.Status500InternalServerError, new ViewModels.IdentityModels.Response { Status = "Error", Message = "User creation failed! Please check user details and try again." });
             }
 
-            if (!await _roleManager.RoleExistsAsync("Company"))
+            if (!await _roleManager.RoleExistsAsync("Worker"))
             {
-                await _roleManager.CreateAsync(new IdentityRole("Company"));
+                await _roleManager.CreateAsync(new IdentityRole("Worker"));
             }
 
-            if (!await _roleManager.RoleExistsAsync("User"))
+            if (await _roleManager.RoleExistsAsync("Worker"))
             {
-                await _roleManager.CreateAsync(new IdentityRole("User"));
+                await _userManager.AddToRoleAsync(user, "Worker");
+            }
+            return Ok();
+        }
+
+        [HttpPost]
+        [Route("register-guide")]
+        public async Task<IActionResult> RegisterGuid([FromBody] GuideRegistrationViewModel model)
+        {
+            var userExists = await _userManager.FindByEmailAsync(model.Email);
+            if (userExists != null)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new ViewModels.IdentityModels.Response { Status = "Error", Message = "User already exists!" });
             }
 
-            if (await _roleManager.RoleExistsAsync("Company"))
+            ApplicationUser user = new ApplicationUser()
             {
-                await _userManager.AddToRoleAsync(user, "Company");
+                Email = model.Email,
+                SecurityStamp = Guid.NewGuid().ToString(),
+                UserName = model.Username,
+                CompanyId = model.CompanyId
+            };
+
+
+            var result = await _userManager.CreateAsync(user, model.Password);
+            if (!result.Succeeded)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new ViewModels.IdentityModels.Response { Status = "Error", Message = "User creation failed! Please check user details and try again." });
+            }
+
+            if (!await _roleManager.RoleExistsAsync("Guid"))
+            {
+                await _roleManager.CreateAsync(new IdentityRole("Guid"));
+            }
+
+            if (await _roleManager.RoleExistsAsync("Guid"))
+            {
+                await _userManager.AddToRoleAsync(user, "Guid");
             }
             return Ok();
         }
