@@ -26,5 +26,17 @@ namespace AroundTheWorld.Controllers
             var result = await _companyService.Add(company);
             return result;
         }
+
+        [HttpGet]
+        [Route("Get")]
+        public async Task<string> Get(Company companyId)
+        {
+            if (companyId == null)
+            {
+                throw new ArgumentNullException();
+            }
+            var result = await _companyService.Add(companyId);
+            return result;
+        }
     }
 }

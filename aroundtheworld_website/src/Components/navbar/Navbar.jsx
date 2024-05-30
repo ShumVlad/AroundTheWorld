@@ -26,7 +26,7 @@ const Navbar = () => {
             <div className="goalMe__navbar-menu">
                 {authState.userId ? (
                     <button color="#fff" size={27} onClick={() => handleNavigate('/profile')}>
-                        {authState.userName} {/* Display the username from authState */}
+                        {authState.userName}
                     </button>
                 ) : (
                     <>

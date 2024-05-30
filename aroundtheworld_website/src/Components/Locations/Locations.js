@@ -40,7 +40,8 @@ const Locations = () => {
                 } else {
                     return <Location key={location.id} data={location} />;
                 }
-            })}
+            })
+            }
         </div>
     );
 };

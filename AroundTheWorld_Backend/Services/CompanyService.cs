@@ -24,6 +24,11 @@ namespace AroundTheWorld_Backend.Services
             _unit.Save();
             return company.Id;
         }
-        
+
+        public async Task<Company> Get(string companyId)
+        {
+            Company result = _unit.CompanyRepository.Get(companyId);
+            return result;
+        }
     }
 }

@@ -31,7 +31,7 @@ const MyRoutes = () => {
             });
     };
 
-    const getCompanyData = () => {
+    const getCompanyRoutes = () => {
         axios.get('https://localhost:7160/api/Route/GetCompanyRoutes', { params: { userId } })
             .then((result) => {
                 setData(result.data);
