@@ -1,17 +1,17 @@
 import React from 'react';
 
-const RegisterWorker = React.forwardRef((props, ref) => {
+const RegisterGuide = React.forwardRef((props, ref) => {
     if (!props.data) {
         return null;
     }
-    const [name, setName] = useState('');
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
+    const [name, setName] = useState('')
+    const [email, setEmail] = useState('')
+    const [password, setPassword] = useState('')
     
     const hadleSave =(e) => {
         e.preventDefault();
       
-        const url ='https://localhost:7160/api/Identity/register-worker'; 
+        const url ='https://localhost:7160/api/Identity/register-guide'; 
         const data = {
           Username: name,
           Email: email,
@@ -41,4 +41,4 @@ const RegisterWorker = React.forwardRef((props, ref) => {
     );
 });
 
-export default RegisterWorker;
+export default RegisterGuide;

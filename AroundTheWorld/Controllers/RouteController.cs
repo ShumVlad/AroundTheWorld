@@ -71,14 +71,14 @@ namespace AroundTheWorld.Controllers
         }
 
         [HttpGet]
-        [Route("GetMyRoutes")]
+        [Route("GetUserRoutes")]
         public async Task<List<GetRouteViewModel>> GetMyRoutes(string userId)
         {
             if (userId == null)
             {
                 throw new ArgumentNullException();
             }
-            List<GetRouteDto> getRoutesDto = await _routeService.GetMyRoutes(userId);
+            List<GetRouteDto> getRoutesDto = await _routeService.GetUserRoutes(userId);
             List<GetRouteViewModel> result = _mapper.Map<List<GetRouteViewModel>>(getRoutesDto);
             return result;
         }

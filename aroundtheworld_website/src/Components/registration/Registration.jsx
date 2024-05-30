@@ -11,7 +11,7 @@ const Registration = () => {
     const hadleSave =(e) => {
       e.preventDefault();
     
-      const url ='https://localhost:7044/api/Identity/Registration'; 
+      const url ='https://localhost:7044/api/Identity/register-traveler'; 
       const data = {
         Username: name,
         Email: email,

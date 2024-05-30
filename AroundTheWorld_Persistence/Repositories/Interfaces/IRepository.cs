@@ -19,7 +19,8 @@ namespace AroundTheWorld_Persistence.Repositories.Interfaces
 
         Task<List<T>> GetAll();
         Task<List<T>> GetPaginated(int page, int pageSize);
-        Task<List<GetRoute>> GetMyRoutes(string userId);
+        Task<List<GetRoute>> GetUserRoutes(string userId);
         Task<List<RentItem>> GetRentItemsForCompany(string companyId);
+        Task<List<GetRoute>> GetCompanyRoutes(string companyId);
     }
 }

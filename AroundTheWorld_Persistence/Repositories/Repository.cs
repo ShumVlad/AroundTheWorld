@@ -50,7 +50,7 @@ namespace AroundTheWorld_Persistence.Repositories
             return await _dbSet.Skip((page - 1) * pageSize).Take(pageSize).ToListAsync();
         }
 
-        public async Task<List<GetRoute>> GetMyRoutes(string userId)
+        public async Task<List<GetRoute>> GetUserRoutes(string userId)
         {
             List<GetRoute> routes = await (from ug in _context.userGroups
                                                        join g in _context.Groups on ug.GroupId equals g.Id
@@ -66,6 +66,23 @@ namespace AroundTheWorld_Persistence.Repositories
                                                            CompanyName = c.Name,
                                                            CompanyId = c.Id
                                                        }).ToListAsync();
+            return routes;
+        }
+
+        public async Task<List<GetRoute>> GetCompanyRoutes(string companyId)
+        {
+            List<GetRoute> routes = await (from r in _context.Routes
+                                           join c in _context.Companies on r.CompanyId equals c.Id
+                                           where r.CompanyId == companyId
+                                           select new GetRoute
+                                           {
+                                               Id = r.Id,
+                                               Name = r.Name,
+                                               Description = r.Description,
+                                               IsFinished = r.IsFinished,
+                                               CompanyName = c.Name,
+                                               CompanyId = c.Id
+                                           }).ToListAsync();
             return routes;
         }
 

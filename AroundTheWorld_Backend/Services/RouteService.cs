@@ -76,15 +76,26 @@ namespace AroundTheWorld_Backend.Services
             return true;
         }
 
-        public async Task<List<GetRouteDto>> GetMyRoutes(string userId)
+        public async Task<List<GetRouteDto>> GetUserRoutes(string userId)
         {
             if (userId == null)
             {
                 throw new ArgumentNullException(nameof(userId));
             }
-            List<GetRoute> routes = await _unit.RouteRepository.GetMyRoutes(userId);
+            List<GetRoute> routes = await _unit.RouteRepository.GetUserRoutes(userId);
             List<GetRouteDto> getRouteDtos = _mapper.Map<List<GetRouteDto>>(routes);
             return getRouteDtos;
         }
+        public async Task<List<GetRouteDto>> GetCompanyRoutes(string companyId)
+        {
+            if (companyId == null)
+            {
+                throw new ArgumentNullException(nameof(companyId));
+            }
+            List<GetRoute> routes = await _unit.RouteRepository.GetCompanyRoutes(companyId);
+            List<GetRouteDto> getRouteDtos = _mapper.Map<List<GetRouteDto>>(routes);
+            return getRouteDtos;
+        }
+
     }
 }

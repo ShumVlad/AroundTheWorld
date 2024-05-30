@@ -20,7 +20,7 @@ const Login = () => {
         axios.post(url, data)
             .then((result) => {
                 const { userId, token, userName } = result.data;
-                setAuthState({ userId, token, userName }); 
+                setAuthState({ userId, token, userName, userRole }); 
                 // navigate("/" + userId);  // Uncomment if you want to navigate after login
                 console.log(result.data);
             })

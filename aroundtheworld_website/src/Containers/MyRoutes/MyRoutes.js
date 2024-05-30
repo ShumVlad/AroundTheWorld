@@ -9,16 +9,30 @@ const MyRoutes = () => {
     const [data, setData] = useState([]);
     const { authState } = useContext(AuthContext);
     const userId = authState.userId;
+    const userRole = authState.userRole;
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (userId) {
-            getData();
+        if (userRole == "User") {
+            GetUserRoutes(userId);
         }
-    }, [userId]);
+        else if(userRole == "Worker" || userRole == "Guide"){
+            getCompanyRoutes(authState.companyId);
+        }
+    }, [userRole], [userId]);
 
-    const getData = () => {
-        axios.get('https://localhost:7160/api/Route/GetMyRoutes', { params: { userId } })
+    const GetUserRoutes = () => {
+        axios.get('https://localhost:7160/api/Route/GetUserRoutes', { params: { userId } })
+            .then((result) => {
+                setData(result.data);
+            })
+            .catch((error) => {
+                console.error("There was an error fetching the routes data!", error);
+            });
+    };
+
+    const getCompanyData = () => {
+        axios.get('https://localhost:7160/api/Route/GetCompanyRoutes', { params: { userId } })
             .then((result) => {
                 setData(result.data);
             })
