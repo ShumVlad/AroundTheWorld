@@ -11,6 +11,7 @@ namespace AroundTheWorld_Persistence.Models
         public string Name { get; set; }
         [Required]
         public string Description { get; set; }
+        public bool IsFinished { get; set; }
         public string CompanyId { get; set; }
 
         [ForeignKey(nameof(CompanyId))]

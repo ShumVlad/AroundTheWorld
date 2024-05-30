@@ -10,7 +10,6 @@ namespace AroundTheWorld_Persistence.Models
         public string Name { get; set; }
         public DateTime Start { get; set; }
         public DateTime End { get; set; }
-        public bool IsFinished { get; set; }
         [Required]
         public string RouteId { get; set; }
 
