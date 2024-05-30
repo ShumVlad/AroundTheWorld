@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.ComponentModel.Design;
+using System.Linq;
 using System.Threading.Tasks;
 using AroundTheWorld_Persistence.Models;
 using AroundTheWorld_Persistence.Repositories.Interfaces;
@@ -92,6 +93,15 @@ namespace AroundTheWorld_Persistence.Repositories
                                               where rentItem.CompanyId.Equals(companyId)
                                               select rentItem).ToListAsync();
             return rentItems;
+        }
+
+        public async Task<List<Route>> GetRoutesWithLocation(string locationId)
+        {
+            List<Route> routes = await (from r in _context.Routes
+                                           join lr in _context.LocationRoutes on r.Id equals lr.RouteId
+                                           where lr.LocationId == locationId
+                                           select r).ToListAsync();
+            return routes;
         }
     }
 }

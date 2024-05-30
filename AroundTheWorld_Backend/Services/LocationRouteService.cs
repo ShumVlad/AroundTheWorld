@@ -84,5 +84,11 @@ namespace AroundTheWorld_Backend.Services
             return getLocationFromRouteDtos;
         }
 
+        public async Task<List<Route>> GetRoutesWithLocation(string locationId)
+        {
+            List<Route> routes = await _unit.LocationRouteRepository.GetRoutesWithLocation(locationId);
+
+            return routes;
+        }
     }
 }
