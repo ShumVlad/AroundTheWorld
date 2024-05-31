@@ -1,17 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const RegisterWorker = React.forwardRef((props, ref) => {
-    if (!props.data) {
-        return null;
-    }
     const [name, setName] = useState('');
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     
-    const hadleSave =(e) => {
+    const navigate = useNavigate();
+
+    const handleSave = (e) => {
         e.preventDefault();
       
-        const url ='https://localhost:7160/api/Identity/register-worker'; 
+        const url = 'https://localhost:7160/api/Identity/register-worker'; 
         const data = {
           Username: name,
           Email: email,
@@ -21,12 +22,15 @@ const RegisterWorker = React.forwardRef((props, ref) => {
         
         axios.post(url, data)
         .then((result) => {
-          const dt = result.data;
-          navigate("/")
+          navigate("/");
         })
-        .catch((error) =>{
+        .catch((error) => {
           console.log(error);
-        })
+        });
+    }
+
+    if (!props.data) {
+        return null;
     }
 
     return (
@@ -35,7 +39,7 @@ const RegisterWorker = React.forwardRef((props, ref) => {
                 <input type="name" placeholder="User Name" onChange={(e) => setName(e.target.value)}></input>
                 <input type="email" placeholder="Email Address" onChange={(e) => setEmail(e.target.value)}></input>
                 <input type="password" placeholder="password" onChange={(e) => setPassword(e.target.value)}></input>
-                <button type="button"  onClick={(e) => hadleSave(e)}>Register Worker</button>
+                <button type="button" onClick={(e) => handleSave(e)}>Register Worker</button>
             </div>
         </div>
     );

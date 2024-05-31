@@ -8,6 +8,7 @@ import CreateRoute from './Containers/CreateRoute/CreateRoute';
 import RentItems from './Containers/RentItems/RentItems'
 import RegisterCompany from "./Containers/RegisterCompany/RegisterCompany";
 import RentItemsMap from './Containers/RentItemsMap/RentItemsMap'
+import CompanyProfile from './Containers/CompanyProfile/CompanyProfile'
 
 const router = createBrowserRouter([
     {
@@ -41,6 +42,10 @@ const router = createBrowserRouter([
     {
         path: '/rent-items-map',
         element: <RentItemsMap />
+    }, 
+    {
+        path: '/company/:companyId',
+        element: <CompanyProfile/>
     },   
 ]);
 

@@ -103,16 +103,29 @@ const CreateRoute = () => {
             <Navbar/>
             <form onSubmit={handleSubmit}>
                 <div>
-                    <label>Name</label>
-                    <input type="text" name="name" value={formData.name} onChange={handleChange} />
+                    <div>
+                        <label>Name</label>
+                        <input type="text" name="name" value={formData.name} onChange={handleChange} />
+                    </div>
+                    <div>
+                        <label>Description</label>
+                        <input type="text" name="description" value={formData.description} onChange={handleChange} />
+                    </div>
+                    <div>
+                        <label>Company key</label>
+                        <input type="text" name="companyId" value={formData.companyId} onChange={handleChange} />
+                    </div>
                 </div>
                 <div>
-                    <label>Description</label>
-                    <input type="text" name="description" value={formData.description} onChange={handleChange} />
-                </div>
-                <div>
-                    <label>Company key</label>
-                    <input type="text" name="companyId" value={formData.companyId} onChange={handleChange} />
+                    <div>
+                        <label>Name</label>
+                        <input type="text" name="name" value={formData.name} onChange={handleChange} />
+                    </div>
+                    
+                    <div>
+                        <label>Company key</label>
+                        <input type="text" name="companyId" value={formData.companyId} onChange={handleChange} />
+                    </div>
                 </div>
                 <button type="submit">Create Route</button>
             </form>

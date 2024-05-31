@@ -14,15 +14,14 @@ const MyRoutes = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (userRole == "User") {
+        if (userRole === 'User') {
             GetUserRoutes(userId);
+        } else if (userRole === 'Worker' || userRole === 'Guide') {
+            getCompanyRoutes(companyId);
         }
-        else if(userRole == "Worker" || userRole == "Guide"){
-            getCompanyRoutes(authState.companyId);
-        }
-    }, [userRole], [userId]);
+    }, [userRole, userId, companyId]);
 
-    const GetUserRoutes = () => {
+    const GetUserRoutes = (userId) => {
         axios.get('https://localhost:7160/api/Route/GetUserRoutes', { params: { userId } })
             .then((result) => {
                 setData(result.data);
@@ -32,9 +31,7 @@ const MyRoutes = () => {
             });
     };
 
-    const getCompanyRoutes = () => {
-        console.log(companyId);
-        console.log('assad')
+    const getCompanyRoutes = (companyId) => {
         axios.get('https://localhost:7160/api/Route/GetCompanyRoutes', { params: { companyId } })
             .then((result) => {
                 setData(result.data);
@@ -48,11 +45,22 @@ const MyRoutes = () => {
         navigate(route);
     };
 
+    const handleDelete = (id) => {
+        console.log(id)
+        axios.delete('https://localhost:7160/api/Route/Delete', { params: { id } })
+            .then(() => {
+                setData(data.filter(route => route.id !== id));
+            })
+            .catch((error) => {
+                console.error("There was an error deleting the route!", error);
+            });
+    };
+
     return (
         <div className="my-routes">
             <Navbar />
-            {(authState.userRole === 'Worker' || authState.userRole === 'Guide') && (
-                <button onClick={() => {handleNavigate("/create-route")}}>
+            {(userRole === 'Worker' || userRole === 'Guide') && (
+                <button onClick={() => handleNavigate("/create-route")}>
                     Add Route
                 </button>
             )}
@@ -63,6 +71,7 @@ const MyRoutes = () => {
                             key={route.id}
                             data={route}
                             onClick={() => handleNavigate(`/route-page/${route.id}`)}
+                            onDelete={(userRole === 'Worker' || userRole === 'Guide') ? handleDelete : null}
                         />
                     ))
                 ) : (

@@ -16,16 +16,24 @@ const Navbar = () => {
         navigate(source);
     }
 
+    const handleProfileClick = () => {
+        if (authState.userRole === 'Worker') {
+            navigate(`/company/${authState.companyId}`);
+        } else {
+            navigate('/profile');
+        }
+    };
+
     return (
         <div className='goalMe__navbar'>
             <div className='goalMe__navbar-links'>
-            <a className="nav-link" onClick={() => handleNavigate('/')}>AroundTheWorld</a>
+                <a className="nav-link" onClick={() => handleNavigate('/')}>AroundTheWorld</a>
                 <a className="nav-link" onClick={() => handleNavigate('/my-routes')}>My Routes</a>
                 <a className="nav-link" onClick={() => handleNavigate('/rent-items')}>Rent Items</a>
             </div>
             <div className="goalMe__navbar-menu">
                 {authState.userId ? (
-                    <button color="#fff" size={27} onClick={() => handleNavigate('/profile')}>
+                    <button color="#fff" size={27} onClick={handleProfileClick}>
                         {authState.userName}
                     </button>
                 ) : (

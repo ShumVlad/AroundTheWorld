@@ -1,17 +1,18 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import axios from 'axios';
 
 const RegisterGuide = React.forwardRef((props, ref) => {
-    if (!props.data) {
-        return null;
-    }
-    const [name, setName] = useState('')
-    const [email, setEmail] = useState('')
-    const [password, setPassword] = useState('')
+    const [name, setName] = useState('');
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
     
-    const hadleSave =(e) => {
+    const navigate = useNavigate();
+
+    const handleSave = (e) => {
         e.preventDefault();
       
-        const url ='https://localhost:7160/api/Identity/register-guide'; 
+        const url = 'https://localhost:7160/api/Identity/register-guide'; 
         const data = {
           Username: name,
           Email: email,
@@ -21,21 +22,24 @@ const RegisterGuide = React.forwardRef((props, ref) => {
         
         axios.post(url, data)
         .then((result) => {
-          const dt = result.data;
-          navigate("/")
+          navigate("/");
         })
-        .catch((error) =>{
+        .catch((error) => {
           console.log(error);
-        })
+        });
+    }
+
+    if (!props.data) {
+        return null;
     }
 
     return (
         <div ref={ref}>
-            <div className='aroundTheWorld__registerWorker'>
+            <div className='aroundTheWorld__registerGuide'>
                 <input type="name" placeholder="User Name" onChange={(e) => setName(e.target.value)}></input>
                 <input type="email" placeholder="Email Address" onChange={(e) => setEmail(e.target.value)}></input>
                 <input type="password" placeholder="password" onChange={(e) => setPassword(e.target.value)}></input>
-                <button type="button"  onClick={(e) => hadleSave(e)}>Register Worker</button>
+                <button type="button" onClick={(e) => handleSave(e)}>Register Guide</button>
             </div>
         </div>
     );
