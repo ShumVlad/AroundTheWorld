@@ -15,7 +15,7 @@ namespace AroundTheWorld_Persistence.Repositories.Interfaces
 
         Task Add(T entity);
 
-        T Get(string id);
+        Task<T> Get(string id);
 
         Task<List<T>> GetAll();
         Task<List<T>> GetPaginated(int page, int pageSize);

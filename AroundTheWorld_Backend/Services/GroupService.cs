@@ -34,9 +34,9 @@ namespace AroundTheWorld_Backend.Services
             return true;
         }
 
-        public Group Get(string id) 
+        public async Task<Group> Get(string id) 
         {
-            Group result = _unitOfWork.GroupRepository.Get(id);
+            Group result = await _unitOfWork.GroupRepository.Get(id);
             return result;
         }
     }

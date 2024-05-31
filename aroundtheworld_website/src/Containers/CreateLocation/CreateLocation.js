@@ -1,9 +1,10 @@
-
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import GoogleMapReact from 'google-map-react';
 import MyLocationIcon from '@mui/icons-material/MyLocation';
 import StarIcon from '@mui/icons-material/Star';
+import LocationCard from '../../Components/LocationCard/LocationCard';
+import Navbar from '../../Components/navbar/Navbar'
 
 const CreateLocationPage = () => {
     const [formData, setFormData] = useState({
@@ -13,9 +14,14 @@ const CreateLocationPage = () => {
         type: '',
         latitude: '',
         longitude: '',
-        imageUrl: ''
+        imageUrl: '',
+        chosenLocations: []
     });
     const [marker, setMarker] = useState(null);
+    const [locations, setLocations] = useState([]);
+    const [selectedLocation, setSelectedLocation] = useState(null);
+    const [userLocation, setUserLocation] = useState(null);
+    const [isMapReady, setIsMapReady] = useState(false);
 
     useEffect(() => {
         navigator.geolocation.getCurrentPosition(
@@ -25,12 +31,35 @@ const CreateLocationPage = () => {
                     latitude: position.coords.latitude,
                     longitude: position.coords.longitude
                 }));
+                setUserLocation({
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude
+                });
+                setIsMapReady(true);
             },
             (error) => {
                 console.error("Error getting location: ", error);
+                setIsMapReady(true); // Allow map to render with default center
             }
         );
+        getLocations();
     }, []);
+
+    const getLocations = async () => {
+        try {
+            const response = await axios.get('https://localhost:7160/api/Location/GetAll');
+            if (response.status === 200) {
+                setLocations(response.data);
+            }
+        } catch (error) {
+            console.error('Error fetching locations:', error);
+            alert('Error fetching locations');
+        }
+    };
+
+    const handleLocationClick = (location) => {
+        setSelectedLocation(location);
+    };
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -56,8 +85,19 @@ const CreateLocationPage = () => {
         }
     };
 
+    const addLocationToChosen = () => {
+        if (selectedLocation && !formData.chosenLocations.some(loc => loc.id === selectedLocation.id)) {
+            const updatedChosenLocations = [...formData.chosenLocations, selectedLocation];
+            setFormData(prevState => ({
+                ...prevState,
+                chosenLocations: updatedChosenLocations
+            }));
+        }
+    };
+
     return (
         <div>
+            <Navbar/>
             <form onSubmit={handleSubmit}>
                 <div>
                     <label>Name</label>
@@ -81,34 +121,49 @@ const CreateLocationPage = () => {
                 </div>
                 <button type="submit">Create Location</button>
             </form>
-            <div style={{ height: '80vh' }}>
-                <GoogleMapReact
-                    bootstrapURLKeys={{ key: 'AIzaSyAderMV7HrObn9AQegVS6M3rENgMe5yLu0' }}
-                    defaultCenter={{
-                        lat: formData.latitude,
-                        lng: formData.longitude,
-                    }}
-                    defaultZoom={14}
-                    onClick={handleMapClick}
-                >
-                    {marker && (
-                        <StarIcon
-                            lat={marker.lat}
-                            lng={marker.lng}
-                            color="secondary"
-                        />
-                    )}
-                    <MyLocationIcon
-                        lat={formData.latitude}
-                        lng={formData.longitude}
-                        color="primary"
-                    />
-                </GoogleMapReact>
-            </div>
             {formData.imageUrl && (
                 <div>
-                    <h2>Preview Image:</h2>
                     <img src={formData.imageUrl} alt="Location" style={{ maxWidth: '100%', maxHeight: '300px' }} />
+                </div>
+            )}
+            <div style={{ height: '80vh' }}>
+                {isMapReady && (
+                    <GoogleMapReact
+                        bootstrapURLKeys={{ key: 'AIzaSyAderMV7HrObn9AQegVS6M3rENgMe5yLu0' }}
+                        center={userLocation || { lat: 0, lng: 0 }}
+                        defaultZoom={14}
+                        onClick={handleMapClick}
+                    >
+                        {marker && (
+                            <StarIcon
+                                lat={marker.lat}
+                                lng={marker.lng}
+                                color="secondary"
+                            />
+                        )}
+                        {locations.map((location) => (
+                            <StarIcon
+                                key={location.id}
+                                lat={location.latitude}
+                                lng={location.longitude}
+                                color={formData.chosenLocations.some(loc => loc.id === location.id) ? "primary" : "secondary"}
+                                onClick={() => handleLocationClick(location)}
+                            />
+                        ))}
+                        {userLocation && (
+                            <MyLocationIcon
+                                lat={userLocation.lat}
+                                lng={userLocation.lng}
+                                color="primary"
+                            />
+                        )}
+                    </GoogleMapReact>
+                )}
+            </div>
+            {selectedLocation && (
+                <div>
+                    <button onClick={addLocationToChosen}>Add Location</button>
+                    <LocationCard data={selectedLocation} />
                 </div>
             )}
         </div>

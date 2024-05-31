@@ -41,7 +41,7 @@ const router = createBrowserRouter([
     {
         path: '/rent-items-map',
         element: <RentItemsMap />
-    },
+    },   
 ]);
 
 const RouterProviderWrapper = ({ children }) => (

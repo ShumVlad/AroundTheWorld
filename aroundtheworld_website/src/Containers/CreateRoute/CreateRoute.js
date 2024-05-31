@@ -4,6 +4,7 @@ import LocationCard from '../../Components/LocationCard/LocationCard'; // Ensure
 import GoogleMapReact from 'google-map-react';
 import MyLocationIcon from '@mui/icons-material/MyLocation';
 import StarIcon from '@mui/icons-material/Star';
+import Navbar from '../../Components/navbar/Navbar'
 
 const CreateRoute = () => {
     const [formData, setFormData] = useState({
@@ -21,11 +22,6 @@ const CreateRoute = () => {
     useEffect(() => {
         navigator.geolocation.getCurrentPosition(
             (position) => {
-                setFormData(prevState => ({
-                    ...prevState,
-                    latitude: position.coords.latitude,
-                    longitude: position.coords.longitude
-                }));
                 setUserLocation({
                     lat: position.coords.latitude,
                     lng: position.coords.longitude
@@ -84,10 +80,9 @@ const CreateRoute = () => {
         }
     };    
     
-
-    const addLocationToChosen = () => {
-        if (selectedLocation && !formData.chosenLocations.some(loc => loc.id === selectedLocation.id)) {
-            const updatedChosenLocations = [...formData.chosenLocations, selectedLocation];
+    const addLocationToChosen = (location) => {
+        if (location && !formData.chosenLocations.some(loc => loc.id === location.id)) {
+            const updatedChosenLocations = [...formData.chosenLocations, location];
             setFormData(prevState => ({
                 ...prevState,
                 chosenLocations: updatedChosenLocations
@@ -95,9 +90,17 @@ const CreateRoute = () => {
         }
     };
     
-
+    const deleteLocationFromChosen = (location) => {
+        const updatedChosenLocations = formData.chosenLocations.filter(loc => loc.id !== location.id);
+        setFormData(prevState => ({
+            ...prevState,
+            chosenLocations: updatedChosenLocations
+        }));
+    };
+    
     return (
         <div>
+            <Navbar/>
             <form onSubmit={handleSubmit}>
                 <div>
                     <label>Name</label>
@@ -113,22 +116,21 @@ const CreateRoute = () => {
                 </div>
                 <button type="submit">Create Route</button>
             </form>
-            <div style={{ height: '400px', width: '100%' }}>
+            <div style={{ height: '80vh' }}>
                 {isMapReady && (
                     <GoogleMapReact
                         bootstrapURLKeys={{ key: 'AIzaSyAderMV7HrObn9AQegVS6M3rENgMe5yLu0' }}
-                        defaultCenter={userLocation || { lat: 0, lng: 0 }}
+                        center={userLocation || { lat: 0, lng: 0 }}
                         defaultZoom={14}
                     >
                         {locations.map((location) => (
                             <StarIcon
-                            key={location.id}
-                            lat={location.latitude}
-                            lng={location.longitude}
-                            color={formData.chosenLocations.some(loc => loc.id === location.id) ? "primary" : "secondary"}
-                            onClick={() => handleLocationClick(location)}
-                        />
-                        
+                                key={location.id}
+                                lat={location.latitude}
+                                lng={location.longitude}
+                                color={formData.chosenLocations.some(loc => loc.id === location.id) ? "primary" : "secondary"}
+                                onClick={() => handleLocationClick(location)}
+                            />
                         ))}
                         {userLocation && (
                             <MyLocationIcon
@@ -142,8 +144,20 @@ const CreateRoute = () => {
             </div>
             {selectedLocation && (
                 <div>
-                    <button onClick={addLocationToChosen}>Add Location</button>
-                    <LocationCard data={selectedLocation} />
+                    <LocationCard data={selectedLocation} onAddLocation={addLocationToChosen} />
+                </div>
+            )}
+            {formData.chosenLocations.length > 0 && (
+                <div>
+                    <h2>Chosen Locations</h2>
+                    {formData.chosenLocations.map((location, index) => (
+                        <LocationCard
+                            key={location.id}
+                            data={location}
+                            index={index + 1}
+                            onDeleteLocation={deleteLocationFromChosen}
+                        />
+                    ))}
                 </div>
             )}
         </div>

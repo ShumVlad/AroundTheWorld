@@ -11,7 +11,7 @@ namespace AroundTheWorld_Backend.Interfaces
     {
         Task<bool> Add(Group group);
         Task<bool> Delete(string id);
-        Group Get(string id);
+        Task<Group> Get(string id);
         Task<bool> Update(Group group);
     }
 }

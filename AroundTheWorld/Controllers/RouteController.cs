@@ -48,13 +48,13 @@ namespace AroundTheWorld.Controllers
 
         [HttpGet]
         [Route("Get")]
-        public AroundTheWorld_Persistence.Models.Route Get(string id)
+        public async Task<AroundTheWorld_Persistence.Models.Route> Get(string id)
         {
             if (id == null)
             {
                 throw new ArgumentNullException();
             }
-            AroundTheWorld_Persistence.Models.Route result = _routeService.Get(id);
+            AroundTheWorld_Persistence.Models.Route result = await _routeService.Get(id);
             return result;
         }
 

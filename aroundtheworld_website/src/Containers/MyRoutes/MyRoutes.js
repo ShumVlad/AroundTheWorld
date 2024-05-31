@@ -41,20 +41,25 @@ const MyRoutes = () => {
             });
     };
 
-    const handleRouteClick = (routeId) => {
-        navigate(`/route-page/${routeId}`);
+    const handleNavigate = (route) => {
+        navigate(route);
     };
 
     return (
         <div className="my-routes">
             <Navbar />
+            {(authState.userRole === 'Worker' || authState.userRole === 'Guide') && (
+                <button onClick={() => {handleNavigate("/create-route")}}>
+                    Add Route
+                </button>
+            )}
             {userId ? (
                 data.length > 0 ? (
                     data.map((route) => (
                         <RouteCard
                             key={route.id}
                             data={route}
-                            onClick={() => handleRouteClick(route.id)}
+                            onClick={() => handleNavigate(`/route-page/${route.id}`)}
                         />
                     ))
                 ) : (

@@ -10,6 +10,6 @@ namespace AroundTheWorld_Backend.Interfaces
     public interface ICompanyService
     {
         Task<string> Add(Company company);
-        Task<string> Get(string companyId);
+        Task<Company> Get(string companyId);
     }
 }

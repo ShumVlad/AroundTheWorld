@@ -28,7 +28,7 @@ namespace AroundTheWorld_Backend.Services
             {
                 throw new ArgumentNullException(nameof(routeDTO));
             }
-            var route = _mapper.Map<Route>(routeDTO);
+            Route route = _mapper.Map<Route>(routeDTO);
             route.Id = Guid.NewGuid().ToString();
             await _unit.RouteRepository.Add(route);
             _unit.Save();
@@ -55,13 +55,13 @@ namespace AroundTheWorld_Backend.Services
             return true;
         }
 
-        public Route Get(string id)
+        public async Task<Route> Get(string id)
         {
             if (id == null)
             {
                 throw new ArgumentNullException(nameof(id));
             }
-            Route result = _unit.RouteRepository.Get(id);
+            Route result = await _unit.RouteRepository.Get(id);
             return result;
         }
 

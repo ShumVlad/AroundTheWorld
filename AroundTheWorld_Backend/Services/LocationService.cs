@@ -55,9 +55,9 @@ namespace AroundTheWorld_Backend.Services
             return true;
         }
 
-        public Location Get(string id)
+        public async Task<Location> Get(string id)
         {
-            Location result = _unit.LocationRepository.Get(id);
+            Location result = await _unit.LocationRepository.Get(id);
             return result;
         }
 

@@ -29,13 +29,13 @@ namespace AroundTheWorld.Controllers
 
         [HttpGet]
         [Route("Get")]
-        public async Task<string> Get(Company companyId)
+        public async Task<Company> Get(string companyId)
         {
             if (companyId == null)
             {
                 throw new ArgumentNullException();
             }
-            var result = await _companyService.Add(companyId);
+            var result = await _companyService.Get(companyId);
             return result;
         }
     }

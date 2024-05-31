@@ -60,7 +60,7 @@ namespace AroundTheWorld_Backend.Services
 
             foreach (var locationRoute in locationRoutes)
             {
-                var location = _unit.LocationRepository.Get(locationRoute.LocationId);
+                var location = await _unit.LocationRepository.Get(locationRoute.LocationId); // Await the result here
                 if (location != null)
                 {
                     var getLocationRoute = new GetLocationFromRouteDto
@@ -83,6 +83,7 @@ namespace AroundTheWorld_Backend.Services
 
             return getLocationFromRouteDtos;
         }
+
 
         public async Task<List<Route>> GetRoutesWithLocation(string locationId)
         {

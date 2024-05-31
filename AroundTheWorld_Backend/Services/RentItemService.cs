@@ -18,7 +18,7 @@ namespace AroundTheWorld_Backend.Services
 
         public async Task<RentItem> Get(string id)
         {
-            var result = _unit.RentItemRepository.Get(id);
+            var result = await _unit.RentItemRepository.Get(id);
             return result;
         }
 

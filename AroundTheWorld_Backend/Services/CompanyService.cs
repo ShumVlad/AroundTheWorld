@@ -27,7 +27,7 @@ namespace AroundTheWorld_Backend.Services
 
         public async Task<Company> Get(string companyId)
         {
-            Company result = _unit.CompanyRepository.Get(companyId);
+            Company result = await _unit.CompanyRepository.Get(companyId);
             return result;
         }
     }

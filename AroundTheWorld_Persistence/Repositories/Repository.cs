@@ -25,13 +25,14 @@ namespace AroundTheWorld_Persistence.Repositories
 
         public async Task Delete(string id)
         {
-            var existing = Get(id);
+            T existing = await Get(id);
             _dbSet.Remove(existing);
         }
 
-        public T Get(string id)
+        public async Task<T> Get(string id)
         {
-            return _dbSet.Find(id);
+            T result = await _dbSet.FindAsync(id);
+            return result;
         }
 
         public async Task<List<T>> GetAll()

@@ -27,7 +27,7 @@ namespace AroundTheWorld_Backend.Services
 
         public async Task<bool> UpdateLocation(UpdateSensorLocationDto sensorDto)
         {
-            Sensor sensor = _unit.SensorRepository.Get(sensorDto.Id);
+            Sensor sensor = await _unit.SensorRepository.Get(sensorDto.Id);
             sensor.Longitude = sensorDto.Longitude;
             sensor.Latitude = sensorDto.Latitude;
             sensor.Timestamp = sensorDto.Timestamp;

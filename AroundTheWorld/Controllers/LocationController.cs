@@ -67,7 +67,7 @@ namespace AroundTheWorld.Controllers
             {
                 throw new Exception(nameof(id));
             }
-            Location result = _locationService.Get(id);
+            Location result = await _locationService.Get(id);
             return result;
         }
 

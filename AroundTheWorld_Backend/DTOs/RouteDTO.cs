@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AroundTheWorld_Persistence.Models;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -13,5 +14,6 @@ namespace AroundTheWorld_Backend.DTOs
         public string Description { get; set; }
         public bool IsFinisched { get; set; }
         public string CompanyId { get; set; }
+        public List<Location> Locations { get; set; }
     }
 }
