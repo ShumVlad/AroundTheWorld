@@ -1,19 +1,22 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import DatePicker from "react-datepicker";
 import LocationCard from '../../Components/LocationCard/LocationCard'; // Ensure correct import path
 import GoogleMapReact from 'google-map-react';
 import MyLocationIcon from '@mui/icons-material/MyLocation';
 import StarIcon from '@mui/icons-material/Star';
 import Navbar from '../../Components/navbar/Navbar'
+import './CreateRoute.css'
 
 const CreateRoute = () => {
     const [formData, setFormData] = useState({
         name: '',
         description: '',
         companyId: '',
-        chosenLocations: []
+        chosenLocations: [],
+        groupName: '',
     });
-
+    const [dateTime, setDateTime] = useState();
     const [locations, setLocations] = useState([]);
     const [selectedLocation, setSelectedLocation] = useState(null);
     const [userLocation, setUserLocation] = useState(null);
@@ -36,6 +39,10 @@ const CreateRoute = () => {
         getLocations();
     }, []);
 
+    function DateTimeChangeHandler(value){
+        setDateTime(value);
+      }
+      
     const getLocations = async () => {
         try {
             const response = await axios.get('https://localhost:7160/api/Location/GetAll');
@@ -59,14 +66,17 @@ const CreateRoute = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-    
+        const formattedDate = dateTime.toISOString();
         const routeData = {
             Name: formData.name,
             Description: formData.description,
             CompanyId: formData.companyId,
-            IsFinished: false, // Assuming this should always be false for a new route
-            Locations: formData.chosenLocations
+            IsFinished: false,
+            Locations: formData.chosenLocations,
+            groupName: formData.groupName,
+            dateTime: formattedDate
         };
+        
     
         try {
             const response = await axios.post('https://localhost:7160/api/Route/Create', routeData);
@@ -101,14 +111,14 @@ const CreateRoute = () => {
     return (
         <div>
             <Navbar/>
-            <form onSubmit={handleSubmit}>
-                <div>
+            <form className='aroundTheWorld__createRoute-form' onSubmit={handleSubmit}>
+                <div class="aroundTheWorld__createRoute-routeContainer">
                     <div>
-                        <label>Name</label>
+                        <label>Route Name</label>
                         <input type="text" name="name" value={formData.name} onChange={handleChange} />
                     </div>
                     <div>
-                        <label>Description</label>
+                        <label>Route Description</label>
                         <input type="text" name="description" value={formData.description} onChange={handleChange} />
                     </div>
                     <div>
@@ -116,15 +126,17 @@ const CreateRoute = () => {
                         <input type="text" name="companyId" value={formData.companyId} onChange={handleChange} />
                     </div>
                 </div>
-                <div>
+                <div class="aroundTheWorld__createRoute-groupContainer">
                     <div>
-                        <label>Name</label>
-                        <input type="text" name="name" value={formData.name} onChange={handleChange} />
+                        <label>Group Name</label>
+                        <input type="text" name="groupName" value={formData.groupName} onChange={handleChange} />
                     </div>
-                    
-                    <div>
-                        <label>Company key</label>
-                        <input type="text" name="companyId" value={formData.companyId} onChange={handleChange} />
+                    <div class="aroundTheWorld__createRoute-groupContainer-element">
+                        <label class="form-element">Choose start date and time</label>
+                        <DatePicker selected={dateTime} 
+                        value={dateTime} 
+                        onChange={DateTimeChangeHandler} 
+                        dateFormat="dd MMM yyyy"/>
                     </div>
                 </div>
                 <button type="submit">Create Route</button>

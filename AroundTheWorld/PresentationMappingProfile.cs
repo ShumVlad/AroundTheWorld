@@ -10,7 +10,7 @@ namespace AroundTheWorld
         public PresentationMappingProfile()
         {
             CreateMap<LocationViewModel, LocationDTO>();
-            CreateMap<RouteViewModel, RouteDTO>();
+            CreateMap<CreateRouteViewModel, CreateRouteDTO>();
             CreateMap<LocationRouteViewModel, LocationRouteDTO>();
             CreateMap<GetRouteDto, GetRouteViewModel>();
             CreateMap<UpdateSensorLocationViewModel, UpdateSensorLocationDto>();

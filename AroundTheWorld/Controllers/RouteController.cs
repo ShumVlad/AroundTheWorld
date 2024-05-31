@@ -23,13 +23,13 @@ namespace AroundTheWorld.Controllers
 
         [HttpPost]
         [Route("Create")]
-        public async Task<bool> Create(RouteViewModel model)
+        public async Task<bool> Create(CreateRouteViewModel model)
         {
             if(model == null)
             {
                 throw new ArgumentNullException("model");
             }
-            var routeDTO = _mapper.Map<RouteDTO>(model);
+            var routeDTO = _mapper.Map<CreateRouteDTO>(model);
             bool result = await _routeService.Create(routeDTO, model.Locations);
             return result;
         }

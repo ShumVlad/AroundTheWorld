@@ -22,7 +22,7 @@ namespace AroundTheWorld_Backend.Services
             _locationRouteService = locationRouteService;
         }
 
-        public async Task<bool> Create(RouteDTO routeDTO, List<Location> locations)
+        public async Task<bool> Create(CreateRouteDTO routeDTO, List<Location> locations)
         {
             if(routeDTO == null)
             {
@@ -31,6 +31,13 @@ namespace AroundTheWorld_Backend.Services
             Route route = _mapper.Map<Route>(routeDTO);
             route.Id = Guid.NewGuid().ToString();
             await _unit.RouteRepository.Add(route);
+            _unit.Save();
+            Group group = new Group();
+            group.Id = Guid.NewGuid().ToString();
+            group.Name = routeDTO.GroupName;
+            group.StartDateTime = routeDTO.StartDateTime;
+            group.RouteId = route.Id;
+            await _unit.GroupRepository.Add(group);
             _unit.Save();
             LocationRouteDTO locationRouteouteDTO = new LocationRouteDTO();
             locationRouteouteDTO.IsVisited = false;
