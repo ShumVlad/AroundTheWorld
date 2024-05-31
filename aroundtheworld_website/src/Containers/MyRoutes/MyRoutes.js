@@ -10,6 +10,7 @@ const MyRoutes = () => {
     const { authState } = useContext(AuthContext);
     const userId = authState.userId;
     const userRole = authState.userRole;
+    const companyId = authState.companyId;
     const navigate = useNavigate();
 
     useEffect(() => {
@@ -32,7 +33,9 @@ const MyRoutes = () => {
     };
 
     const getCompanyRoutes = () => {
-        axios.get('https://localhost:7160/api/Route/GetCompanyRoutes', { params: { userId } })
+        console.log(companyId);
+        console.log('assad')
+        axios.get('https://localhost:7160/api/Route/GetCompanyRoutes', { params: { companyId } })
             .then((result) => {
                 setData(result.data);
             })

@@ -14,9 +14,11 @@ const Route = () => {
     }, [routeId]);
 
     const getLocations = () => {
+        console.log("1111")
         axios.get('https://localhost:7160/api/LocationRoute/GetLocationsFromRoute', { params: { routeId } })
             .then((result) => {
                 setLocationsData(result.data);
+                console.log(routeId)
             })
             .catch((error) => {
                 console.error("There was an error fetching the locations data!", error);

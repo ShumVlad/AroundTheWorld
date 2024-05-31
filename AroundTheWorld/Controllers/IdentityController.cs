@@ -36,7 +36,7 @@ namespace AroundTheWorld.Controllers
         [Route("login")]
         public async Task<IActionResult> Login([FromBody] LoginModel model)
         {
-            var user = await _userManager.FindByEmailAsync(model.Email);
+            var user = await _userManager.FindByEmailAsync(model.Email) as ApplicationUser;
             if (user != null && await _userManager.CheckPasswordAsync(user, model.Password))
             {
                 var userRoles = await _userManager.GetRolesAsync(user);
@@ -67,7 +67,8 @@ namespace AroundTheWorld.Controllers
                     token = new JwtSecurityTokenHandler().WriteToken(token),
                     userId = user.Id,
                     userRole = userRoles[0],
-                    userName = user.UserName
+                    userName = user.UserName,
+                    companyId = user.CompanyId
                 });
             }
             return Unauthorized();
