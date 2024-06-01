@@ -12,6 +12,7 @@ namespace AroundTheWorld_Persistence.Models
         public string Name { get; set; }
         public string Description { get; set; }
         public bool IsFinished { get; set; }
+        public DateTime StartDateTime { get; set; }
         public string CompanyId { get; set; }
         public string CompanyName { get; set; }
     }

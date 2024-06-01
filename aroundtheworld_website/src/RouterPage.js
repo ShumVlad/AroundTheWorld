@@ -9,12 +9,17 @@ import RentItems from './Containers/RentItems/RentItems'
 import RegisterCompany from "./Containers/RegisterCompany/RegisterCompany";
 import RentItemsMap from './Containers/RentItemsMap/RentItemsMap'
 import CompanyProfile from './Containers/CompanyProfile/CompanyProfile'
+import ChangeRoute from "./Containers/ChangeRoute/ChangeRoute";
 
 const router = createBrowserRouter([
     {
         path: '/',
         element: <Home />,
     },
+    {
+        path: '/change-route/:routeId',
+        element: <ChangeRoute/>
+    }, 
     {
         path: '/route-page/:routeId',
         element: <Route />,
@@ -46,7 +51,7 @@ const router = createBrowserRouter([
     {
         path: '/company/:companyId',
         element: <CompanyProfile/>
-    },   
+    },    
 ]);
 
 const RouterProviderWrapper = ({ children }) => (

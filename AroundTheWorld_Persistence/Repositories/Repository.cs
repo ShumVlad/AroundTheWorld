@@ -65,6 +65,7 @@ namespace AroundTheWorld_Persistence.Repositories
                                                            Name = r.Name,
                                                            Description = r.Description,
                                                            IsFinished = r.IsFinished,
+                                                           StartDateTime = r.StartDateTime,
                                                            CompanyName = c.Name,
                                                            CompanyId = c.Id
                                                        }).ToListAsync();

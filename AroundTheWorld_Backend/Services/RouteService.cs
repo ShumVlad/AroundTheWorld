@@ -4,6 +4,7 @@ using AroundTheWorld_Backend.DTOs;
 using AroundTheWorld_Backend.Interfaces;
 using AroundTheWorld_Persistence;
 using AroundTheWorld_Persistence.Models;
+using AroundTheWorld_Persistence.Repositories.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Routing;
 
@@ -14,12 +15,14 @@ namespace AroundTheWorld_Backend.Services
         private UnitOfWork _unit;
         private IMapper _mapper;
         private ILocationRouteService _locationRouteService;
+        private ILocationRouteExtraRepository _locationRouteExtraRepository;
 
-        public RouteService(UnitOfWork unitOfWork, IMapper mapper, ILocationRouteService locationRouteService)
+        public RouteService(UnitOfWork unitOfWork, IMapper mapper, ILocationRouteService locationRouteService, ILocationRouteExtraRepository locationRouteExtraRepository)
         {
             _unit = unitOfWork;
             _mapper = mapper;
             _locationRouteService = locationRouteService;
+            _locationRouteExtraRepository = locationRouteExtraRepository;
         }
 
         public async Task<bool> Create(CreateRouteDTO routeDTO, List<Location> locations)
@@ -35,7 +38,6 @@ namespace AroundTheWorld_Backend.Services
             Group group = new Group();
             group.Id = Guid.NewGuid().ToString();
             group.Name = routeDTO.GroupName;
-            group.StartDateTime = routeDTO.StartDateTime;
             group.RouteId = route.Id;
             await _unit.GroupRepository.Add(group);
             _unit.Save();
@@ -72,13 +74,32 @@ namespace AroundTheWorld_Backend.Services
             return result;
         }
 
-        public async Task<bool> Update(Route route)
+        public async Task<bool> Update(CreateRouteDTO routeDTO)
         {
-            if(route == null)
+            if(routeDTO == null)
             {
-                throw new ArgumentNullException(nameof(route));
+                throw new ArgumentNullException(nameof(routeDTO));
             }
-            _unit.RouteRepository.Update(route);
+            Route route = _mapper.Map<Route>(routeDTO);
+            await _unit.RouteRepository.Update(route);
+            Group group = await _unit.GroupRepository.GetGroupByRouteId(routeDTO.Id);
+            group.Name = routeDTO.GroupName;
+
+            List<LocationRoute> oldLocationRoutes = await _locationRouteExtraRepository.GetLocationsFromRoute(routeDTO.Id);
+            foreach (LocationRoute locationRoute in oldLocationRoutes)
+            {
+                _unit.LocationRouteRepository.Delete(locationRoute.Id);
+            }
+            _unit.Save();
+            LocationRouteDTO locationRouteouteDTO = new LocationRouteDTO();
+            locationRouteouteDTO.IsVisited = false;
+            locationRouteouteDTO.RouteId = route.Id;
+            for (int i = 0; i < routeDTO.Locations.Count; i++)
+            {
+                locationRouteouteDTO.LocationId = routeDTO.Locations[i].Id;
+                locationRouteouteDTO.Order = i + 1;
+                await _locationRouteService.AddLocationRoute(locationRouteouteDTO);
+            }
             _unit.Save();
             return true;
         }

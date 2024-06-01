@@ -1,5 +1,4 @@
 ﻿using AroundTheWorld.ViewModels;
-using AroundTheWorld.ViewModels.IdentityModels;
 using AroundTheWorld_Backend.DTOs;
 using AroundTheWorld_Backend.Interfaces;
 using AroundTheWorld_Persistence.Models;
@@ -60,7 +59,7 @@ namespace AroundTheWorld.Controllers
 
         [HttpPut]
         [Route("Update")]
-        public async Task<bool> Update(AroundTheWorld_Persistence.Models.Route route)
+        public async Task<bool> Update(CreateRouteDTO route)
         {
             if (route == null)
             {

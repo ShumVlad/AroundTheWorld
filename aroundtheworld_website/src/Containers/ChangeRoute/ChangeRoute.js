@@ -1,16 +1,17 @@
 import React, { useContext, useState, useEffect } from 'react';
 import axios from 'axios';
 import DatePicker from "react-datepicker";
-import 'react-datepicker/dist/react-datepicker.css';
+import { useParams } from "react-router-dom";
 import LocationCard from '../../Components/LocationCard/LocationCard'; // Ensure correct import path
 import GoogleMapReact from 'google-map-react';
 import MyLocationIcon from '@mui/icons-material/MyLocation';
 import StarIcon from '@mui/icons-material/Star';
-import Navbar from '../../Components/navbar/Navbar';
-import './createRoute.css';
+import Navbar from '../../Components/navbar/Navbar'
+import './ChangeRoute.css';
+
 import { AuthContext } from '../../context/AuthContext';
 
-const CreateRoute = () => {
+const ChangeRoute = () => {
     const [formData, setFormData] = useState({
         name: '',
         description: '',
@@ -24,6 +25,7 @@ const CreateRoute = () => {
     const [userLocation, setUserLocation] = useState(null);
     const [isMapReady, setIsMapReady] = useState(false);
     const { authState } = useContext(AuthContext);
+    const { routeId } = useParams();
 
     useEffect(() => {
         navigator.geolocation.getCurrentPosition(
@@ -36,21 +38,62 @@ const CreateRoute = () => {
             },
             (error) => {
                 console.error("Error getting location: ", error);
-                setIsMapReady(true); // Allow map to render with default center
+                setIsMapReady(true);
             }
         );
         getLocations();
+        getSelectedLocations();
+        getRoute(routeId);
     }, []);
 
-    const DateTimeChangeHandler = (date) => {
-        setDateTime(date);
+    const getRoute = async (id) => {
+        try {
+            const response = await axios.get('https://localhost:7160/api/Route/Get', { params: { id } });
+            if (response.status === 200) {
+                console.log("Route")
+                console.log(response.data)
+                setFormData((prevFormData) => ({
+                    ...prevFormData,
+                    name: response.data.name,
+                    description: response.data.description,
+                    companyId: response.data.companyId
+                }));
+                setDateTime(new Date(response.data.startDateTime));
+            }
+        } catch (error) {
+            console.error('Error fetching locations:', error);
+            alert('Error fetching locations');
+        }
     };
-    
+
+    const getSelectedLocations = async () => {
+        try {
+            const response = await axios.get('https://localhost:7160/api/LocationRoute/GetLocationsFromRoute', { params: { routeId }});
+            if (response.status === 200) {
+                console.log("selected")
+                console.log(response.data)
+                setFormData((prevFormData) => ({
+                    ...prevFormData,
+                    chosenLocations: response.data
+                }));
+            }
+        } catch (error) {
+            console.error('Error fetching locations:', error);
+            alert('Error fetching locations');
+        }
+    };
+
+    function DateTimeChangeHandler(value){
+        setDateTime(value);
+    }
+
     const getLocations = async () => {
         try {
             const response = await axios.get('https://localhost:7160/api/Location/GetAll');
             if (response.status === 200) {
                 setLocations(response.data);
+                console.log("allLoca")
+                console.log(response.data)
             }
         } catch (error) {
             console.error('Error fetching locations:', error);
@@ -61,7 +104,7 @@ const CreateRoute = () => {
     const handleLocationClick = (location) => {
         setSelectedLocation(location);
     };
-    
+
     const handleChange = (e) => {
         const { name, value } = e.target;
         setFormData({ ...formData, [name]: value });
@@ -69,9 +112,13 @@ const CreateRoute = () => {
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        if (!(dateTime instanceof Date)) {
+            alert('Please select a valid date and time.');
+            return;
+        }
         const formattedDate = dateTime.toISOString();
         const routeData = {
-            Id: "asd",
+            Id: routeId,
             Name: formData.name,
             Description: formData.description,
             CompanyId: authState.companyId,
@@ -80,19 +127,18 @@ const CreateRoute = () => {
             Locations: formData.chosenLocations,
             groupName: formData.groupName
         };
-        
+
         try {
-            const response = await axios.post('https://localhost:7160/api/Route/Create', routeData);
+            const response = await axios.put('https://localhost:7160/api/Route/Update', routeData);
             if (response.status === 200) {
-                alert('Route created successfully');
-                getLocations();
+                alert('Route updated successfully');
             }
         } catch (error) {
-            console.error('Error creating route:', error);
-            alert('Error creating route');
+            console.error('Error updating route:', error);
+            alert('Error updating route');
         }
-    };    
-    
+    };
+
     const addLocationToChosen = (location) => {
         if (location && !formData.chosenLocations.some(loc => loc.id === location.id)) {
             const updatedChosenLocations = [...formData.chosenLocations, location];
@@ -102,7 +148,7 @@ const CreateRoute = () => {
             }));
         }
     };
-    
+
     const deleteLocationFromChosen = (location) => {
         const updatedChosenLocations = formData.chosenLocations.filter(loc => loc.id !== location.id);
         setFormData(prevState => ({
@@ -110,12 +156,12 @@ const CreateRoute = () => {
             chosenLocations: updatedChosenLocations
         }));
     };
-    
+
     return (
         <div>
             <Navbar/>
             <form className='aroundTheWorld__createRoute-form' onSubmit={handleSubmit}>
-                <div className="aroundTheWorld__createRoute-routeContainer">
+                <div class="aroundTheWorld__createRoute-routeContainer">
                     <div>
                         <label>Route Name</label>
                         <input type="text" name="name" value={formData.name} onChange={handleChange} />
@@ -124,8 +170,8 @@ const CreateRoute = () => {
                         <label>Route Description</label>
                         <input type="text" name="description" value={formData.description} onChange={handleChange} />
                     </div>
-                    <div className="aroundTheWorld__createRoute-groupContainer-element">
-                        <label className="form-element">Choose start date and time</label>
+                    <div class="aroundTheWorld__createRoute-groupContainer-element">
+                        <label class="form-element">Choose start date and time</label>
                         <DatePicker
                             selected={dateTime}
                             onChange={DateTimeChangeHandler}
@@ -137,15 +183,15 @@ const CreateRoute = () => {
                         />
                     </div>
                 </div>
-                <div className="aroundTheWorld__createRoute-groupContainer">
+                <div class="aroundTheWorld__createRoute-groupContainer">
                     <div>
                         <label>Group Name</label>
                         <input type="text" name="groupName" value={formData.groupName} onChange={handleChange} />
                     </div>                    
                 </div>
-                <button type="submit">Create Route</button>
+                <button type="submit">Update Route</button>
             </form>
-            <div style={{ height: '60vh' }}>
+            <div style={{ height: '80vh' }}>
                 {isMapReady && (
                     <GoogleMapReact
                         bootstrapURLKeys={{ key: 'AIzaSyAderMV7HrObn9AQegVS6M3rENgMe5yLu0' }}
@@ -193,4 +239,4 @@ const CreateRoute = () => {
     );
 };
 
-export default CreateRoute;
+export default ChangeRoute;

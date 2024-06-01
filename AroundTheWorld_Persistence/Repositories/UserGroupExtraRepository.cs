@@ -20,13 +20,11 @@ namespace AroundTheWorld_Persistence.Repositories
 
         public async Task<List<UserInGroup>> GetUserIdsFromGroup(string groupId)
         {
-            // First, fetch user IDs from the userGroups table
             List<UserGroup> userGroups = await _context.userGroups
                 .Where(ug => ug.GroupId == groupId)
                 .Select(ug => ug)
                 .ToListAsync();
 
-            // Next, fetch user details and roles using _userManager
             var users = new List<UserInGroup>();
             foreach (var userGroup in userGroups)
             {

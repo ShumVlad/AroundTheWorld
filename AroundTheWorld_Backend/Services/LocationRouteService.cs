@@ -28,23 +28,31 @@ namespace AroundTheWorld_Backend.Services
             {
                 throw new ArgumentNullException(nameof(locationRouteDTO));
             }
-            var locationExists = _unit.LocationRepository.Get(locationRouteDTO.LocationId);
-            if (locationExists == null)
+
+            // Fetch the Location entity
+            var location = await _unit.LocationRepository.Get(locationRouteDTO.LocationId);
+            if (location == null)
             {
                 throw new ArgumentException("Invalid LocationId");
             }
 
-            var routeExists =  _unit.RouteRepository.Get(locationRouteDTO.RouteId) != null;
-            if (!routeExists)
+            var route = await _unit.RouteRepository.Get(locationRouteDTO.RouteId);
+            if (route == null)
             {
                 throw new ArgumentException("Invalid RouteId");
             }
+
             LocationRoute locationRoute = _mapper.Map<LocationRoute>(locationRouteDTO);
             locationRoute.Id = Guid.NewGuid().ToString();
+
+            locationRoute.Location = location;
+            locationRoute.Route = route;
+
             await _unit.LocationRouteRepository.Add(locationRoute);
             _unit.Save();
             return true;
         }
+
 
         public async Task<bool> DeleteLocationRoute(string id)
         {
@@ -55,12 +63,12 @@ namespace AroundTheWorld_Backend.Services
 
         public async Task<List<GetLocationFromRouteDto>> GetLocationsInRoute(string routeId)
         {
-            List<LocationRoute> locationRoutes = await _extraRepository.GetLocationIdsFromRoute(routeId);
+            List<LocationRoute> locationRoutes = await _extraRepository.GetLocationsFromRoute(routeId);
             List<GetLocationFromRouteDto> getLocationFromRouteDtos = new List<GetLocationFromRouteDto>();
 
             foreach (var locationRoute in locationRoutes)
             {
-                var location = await _unit.LocationRepository.Get(locationRoute.LocationId); // Await the result here
+                var location = await _unit.LocationRepository.Get(locationRoute.LocationId);
                 if (location != null)
                 {
                     var getLocationRoute = new GetLocationFromRouteDto

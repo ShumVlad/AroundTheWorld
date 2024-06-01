@@ -8,7 +8,6 @@ namespace AroundTheWorld_Persistence.Models
         [Key]
         public string Id { get; set; }
         public string Name { get; set; }
-        public DateTime StartDateTime { get; set; }
         [Required]
         public string RouteId { get; set; }
 

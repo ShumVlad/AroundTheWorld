@@ -18,6 +18,7 @@ const MyRoutes = () => {
             GetUserRoutes(userId);
         } else if (userRole === 'Worker' || userRole === 'Guide') {
             getCompanyRoutes(companyId);
+            console.log("asdasd")
         }
     }, [userRole, userId, companyId]);
 
@@ -35,6 +36,8 @@ const MyRoutes = () => {
         axios.get('https://localhost:7160/api/Route/GetCompanyRoutes', { params: { companyId } })
             .then((result) => {
                 setData(result.data);
+                console.log(result.data)
+                console.log(data)
             })
             .catch((error) => {
                 console.error("There was an error fetching the routes data!", error);

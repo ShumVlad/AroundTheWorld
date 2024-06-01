@@ -17,7 +17,7 @@ namespace AroundTheWorld_Persistence.Repositories
             _context = context;
         }
 
-        public async Task<List<LocationRoute>> GetLocationIdsFromRoute(string routeId)
+        public async Task<List<LocationRoute>> GetLocationsFromRoute(string routeId)
         {
             List<LocationRoute> locationRoutes = new List<LocationRoute>();
 

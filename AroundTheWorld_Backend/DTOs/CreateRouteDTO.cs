@@ -10,6 +10,7 @@ namespace AroundTheWorld_Backend.DTOs
 {
     public class CreateRouteDTO
     {
+        public string Id { get; set; }
         public string Name { get; set; }
         public string Description { get; set; }
         public bool IsFinisched { get; set; }

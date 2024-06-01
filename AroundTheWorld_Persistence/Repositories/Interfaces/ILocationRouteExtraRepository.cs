@@ -9,6 +9,6 @@ namespace AroundTheWorld_Persistence.Repositories.Interfaces
 {
     public interface ILocationRouteExtraRepository
     {
-        Task<List<LocationRoute>> GetLocationIdsFromRoute(string routeId);
+        Task<List<LocationRoute>> GetLocationsFromRoute(string routeId);
     }
 }

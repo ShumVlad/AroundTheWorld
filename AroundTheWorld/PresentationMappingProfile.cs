@@ -1,5 +1,4 @@
 ﻿using AroundTheWorld.ViewModels;
-using AroundTheWorld.ViewModels.IdentityModels;
 using AroundTheWorld_Backend.DTOs;
 using AutoMapper;
 

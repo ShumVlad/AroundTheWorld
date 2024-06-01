@@ -50,7 +50,7 @@ const GroupDetails = ({ routeId }) => {
 
             const response = await axios.post(`https://localhost:7160/api/UserGroup/Add`, userGroup);
 
-            getUsersInGroup();
+            getUsersInGroup(group.id);
         } catch (error) {
             console.error('Error adding user to group', error);
         }
@@ -80,7 +80,6 @@ const GroupDetails = ({ routeId }) => {
             {group ? (
                 <>
                     <h3>Group Name: {group.name}</h3>
-                    <p>Start Date: {group.startDateTime}</p>
                 </>
             ) : (
                 <p>Loading group details...</p>
