@@ -1,4 +1,5 @@
-﻿using AroundTheWorld_Backend.Interfaces;
+﻿using AroundTheWorld_Backend.DTOs;
+using AroundTheWorld_Backend.Interfaces;
 using AroundTheWorld_Persistence.Models;
 using AutoMapper;
 using System;
@@ -12,10 +13,12 @@ namespace AroundTheWorld_Backend.Services
     public class UserPositionService : IUserPositionService
     {
         private UnitOfWork _unit;
+        private IMapper _mapper;
 
-        public UserPositionService(UnitOfWork unit)
+        public UserPositionService(UnitOfWork unit, IMapper mapper)
         {
             _unit = unit;
+            _mapper = mapper;
         }
 
         public async Task<bool> AddUserPosition(string userId)
@@ -30,9 +33,16 @@ namespace AroundTheWorld_Backend.Services
             return true;
         }
 
-        public async Task<bool> Update(UserPosition userPosition)
+        public async Task<bool> Update(UserPositionDto userPosition)
         {
-            await _unit.UserPositionRepository.Update(userPosition);
+            UserPosition result = _mapper.Map<UserPosition>(userPosition);
+            ApplicationUser user = await _unit.UserRepository.Get(userPosition.UserId);
+            if (user == null)
+            {
+                throw new ArgumentException("Invalid LocationId");
+            }
+            result.User = user;
+            await _unit.UserPositionRepository.Update(result);
             _unit.Save();
             return true;
         }

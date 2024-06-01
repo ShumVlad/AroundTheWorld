@@ -1,4 +1,5 @@
-﻿using AroundTheWorld_Persistence.Models;
+﻿using AroundTheWorld_Backend.DTOs;
+using AroundTheWorld_Persistence.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +11,6 @@ namespace AroundTheWorld_Backend.Interfaces
     public interface IUserPositionService
     {
         Task<bool> AddUserPosition(string UserId);
-        Task<bool> Update(UserPosition userPosition);
+        Task<bool> Update(UserPositionDto userPosition);
     }
 }

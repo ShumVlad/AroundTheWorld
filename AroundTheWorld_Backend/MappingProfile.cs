@@ -15,6 +15,7 @@ namespace AroundTheWorld_Backend
             CreateMap<UserInGroup, UserInGroupDto>();
             CreateMap<UserGroupDto, UserGroup>();
             CreateMap<GetUserPosition, GetUserPositionDto>();
+            CreateMap<UserPositionDto, UserPosition>();
         }
     }
 }
