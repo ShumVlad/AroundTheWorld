@@ -74,7 +74,7 @@ const CreateRoute = () => {
             IsFinished: false,
             Locations: formData.chosenLocations,
             groupName: formData.groupName,
-            dateTime: formattedDate
+            DateTime: formattedDate
         };
         
     

@@ -24,6 +24,15 @@ namespace AroundTheWorld.Controllers
             return result;
         }
 
+        [HttpGet]
+        [Route("GetByRouteId")]
+        public async Task<Group> GetByRouteId(string routeId)
+        {
+            if (string.IsNullOrEmpty(routeId)) throw new ArgumentNullException(nameof(routeId)); ;
+            var result = await _groupService.GetByRouteId(routeId);
+            return result;
+        }
+
         [HttpPost]
         [Route("Add")]
         public async Task<bool> Add(Group group)

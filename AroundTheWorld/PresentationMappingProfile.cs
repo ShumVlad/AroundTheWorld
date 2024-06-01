@@ -14,6 +14,7 @@ namespace AroundTheWorld
             CreateMap<LocationRouteViewModel, LocationRouteDTO>();
             CreateMap<GetRouteDto, GetRouteViewModel>();
             CreateMap<UpdateSensorLocationViewModel, UpdateSensorLocationDto>();
+            CreateMap<UserGroupViewModel, UserInGroupDto>();
         }
     }
 }

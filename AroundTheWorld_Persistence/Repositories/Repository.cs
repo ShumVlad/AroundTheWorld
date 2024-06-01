@@ -104,5 +104,12 @@ namespace AroundTheWorld_Persistence.Repositories
                                            select r).ToListAsync();
             return routes;
         }
+
+        public async Task<Group> GetGroupByRouteId(string routeId)
+        {
+            Group group = await _context.Groups
+                               .FirstOrDefaultAsync(g => g.RouteId == routeId);
+            return group;
+        }
     }
 }

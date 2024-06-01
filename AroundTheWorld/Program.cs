@@ -28,9 +28,9 @@ builder.Services.AddAutoMapper(
 builder.Services.AddDbContext<AroundTheWorldDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-builder.Services.AddIdentity<IdentityUser, IdentityRole>()
-               .AddEntityFrameworkStores<AroundTheWorldDbContext>()
-               .AddDefaultTokenProviders();
+builder.Services.AddIdentity<ApplicationUser, IdentityRole>()
+                .AddEntityFrameworkStores<AroundTheWorldDbContext>()
+                .AddDefaultTokenProviders();
 
 var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 

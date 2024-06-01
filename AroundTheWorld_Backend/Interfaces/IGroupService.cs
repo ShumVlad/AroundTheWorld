@@ -13,5 +13,6 @@ namespace AroundTheWorld_Backend.Interfaces
         Task<bool> Delete(string id);
         Task<Group> Get(string id);
         Task<bool> Update(Group group);
+        Task<Group> GetByRouteId(string id);
     }
 }

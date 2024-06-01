@@ -1,8 +1,12 @@
 ﻿using AroundTheWorld_Backend.DTOs;
 using AroundTheWorld_Backend.Interfaces;
+using AroundTheWorld_Persistence;
 using AroundTheWorld_Persistence.Models;
 using AroundTheWorld_Persistence.Repositories.Interfaces;
 using AutoMapper;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Routing;
+using Microsoft.EntityFrameworkCore;
 
 namespace AroundTheWorld_Backend.Services
 {
@@ -10,14 +14,16 @@ namespace AroundTheWorld_Backend.Services
     {
         private UnitOfWork _unitOfWork;
         private IUserGroupExtraRepository _extraRepository;
+        private IMapper _mapper;
 
-        public UserGroupService(UnitOfWork unitOfWork, IUserGroupExtraRepository extraRepository)
+        public UserGroupService(UnitOfWork unitOfWork, IUserGroupExtraRepository extraRepository, IMapper mapper)
         {
             _unitOfWork = unitOfWork;
             _extraRepository = extraRepository;
+            _mapper = mapper;
         }
 
-        public async Task<bool> AddUserToGroup(UserGroup userGroup)
+        public async Task<bool> AddUserToGroup(UserGroupDto userGroup)
         {
             if (userGroup == null)
             {
@@ -35,7 +41,8 @@ namespace AroundTheWorld_Backend.Services
                 throw new ArgumentException("Invalid RouteId");
             }
             userGroup.Id = Guid.NewGuid().ToString();
-            await _unitOfWork.UserGroupRepository.Add(userGroup);
+            UserGroup result = _mapper.Map<UserGroup>(userGroup);
+            await _unitOfWork.UserGroupRepository.Add(result);
             _unitOfWork.Save();
             return true;
         }
@@ -47,10 +54,11 @@ namespace AroundTheWorld_Backend.Services
             return true;
         }
 
-        public List<string> GetUsers(string groupId)
+        public async Task<List<UserInGroupDto>> GetUsers(string groupId)
         {
-            List<string> userIds = _extraRepository.GetUserIdsFromGroup(groupId);
-            return userIds;
+            List<UserInGroup> usersInGroup = await _extraRepository.GetUserIdsFromGroup(groupId);
+            List<UserInGroupDto> result = _mapper.Map<List<UserInGroupDto>>(usersInGroup);
+            return result;
         }
     }
 }
