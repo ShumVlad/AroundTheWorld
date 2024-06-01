@@ -56,13 +56,23 @@ const GroupDetails = ({ routeId }) => {
         }
     };
 
+    const removeUserFromGroupGroup = async (id) => {
+        try {
+            const response = await axios.delete(`https://localhost:7160/api/UserGroup/Delete`, {
+                params: { id }
+            });
+            setUsers(response.data);
+        } catch (error) {
+            console.error('Error deleting users in group', error);
+        }
+    };
+
     const handleAddUser = () => {
         addUserToGroup();
     };
 
-    const handleRemoveUser = async (userId) => {
-        // Logic to remove a user (not yet implemented)
-        console.log('Remove user:', userId);
+    const handleRemoveUser = async (id) => {
+        removeUserFromGroupGroup(id)
     };
 
     return (

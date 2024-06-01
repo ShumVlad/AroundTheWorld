@@ -21,16 +21,16 @@ namespace AroundTheWorld_Persistence.Repositories
         public async Task<List<UserInGroup>> GetUserIdsFromGroup(string groupId)
         {
             // First, fetch user IDs from the userGroups table
-            var userIds = await _context.userGroups
+            List<UserGroup> userGroups = await _context.userGroups
                 .Where(ug => ug.GroupId == groupId)
-                .Select(ug => ug.UserId)
+                .Select(ug => ug)
                 .ToListAsync();
 
             // Next, fetch user details and roles using _userManager
             var users = new List<UserInGroup>();
-            foreach (var userId in userIds)
+            foreach (var userGroup in userGroups)
             {
-                var user = await _userManager.FindByIdAsync(userId);
+                var user = await _userManager.FindByIdAsync(userGroup.UserId);
                 if (user != null)
                 {
                     var role = (await _userManager.GetRolesAsync(user)).FirstOrDefault();
@@ -39,7 +39,8 @@ namespace AroundTheWorld_Persistence.Repositories
                         UserName = user.UserName,
                         UserRole = role,
                         Email = user.Email,
-                        Id = user.Id
+                        UserId = user.Id,
+                        Id = userGroup.Id
                     });
                 }
             }

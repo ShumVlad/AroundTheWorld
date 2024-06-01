@@ -12,5 +12,6 @@ namespace AroundTheWorld_Persistence.Models
         public string UserRole { get; set; }
         public string Email { get; set; }
         public string Id { get; set; }
+        public string UserId { get; set; }
     }
 }
