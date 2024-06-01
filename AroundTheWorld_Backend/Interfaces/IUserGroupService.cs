@@ -8,5 +8,6 @@ namespace AroundTheWorld_Backend.Interfaces
         Task<bool> AddUserToGroup(UserGroupDto userGroup);
         Task<bool> RemoveUserFromGroup(string id);
         Task<List<UserInGroupDto>> GetUsers(string groupId);
+        Task<List<GetUserPositionDto>> GetUserLocations(string groupId);
     }
 }

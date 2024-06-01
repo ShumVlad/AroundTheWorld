@@ -9,6 +9,6 @@ namespace AroundTheWorld_Persistence.Repositories.Interfaces
 {
     public interface IUserGroupExtraRepository
     {
-        Task<List<UserInGroup>> GetUserIdsFromGroup(string groupId);
+        Task<List<UserInGroup>> GetUserdFromGroup(string groupId);
     }
 }

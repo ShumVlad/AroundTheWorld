@@ -18,7 +18,7 @@ namespace AroundTheWorld_Persistence.Repositories
             _userManager = userManager;
         }
 
-        public async Task<List<UserInGroup>> GetUserIdsFromGroup(string groupId)
+        public async Task<List<UserInGroup>> GetUserdFromGroup(string groupId)
         {
             List<UserGroup> userGroups = await _context.userGroups
                 .Where(ug => ug.GroupId == groupId)

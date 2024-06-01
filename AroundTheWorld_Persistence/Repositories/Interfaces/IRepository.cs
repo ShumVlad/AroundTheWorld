@@ -24,5 +24,6 @@ namespace AroundTheWorld_Persistence.Repositories.Interfaces
         Task<List<GetRoute>> GetCompanyRoutes(string companyId);
         Task<List<Route>> GetRoutesWithLocation(string locationId);
         Task<Group> GetGroupByRouteId(string routeId);
+        Task<List<GetUserPosition>> GetUserLocations(string groupId);
     }
 }

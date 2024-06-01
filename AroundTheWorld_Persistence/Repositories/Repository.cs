@@ -1,8 +1,10 @@
 ﻿using System.ComponentModel.Design;
 using System.Linq;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using AroundTheWorld_Persistence.Models;
 using AroundTheWorld_Persistence.Repositories.Interfaces;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace AroundTheWorld_Persistence.Repositories
@@ -10,12 +12,14 @@ namespace AroundTheWorld_Persistence.Repositories
     public class Repository<T> : IRepository<T> where T : class
     {
         private readonly AroundTheWorldDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly DbSet<T> _dbSet;
 
-        public Repository(AroundTheWorldDbContext context)
+        public Repository(AroundTheWorldDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
             _dbSet = _context.Set<T>();
+            _userManager = userManager;
         }
 
         public async Task Add(T entity)
@@ -106,11 +110,43 @@ namespace AroundTheWorld_Persistence.Repositories
             return routes;
         }
 
-        public async Task<Group> GetGroupByRouteId(string routeId)
+        public async Task<AroundTheWorld_Persistence.Models.Group> GetGroupByRouteId(string routeId)
         {
-            Group group = await _context.Groups
+            AroundTheWorld_Persistence.Models.Group group = await _context.Groups
                                .FirstOrDefaultAsync(g => g.RouteId == routeId);
             return group;
         }
+        public async Task<List<GetUserPosition>> GetUserLocations(string groupId)
+        {
+            var userGroups = await _context.userGroups
+                .Where(ug => ug.GroupId == groupId)
+                .ToListAsync();
+
+            var userIds = userGroups.Select(ug => ug.UserId).ToList();
+            var userPositions = await _context.UserPositions
+                .Where(up => userIds.Contains(up.UserId))
+                .ToListAsync();
+
+            var userPositionDtos = new List<GetUserPosition>();
+
+            foreach (var userPosition in userPositions)
+            {
+                var user = await _userManager.FindByIdAsync(userPosition.UserId);
+                if (user != null)
+                {
+                    userPositionDtos.Add(new GetUserPosition
+                    {
+                        Id = userPosition.Id,
+                        Latitude = userPosition.Latitude,
+                        Longitude = userPosition.Longitude,
+                        UserId = userPosition.UserId,
+                        UserName = user.UserName
+                    });
+                }
+            }
+            return userPositionDtos;
+        }
+
+
     }
 }

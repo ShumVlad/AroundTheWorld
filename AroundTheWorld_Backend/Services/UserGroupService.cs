@@ -56,7 +56,7 @@ namespace AroundTheWorld_Backend.Services
 
         public async Task<List<UserInGroupDto>> GetUsers(string groupId)
         {
-            List<UserInGroup> usersInGroup = await _extraRepository.GetUserIdsFromGroup(groupId);
+            List<UserInGroup> usersInGroup = await _extraRepository.GetUserdFromGroup(groupId);
             List<UserInGroupDto> result = _mapper.Map<List<UserInGroupDto>>(usersInGroup);
             return result;
         }
