@@ -60,5 +60,12 @@ namespace AroundTheWorld_Backend.Services
             List<UserInGroupDto> result = _mapper.Map<List<UserInGroupDto>>(usersInGroup);
             return result;
         }
+
+        public async Task<List<GetUserPositionDto>> GetUserLocations(string groupId)
+        {
+            List<GetUserPosition> userPositions = await _unitOfWork.UserGroupRepository.GetUserLocations(groupId);
+            List<GetUserPositionDto> result = _mapper.Map<List<GetUserPositionDto>>(userPositions);
+            return result;
+        }
     }
 }

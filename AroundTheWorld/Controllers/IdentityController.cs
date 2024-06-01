@@ -1,4 +1,5 @@
 ﻿using AroundTheWorld.ViewModels.IdentityModels;
+using AroundTheWorld_Backend.Interfaces;
 using AroundTheWorld_Persistence.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -16,12 +17,14 @@ namespace AroundTheWorld.Controllers
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IConfiguration _configuration;
+        private readonly IUserPositionService _userPositionService;
 
-        public IdentityController(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration)
+        public IdentityController(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration, IUserPositionService userPositionService)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _configuration = configuration;
+            _userPositionService = userPositionService;
         }
 
         [HttpGet]
@@ -111,6 +114,8 @@ namespace AroundTheWorld.Controllers
                 await _userManager.AddToRoleAsync(user, "User");
             }
             var userRoles = await _userManager.GetRolesAsync(user);
+            var registeredUser = await _userManager.FindByEmailAsync(model.Email);
+            _userPositionService.AddUserPosition(registeredUser.Id);
             return Ok(new
             {
                 userId = user.Id,

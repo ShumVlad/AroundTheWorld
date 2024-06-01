@@ -16,7 +16,7 @@ namespace AroundTheWorld_Backend
         public readonly IRepository<Route> RouteRepository;
         public readonly IRepository<Sensor> SensorRepository;
         public readonly IRepository<Review> ReviewRepository;
-        public readonly IRepository<UserPosition> PositionRepository;
+        public readonly IRepository<UserPosition> UserPositionRepository;
         public readonly IRepository<LocationRoute> LocationRouteRepository;
         public readonly IRepository<UserGroup> UserGroupRepository;
         public readonly IRepository<Company> CompanyRepository;
@@ -27,7 +27,7 @@ namespace AroundTheWorld_Backend
             IRepository<LocationRoute> locationRouteRepository, IRepository<UserGroup> userGroupRepository, IRepository<Company> companyRepository, AroundTheWorldDbContext context)
         {
             PlaceRepository = placeRepository;
-            PositionRepository = positionRepository;
+            UserPositionRepository = positionRepository;
             SensorRepository = sensorRepository;
             GroupRepository = groupRepository;
             ReviewRepository = reviewRepository;
