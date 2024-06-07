@@ -39,6 +39,7 @@ namespace AroundTheWorld_Backend.Services
             Group result = await _unitOfWork.GroupRepository.Get(id);
             return result;
         }
+
         public async Task<Group> GetByRouteId(string routeId)
         {
             Group result = await _unitOfWork.GroupRepository.GetGroupByRouteId(routeId);

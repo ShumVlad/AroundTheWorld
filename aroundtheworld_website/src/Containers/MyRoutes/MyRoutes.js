@@ -14,11 +14,12 @@ const MyRoutes = () => {
     const navigate = useNavigate();
 
     useEffect(() => {
+        console.log("AuthContext.userId")
+        console.log(authState.userId)
         if (userRole === 'User') {
             GetUserRoutes(userId);
         } else if (userRole === 'Worker' || userRole === 'Guide') {
             getCompanyRoutes(companyId);
-            console.log("asdasd")
         }
     }, [userRole, userId, companyId]);
 

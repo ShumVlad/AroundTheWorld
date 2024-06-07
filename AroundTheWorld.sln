@@ -15,6 +15,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "AroundTheWorld_Backend", "A
 		{20AA4D97-19C0-4D62-A3DB-29BB17081988} = {20AA4D97-19C0-4D62-A3DB-29BB17081988}
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AroundTheWorld_Tests", "AroundTheWorld_Tests\AroundTheWorld_Tests.csproj", "{20F794E6-882B-49DA-A838-240CBBAE2544}"
+	ProjectSection(ProjectDependencies) = postProject
+		{20AA4D97-19C0-4D62-A3DB-29BB17081988} = {20AA4D97-19C0-4D62-A3DB-29BB17081988}
+		{E64F1009-0FDB-4EEE-931E-5528A66A4373} = {E64F1009-0FDB-4EEE-931E-5528A66A4373}
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +39,10 @@ Global
 		{E64F1009-0FDB-4EEE-931E-5528A66A4373}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E64F1009-0FDB-4EEE-931E-5528A66A4373}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E64F1009-0FDB-4EEE-931E-5528A66A4373}.Release|Any CPU.Build.0 = Release|Any CPU
+		{20F794E6-882B-49DA-A838-240CBBAE2544}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{20F794E6-882B-49DA-A838-240CBBAE2544}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{20F794E6-882B-49DA-A838-240CBBAE2544}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{20F794E6-882B-49DA-A838-240CBBAE2544}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

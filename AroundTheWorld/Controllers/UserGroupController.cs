@@ -65,5 +65,17 @@ namespace AroundTheWorld.Controllers
             List <UserInGroupDto> result = await _userGroupService.GetUsers(groupId);
             return result;
         }
+
+        [HttpGet]
+        [Route("GetUserLocations")]
+        public async Task<List<GetUserPositionDto>> GetUserLocations(string groupId)
+        {
+            if (groupId == null)
+            {
+                throw new ArgumentNullException(nameof(groupId));
+            }
+            List<GetUserPositionDto> result = await _userGroupService.GetUserLocations(groupId);
+            return result;
+        }
     }
 }

@@ -6,7 +6,7 @@ import './login.css';
 const Login = () => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const { setAuthState } = useContext(AuthContext);  // Use the context
+    const { setAuthState } = useContext(AuthContext);
 
     const handleSave = (e) => {
         e.preventDefault();
@@ -20,9 +20,9 @@ const Login = () => {
         axios.post(url, data)
             .then((result) => {
                 const { userId, token, userName, userRole, companyId } = result.data;
-                setAuthState({ userId, token, userName, userRole, companyId }); 
-                // navigate("/" + userId);  // Uncomment if you want to navigate after login
-                console.log(result.data);
+                console.log("userId")
+                console.log(userId);
+                setAuthState({ userId, token, userName, userRole, companyId });
             })
             .catch((error) => {
                 console.log(error);

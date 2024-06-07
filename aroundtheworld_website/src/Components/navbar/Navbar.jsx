@@ -20,7 +20,7 @@ const Navbar = () => {
         if (authState.userRole === 'Worker') {
             navigate(`/company/${authState.companyId}`);
         } else {
-            navigate('/profile');
+            console.log(authState)
         }
     };
 

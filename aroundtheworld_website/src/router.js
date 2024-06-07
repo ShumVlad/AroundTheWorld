@@ -3,12 +3,12 @@ import Home from './Home';
 import Route from './Containers/Route/Route';
 import { RouterProvider, createBrowserRouter } from "react-router-dom";
 import MyRoutes from "./Containers/MyRoutes/MyRoutes";
-import CreateLocation from "./Containers/CreateLocation/CreateLocation";
+import CreateLocationPage from "./Containers/CreateLocation/CreateLocation";
 import CreateRoute from './Containers/CreateRoute/CreateRoute';
-import RentItems from './Containers/RentItems/RentItems'
+import RentItems from './Containers/RentItems/RentItems';
 import RegisterCompany from "./Containers/RegisterCompany/RegisterCompany";
-import RentItemsMap from './Containers/RentItemsMap/RentItemsMap'
-import CompanyProfile from './Containers/CompanyProfile/CompanyProfile'
+import RentItemsMap from './Containers/RentItemsMap/RentItemsMap';
+import CompanyProfile from './Containers/CompanyProfile/CompanyProfile';
 import ChangeRoute from "./Containers/ChangeRoute/ChangeRoute";
 
 const router = createBrowserRouter([
@@ -30,7 +30,7 @@ const router = createBrowserRouter([
     },
     {
         path: '/create-location',
-        element: <CreateLocation />
+        element: <CreateLocationPage />
     },
     {
         path: '/create-route',

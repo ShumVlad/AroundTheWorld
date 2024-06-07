@@ -37,7 +37,7 @@ namespace AroundTheWorld.Controllers
 
         [HttpDelete]
         [Route("Delete")]
-        public async Task<bool> Delete([FromBody] string id)
+        public async Task<bool> DeleteLocation([FromBody] string id)
         {
             if (id == null)
             {
@@ -49,7 +49,7 @@ namespace AroundTheWorld.Controllers
 
         [HttpPut]
         [Route("Put")]
-        public async Task<bool> Update([FromBody] Location location)
+        public async Task<bool> UpdateLocation([FromBody] Location location)
         {
             if (location == null)
             {
@@ -61,7 +61,7 @@ namespace AroundTheWorld.Controllers
 
         [HttpGet]
         [Route("Get")]
-        public async Task<Location> Get(string id)
+        public async Task<Location> GetLocation(string id)
         {
             if (id == null)
             {

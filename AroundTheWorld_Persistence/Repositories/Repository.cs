@@ -147,6 +147,12 @@ namespace AroundTheWorld_Persistence.Repositories
             return userPositionDtos;
         }
 
-
+        public async Task<string> GetUserPositionId(string userId)
+        {
+            string id = await (from up in _context.UserPositions
+                           where up.UserId.Equals(userId)
+                           select up.Id).FirstOrDefaultAsync();
+            return id;
+        }
     }
 }

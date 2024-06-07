@@ -42,6 +42,7 @@ namespace AroundTheWorld_Backend.Services
                 throw new ArgumentException("Invalid LocationId");
             }
             result.User = user;
+            result.Id = await _unit.UserPositionRepository.GetUserPositionId(result.UserId);
             await _unit.UserPositionRepository.Update(result);
             _unit.Save();
             return true;

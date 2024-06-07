@@ -1,11 +1,9 @@
 #include <SoftwareSerial.h>
 #include <TinyGPS++.h>
 
-// Replace with your server details
-const char* server = "your_server_address";  // e.g., "192.168.0.10" or "example.com"
+const char* server = "https://localhost:7160/RentItem/Position";
 const int port = 80;
 
-// Pins for GPS and GSM modules
 #define RX_PIN 4
 #define TX_PIN 3
 #define GSM_RX 7
@@ -21,24 +19,23 @@ public:
         gpsSerial.begin(9600);
         gsmSerial.begin(9600);
 
-        // Initialize GSM module
-        gsmSerial.println("AT"); // Check communication
+        gsmSerial.println("AT");
         delay(1000);
-        gsmSerial.println("AT+CPIN?"); // Check SIM status
+        gsmSerial.println("AT+CPIN?");
         delay(1000);
-        gsmSerial.println("AT+CREG?"); // Check network registration
+        gsmSerial.println("AT+CREG?");
         delay(1000);
-        gsmSerial.println("AT+CGATT?"); // Check GPRS status
+        gsmSerial.println("AT+CGATT?");
         delay(1000);
-        gsmSerial.println("AT+CIPSHUT"); // Reset IP session
+        gsmSerial.println("AT+CIPSHUT");
         delay(1000);
-        gsmSerial.println("AT+CIPMUX=0"); // Single connection mode
+        gsmSerial.println("AT+CIPMUX=0");
         delay(1000);
-        gsmSerial.println("AT+CSTT=\"your_apn\",\"your_user\",\"your_pass\""); // Start task and set APN
+        gsmSerial.println("AT+CSTT=\"Vladsh123\",\"Vladsh123\",\"QWEqwe123.\"");
         delay(1000);
-        gsmSerial.println("AT+CIICR"); // Bring up wireless connection
+        gsmSerial.println("AT+CIICR");
         delay(1000);
-        gsmSerial.println("AT+CIFSR"); // Get local IP address
+        gsmSerial.println("AT+CIFSR");
         delay(1000);
     }
 
@@ -51,16 +48,14 @@ public:
             float latitude = gps.location.lat();
             float longitude = gps.location.lng();
 
-            // Print location to Serial Monitor
             Serial.print("Latitude: ");
             Serial.println(latitude, 6);
             Serial.print("Longitude: ");
             Serial.println(longitude, 6);
 
-            // Send location to server
             sendLocation(latitude, longitude);
 
-            delay(30000); // Delay for 30 seconds
+            delay(30000);
         }
     }
 
@@ -71,21 +66,21 @@ private:
 
     void sendLocation(float latitude, float longitude) {
         if (gsmSerial.available()) {
-            gsmSerial.println("AT+CIPSTART=\"TCP\",\"" + String(server) + "\"," + String(port)); // Start connection
+            gsmSerial.println("AT+CIPSTART=\"TCP\",\"" + String(server) + "\"," + String(port));
             delay(5000);
 
             if (gsmSerial.find("CONNECT OK")) {
                 String postData = "Id=c5217b8a-358c-4511-9139-ea263ac0ec08&Latitude=" + String(latitude, 6) + "&Longitude=" + String(longitude, 6) + "&Timestamp=" + String(millis());
 
-                gsmSerial.print("AT+CIPSEND="); // Send data length
+                gsmSerial.print("AT+CIPSEND=");
                 gsmSerial.println(postData.length());
                 delay(100);
-                gsmSerial.print(postData); // Send data
+                gsmSerial.print(postData);
                 delay(100);
-                gsmSerial.write(0x1A); // End of data
+                gsmSerial.write(0x1A); 
                 delay(5000);
 
-                gsmSerial.println("AT+CIPCLOSE"); // Close connection
+                gsmSerial.println("AT+CIPCLOSE"); 
                 delay(1000);
             }
             else {

@@ -4,7 +4,7 @@ import GoogleMapReact from 'google-map-react';
 import MyLocationIcon from '@mui/icons-material/MyLocation';
 import StarIcon from '@mui/icons-material/Star';
 import LocationCard from '../../Components/LocationCard/LocationCard';
-import Navbar from '../../Components/navbar/Navbar'
+import Navbar from '../../Components/navbar/Navbar';
 
 const CreateLocationPage = () => {
     const [formData, setFormData] = useState({
@@ -78,6 +78,7 @@ const CreateLocationPage = () => {
             const response = await axios.post('https://localhost:7160/api/Location/Create', formData);
             if (response.status === 200) {
                 alert('Location created successfully');
+                getLocations(); // Refresh locations after creating a new one
             }
         } catch (error) {
             console.error('Error creating location:', error);
@@ -97,7 +98,7 @@ const CreateLocationPage = () => {
 
     return (
         <div>
-            <Navbar/>
+            <Navbar />
             <form onSubmit={handleSubmit}>
                 <div>
                     <label>Name</label>
@@ -152,8 +153,9 @@ const CreateLocationPage = () => {
                         ))}
                         {userLocation && (
                             <MyLocationIcon
-                                lat={userLocation.lat}
-                                lng={userLocation.lng}
+                            position={{lat: 51.5266854,
+                                lng: 1.8994478
+                        }}
                                 color="primary"
                             />
                         )}

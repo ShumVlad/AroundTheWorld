@@ -26,7 +26,7 @@ namespace AroundTheWorld.Controllers
             {
                 throw new ArgumentNullException();
             }
-            var result = await _routeService.Update(userPosition);
+            var result = await _userPositionService.Update(userPosition);
             return result;
         }
     }
