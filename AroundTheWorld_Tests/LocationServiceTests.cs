@@ -14,7 +14,7 @@ using NUnit.Framework.Internal;
 namespace AroundTheWorld_Tests
 {
     [TestClass]
-    public class LocationServiceTests
+    public class LocationServriceTests
     {
         private LocationService _service;
         private Mock<IRepository<Location>> _mockLocationRepository;
@@ -57,7 +57,7 @@ namespace AroundTheWorld_Tests
         [TestMethod]
         public async Task Update_ValidLocation_ReturnsTrue()
         {
-            var location = new Location { Id = "1", Name = "Test Location" };
+            var location = new Location { Id = "19c20d5e-4025-4a68-9a94-e3ba9c5ef2e9", Name = "Test Location", Address = "address", Description = "descriprion test", ImageUrl = "test", Latitude = 51.5310850344172, Longitude = 9.89768836205061, Type = "Museum" };
             _mockLocationRepository.Setup(r => r.Update(It.IsAny<Location>())).Returns(Task.CompletedTask);
 
             var result = await _service.Update(location);
