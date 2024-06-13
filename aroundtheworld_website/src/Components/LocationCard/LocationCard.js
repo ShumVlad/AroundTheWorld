@@ -11,16 +11,22 @@ const LocationCard = React.forwardRef((props, ref) => {
             <div className="aroundTheWorld__locationCard_container">
                 <div className='aroundTheWorld__locationCard_container-header'>
                     {props.index && <span>{props.index}. </span>}
-                    {props.data.name}
-                    {props.onAddLocation && (
+                    <div className="name">{props.data.name}</div>
+                    <div className="buttons">
+                        {props.onAddLocation && (
                             <button onClick={() => props.onAddLocation(props.data)}>Add Location</button>
                         )}
                         {props.onDeleteLocation && (
                             <button onClick={() => props.onDeleteLocation(props.data)}>Delete Location</button>
                         )}
+                    </div>
                 </div>
                 <div className='aroundTheWorld__locationCard_container-box'>
-                    <img src={props.data.imageUrl} alt="Location" style={{ maxWidth: '100%', maxHeight: '300px' }} />
+                    <img
+                        src={props.data.imageUrl}
+                        alt="Location"
+                        className="aroundTheWorld__locationCard_container-img"
+                    />
                     <div className="aroundTheWorld__locationCard_container-textElements">
                         <div className="aroundTheWorld__locationCard_container-element">
                             {props.data.description}

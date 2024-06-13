@@ -1,0 +1,19 @@
+.my-routes button{
+    padding: 0.5rem 1rem;
+    color: black;
+    background: #F6FA38;
+    font-family: var(--font-family);
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 25px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.my-routes{
+    background:linear-gradient(#485363 0%, #202B3D 100%);
+    min-height: 100vh;
+    width: 100%;
+}

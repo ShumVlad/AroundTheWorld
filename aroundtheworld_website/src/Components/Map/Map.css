@@ -1,8 +1,25 @@
 .green-dot {
-    width: 10px;
-    height: 10px;
-    background-color: green;
+    width: 15px;
+    height: 15px;
+    background-color: rgb(68, 95, 214);
     border-radius: 50%;
     position: absolute;
     transform: translate(-50%, -50%);
+}
+
+.search-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.search-container input {
+    padding: 8px;
+    margin-right: 5px;
+    width: 300px;
+}
+
+.search-container button {
+    padding: 8px 16px;
 }

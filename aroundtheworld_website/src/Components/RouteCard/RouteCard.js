@@ -1,10 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import GroupDetails from '../GroupDetails/GroupDetails';
 import './routeCard.css';
+import { AuthContext } from '../../context/AuthContext';
 
 const RouteCard = ({ data, onClick, onDelete }) => {
     const [showGroupDetails, setShowGroupDetails] = useState(false);
+    const { authState } = useContext(AuthContext);
 
     const handleToggleGroupDetails = (e) => {
         e.stopPropagation();
@@ -18,7 +20,6 @@ const RouteCard = ({ data, onClick, onDelete }) => {
         navigate(`/change-route/${data.id}`);
     };
 
-    // Convert startDateTime to a Date object if it's not already
     const startDateTime = new Date(data.startDateTime);
     const formattedDate = startDateTime.toISOString();
 
@@ -30,9 +31,12 @@ const RouteCard = ({ data, onClick, onDelete }) => {
                 <p>{formattedDate}</p>
                 <p>{data.isFinished ? 'Finished' : 'Not Finished'}</p>
             </div>
-            <button onClick={handleChangeClick}>
+            {
+                authState.userRole =='Worker'  ? <button onClick={handleChangeClick}>
                 Change
-            </button>
+            </button> : ''
+            }
+            
             {onDelete && (
                 <button
                     onClick={(e) => {

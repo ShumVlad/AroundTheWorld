@@ -101,6 +101,14 @@ namespace AroundTheWorld_Persistence.Repositories
             return rentItems;
         }
 
+        public async Task<List<Location>> GetAllnotHotelLocations()
+        {
+            List<Location> locations = await _context.Locations
+            .Where(location => location.Type != "Hotel")
+            .ToListAsync();
+            return locations;
+        }
+
         public async Task<List<Route>> GetRoutesWithLocation(string locationId)
         {
             List<Route> routes = await (from r in _context.Routes
@@ -116,10 +124,18 @@ namespace AroundTheWorld_Persistence.Repositories
                                .FirstOrDefaultAsync(g => g.RouteId == routeId);
             return group;
         }
-        public async Task<List<GetUserPosition>> GetUserLocations(string groupId)
+        public async Task<List<GetUserPosition>> GetUserLocations(string routeId)
         {
+            var group = await _context.Groups
+        .FirstOrDefaultAsync(g => g.RouteId == routeId);
+
+            if (group == null)
+            {
+                return new List<GetUserPosition>();
+            }
+
             var userGroups = await _context.userGroups
-                .Where(ug => ug.GroupId == groupId)
+                .Where(ug => ug.GroupId == group.Id)
                 .ToListAsync();
 
             var userIds = userGroups.Select(ug => ug.UserId).ToList();

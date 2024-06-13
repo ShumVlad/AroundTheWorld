@@ -80,6 +80,14 @@ namespace AroundTheWorld.Controllers
         }
 
         [HttpGet]
+        [Route("GetAllnotHotelLocations")]
+        public async Task<List<Location>> GetAllnotHotelLocations()
+        {
+            var locations = await _locationService.GetAllnotHotelLocations();
+            return locations;
+        }
+
+        [HttpGet]
         [Route("GetAll")]
         public async Task<List<Location>> GetAll()
         {

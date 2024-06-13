@@ -7,7 +7,7 @@
     align-items: center;
     color: #fff;
     font-size: 18px;
-    background: radial-gradient(circle at 3% 25%, rgba(0, 40, 83, 1) 0%, rgba(4, 12, 24, 1) 100%);
+    background:linear-gradient(#8AA066 0%, #3F4F25 100%);
 }
 
 .aroundTheWorld__rentItemCard_container-header {

@@ -14,11 +14,15 @@ const Route = () => {
 
     useEffect(() => {
         getLocations();
-        sendUserPosition();
+        if(authState.userRole === "User" || authState.userRole === "Guide"){
+            sendUserPosition();
+            }
         getUserLocations();
 
         const intervalId = setInterval(() => {
+            if(authState.userRole === "User" || authState.userRole === "Guide"){
             sendUserPosition();
+            }
             getUserLocations();
         }, 30000);
 
@@ -65,8 +69,8 @@ const Route = () => {
             <Navbar />
             <Map routeLocations={locationsData} userLocations={userLocations} />
             <div>
-                {locationsData.map((location) => (
-                    <Location key={location.id} data={location} />
+            {locationsData.map((location, index) => (
+                    <Location key={location.id} data={location} index={index + 1} />
                 ))}
                 {userLocations.map((userLocation) => (
                     <div key={userLocation.userId}>

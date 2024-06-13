@@ -66,6 +66,10 @@ namespace AroundTheWorld_Backend.Services
             return await _unit.LocationRepository.GetPaginated(page, pageSize);
         }
 
+        public async Task<List<Location>> GetAllnotHotelLocations()
+        {
+            return await _unit.LocationRepository.GetAllnotHotelLocations();
+        }
         public async Task<List<Location>> GetAll()
         {
             return await _unit.LocationRepository.GetAll();

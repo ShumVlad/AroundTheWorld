@@ -10,6 +10,7 @@ namespace AroundTheWorld_Backend.Interfaces
         Task<Location> Get(string id);
         Task<bool> Update(Location location);
         Task<List<Location>> GetPaginatedLocations(int page, int pageSize);
+        Task<List<Location>> GetAllnotHotelLocations();
         Task<List<Location>> GetAll();
     }
 }

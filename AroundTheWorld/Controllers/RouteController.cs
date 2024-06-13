@@ -29,7 +29,7 @@ namespace AroundTheWorld.Controllers
                 throw new ArgumentNullException("model");
             }
             var routeDTO = _mapper.Map<CreateRouteDTO>(model);
-            bool result = await _routeService.Create(routeDTO, model.Locations);
+            bool result = await _routeService.Create(routeDTO);
             return result;
         }
 

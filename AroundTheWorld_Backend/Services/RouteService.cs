@@ -25,29 +25,48 @@ namespace AroundTheWorld_Backend.Services
             _locationRouteExtraRepository = locationRouteExtraRepository;
         }
 
-        public async Task<bool> Create(CreateRouteDTO routeDTO, List<Location> locations)
+        public async Task<bool> Create(CreateRouteDTO routeDTO)
         {
-            if(routeDTO == null)
-            {
-                throw new ArgumentNullException(nameof(routeDTO));
-            }
             Route route = _mapper.Map<Route>(routeDTO);
             route.Id = Guid.NewGuid().ToString();
             await _unit.RouteRepository.Add(route);
             _unit.Save();
+
+            bool createGroupResult = await CreateGroup(routeDTO.GroupName, route.Id);
+            if (!createGroupResult)
+            {
+                throw new GroupCreationException($"Failed to create group for route ID {route.Id} with group name {routeDTO.GroupName}.");
+            }
+
+            bool result = await AddLocationsToRoute(routeDTO.Locations, route.Id);
+            return result;
+        }
+
+        public class GroupCreationException : Exception
+        {
+            public GroupCreationException(string message) : base(message) { }
+        }
+
+        public async Task<bool> CreateGroup(string name, string routeId) 
+        {
             Group group = new Group();
             group.Id = Guid.NewGuid().ToString();
-            group.Name = routeDTO.GroupName;
-            group.RouteId = route.Id;
+            group.Name = name;
+            group.RouteId = routeId;
             await _unit.GroupRepository.Add(group);
             _unit.Save();
+            return true;
+        }
+
+        public async Task<bool> AddLocationsToRoute(List<Location> locations, string routeId)
+        {
             LocationRouteDTO locationRouteouteDTO = new LocationRouteDTO();
             locationRouteouteDTO.IsVisited = false;
-            locationRouteouteDTO.RouteId = route.Id;
+            locationRouteouteDTO.RouteId = routeId;
             for (int i = 0; i < locations.Count; i++)
             {
                 locationRouteouteDTO.LocationId = locations[i].Id;
-                locationRouteouteDTO.Order = i+1;
+                locationRouteouteDTO.Order = i + 1;
                 await _locationRouteService.AddLocationRoute(locationRouteouteDTO);
             }
             return true;

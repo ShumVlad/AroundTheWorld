@@ -4,15 +4,15 @@
     align-items: center;
     padding: 2rem, 6rem;
     
-    background:-moz-radial-gradient(circle at 3% 25%, rgba(0, 40, 83, 1) 0%, rgba(4, 12, 24, 1) 100%);
+    background:-moz-radial-gradient(circle at 3% 25%, #194623 0%, #63AF74 100%);
     /* safari 5.1+,chrome 10+ */
-    background:-webkit-radial-gradient(circle at 3% 25%, rgba(0, 40, 83, 1) 0%, rgba(4, 12, 24, 1) 100%);
+    background:-webkit-radial-gradient(circle at 3% 25%, #194623 0%, #63AF74 100%);
     /* opera 11.10+ */
-    background:-o-radial-gradient(circle at 3% 25%, rgba(0, 40, 83, 1) 0%, rgba(4, 12, 24, 1) 100%);
+    background:-o-radial-gradient(circle at 3% 25%, #194623 0%, #63AF74 100%);
     /* ie 10+ */
-    background:-ms-radial-gradient(circle at 3% 25%, rgba(0, 40, 83, 1) 0%, rgba(4, 12, 24, 1) 100%);
+    background:-ms-radial-gradient(circle at 3% 25%, #194623 0%, #63AF74 100%);
     /* global 92%+ browsers support */
-    background:radial-gradient(circle at 3% 25%, rgba(0, 40, 83, 1) 0%, rgba(4, 12, 24, 1) 100%);
+    background:radial-gradient(circle at 3% 25%, #194623 0%, #63AF74 100%);
 }
 
 .goalMe__navbar-links{
@@ -27,11 +27,13 @@
 
 .goalMe__navbar-menu {
     position: relative;
+    background:linear-gradient(#8AA066 0%, #3F4F25 100%);
 }
+
 .goalMe__navbar-menu button{
     padding: 0.5rem 1rem;
-    color: #fff;
-    background: #FF4820;
+    color: black;
+    background: #F6FA38;
     font-family: var(--font-family);
     font-weight: 500;
     font-size: 18px;
@@ -59,4 +61,5 @@
     min-width: 210px;
     border-radius: 5px;
     box-shadow: 0px 0px 5px rgba(0,0, 0,0.2);
+    background:radial-gradient(circle at 3% 25%, #194623 0%, #63AF74 100%);
 }

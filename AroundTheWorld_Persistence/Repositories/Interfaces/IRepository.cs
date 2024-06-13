@@ -18,6 +18,7 @@ namespace AroundTheWorld_Persistence.Repositories.Interfaces
         Task<T> Get(string id);
 
         Task<List<T>> GetAll();
+        Task<List<Location>> GetAllnotHotelLocations();
         Task<List<T>> GetPaginated(int page, int pageSize);
         Task<List<GetRoute>> GetUserRoutes(string userId);
         Task<List<RentItem>> GetRentItemsForCompany(string companyId);

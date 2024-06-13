@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import Location from '../LocationCard/LocationCard';
 import { AuthContext } from '../../context/AuthContext'; // Adjust the path as needed
+import './location.css'
 
 const Locations = () => {
     const [locations, setLocations] = useState([]);
@@ -17,7 +18,7 @@ const Locations = () => {
 
     const fetchLocations = async (page) => {
         try {
-            const response = await axios.get('https://localhost:7160/api/Location/GetPaginated', { params: { page } });
+            const response = await axios.get('https://localhost:7160/api/Location/GetAllnotHotelLocations', { params: { page } });
             setLocations(prevLocations => [...prevLocations, ...response.data]);
             setHasMore(response.data.length > 0);
         } catch (error) {
@@ -42,7 +43,7 @@ const Locations = () => {
     }
     
     return (
-        <div>
+        <div className='aroundTheWorld_locations'>
             {(authState.userRole === 'Worker' || authState.userRole === 'Guide') && (
                 <button onClick={() => {handleNavigate("/create-location")}}>
                     Add Location

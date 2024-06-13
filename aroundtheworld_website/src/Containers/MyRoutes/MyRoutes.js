@@ -4,6 +4,7 @@ import RouteCard from '../../Components/RouteCard/RouteCard';
 import { AuthContext } from '../../context/AuthContext';
 import Navbar from '../../Components/navbar/Navbar';
 import { useNavigate } from 'react-router-dom';
+import './myRoutes.css';
 
 const MyRoutes = () => {
     const [data, setData] = useState([]);

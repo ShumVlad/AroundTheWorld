@@ -78,7 +78,7 @@ const CreateLocationPage = () => {
             const response = await axios.post('https://localhost:7160/api/Location/Create', formData);
             if (response.status === 200) {
                 alert('Location created successfully');
-                getLocations(); // Refresh locations after creating a new one
+                getLocations();
             }
         } catch (error) {
             console.error('Error creating location:', error);
