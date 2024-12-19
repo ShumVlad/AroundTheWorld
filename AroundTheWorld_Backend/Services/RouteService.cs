@@ -60,14 +60,23 @@ namespace AroundTheWorld_Backend.Services
 
         public async Task<bool> AddLocationsToRoute(List<Location> locations, string routeId)
         {
-            LocationRouteDTO locationRouteouteDTO = new LocationRouteDTO();
-            locationRouteouteDTO.IsVisited = false;
-            locationRouteouteDTO.RouteId = routeId;
+            LocationRouteDTO locationRouteDTO = new LocationRouteDTO();
+            locationRouteDTO.IsVisited = false;
+            locationRouteDTO.RouteId = routeId;
+            int k = 0;
             for (int i = 0; i < locations.Count; i++)
-            {
-                locationRouteouteDTO.LocationId = locations[i].Id;
-                locationRouteouteDTO.Order = i + 1;
-                await _locationRouteService.AddLocationRoute(locationRouteouteDTO);
+            {  
+                locationRouteDTO.LocationId = locations[i].Id;
+                if(locationRouteDTO.Type == "Hotel")
+                {
+                    locationRouteDTO.Order = 0;
+                    k -= 1;
+                }
+                else
+                {
+                    locationRouteDTO.Order = i + 1 + k;
+                }
+                await _locationRouteService.AddLocationRoute(locationRouteDTO);
             }
             return true;
         }
@@ -144,5 +153,21 @@ namespace AroundTheWorld_Backend.Services
             return getRouteDtos;
         }
 
+        public async Task<List<GetRouteDto>> GetNotUserRoutes(string userId)
+        {
+            if (userId == null)
+            {
+                throw new ArgumentNullException(nameof(userId));
+            }
+            List<GetRoute> routes = await _unit.RouteRepository.GetNotUserRoutes(userId);
+            List<GetRouteDto> getRouteDtos = _mapper.Map<List<GetRouteDto>>(routes);
+            return getRouteDtos;
+        }
+
+        public async Task<List<GetRoute>> GetAllRoutes()
+        {
+            List<GetRoute> routes = await _unit.RouteRepository.GetAllRoutes();
+            return routes;
+        }
     }
 }

@@ -4,6 +4,7 @@ import RentItemCard from '../../Components/RentItemCard/RentItemCard';
 import { AuthContext } from '../../context/AuthContext';
 import Navbar from '../../Components/navbar/Navbar';
 import { useNavigate } from 'react-router-dom';
+import './rentItems.css'
 
 const RentItems = () => {
     const [data, setData] = useState([]);
@@ -25,9 +26,16 @@ const RentItems = () => {
             });
     };
 
+    const handleNavigate = (source) => {
+        navigate(source);
+    }
+
     return (
         <div className="rent-items">
             <Navbar />
+            <button onClick={() => {handleNavigate("/rent-items-map")}}>
+                Watch on the map
+            </button>
             {
                 data.map((rentItem) => (
                     <RentItemCard

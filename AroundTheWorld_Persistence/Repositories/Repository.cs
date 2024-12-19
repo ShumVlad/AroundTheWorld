@@ -59,20 +59,69 @@ namespace AroundTheWorld_Persistence.Repositories
         public async Task<List<GetRoute>> GetUserRoutes(string userId)
         {
             List<GetRoute> routes = await (from ug in _context.userGroups
-                                                       join g in _context.Groups on ug.GroupId equals g.Id
-                                                       join r in _context.Routes on g.RouteId equals r.Id
-                                                       join c in _context.Companies on r.CompanyId equals c.Id
-                                                       where ug.UserId == userId
-                                                       select new GetRoute
-                                                       {
-                                                           Id = r.Id,
-                                                           Name = r.Name,
-                                                           Description = r.Description,
-                                                           IsFinished = r.IsFinished,
-                                                           StartDateTime = r.StartDateTime,
-                                                           CompanyName = c.Name,
-                                                           CompanyId = c.Id
-                                                       }).ToListAsync();
+                                           join g in _context.Groups on ug.GroupId equals g.Id
+                                           join r in _context.Routes on g.RouteId equals r.Id
+                                           join c in _context.Companies on r.CompanyId equals c.Id
+                                           where ug.UserId == userId
+                                           group new GetRoute
+                                           {
+                                               Id = r.Id,
+                                               Name = r.Name,
+                                               Description = r.Description,
+                                               IsFinished = r.IsFinished,
+                                               StartDateTime = r.StartDateTime,
+                                               CompanyName = c.Name,
+                                               CompanyId = c.Id
+                                           } by r.Id into routeGroup
+                                           select routeGroup.FirstOrDefault()).ToListAsync();
+            return routes;
+        }
+
+        public async Task<List<GetRoute>> GetAllRoutes()
+        {
+            List<GetRoute> routes = await (from ug in _context.userGroups
+                                           join g in _context.Groups on ug.GroupId equals g.Id
+                                           join r in _context.Routes on g.RouteId equals r.Id
+                                           join c in _context.Companies on r.CompanyId equals c.Id
+                                           group new GetRoute
+                                           {
+                                               Id = r.Id,
+                                               Name = r.Name,
+                                               Description = r.Description,
+                                               IsFinished = r.IsFinished,
+                                               StartDateTime = r.StartDateTime,
+                                               CompanyName = c.Name,
+                                               CompanyId = c.Id
+                                           } by r.Id into routeGroup
+                                           select routeGroup.FirstOrDefault()).ToListAsync();
+
+            return routes;
+        }
+
+
+        public async Task<List<GetRoute>> GetNotUserRoutes(string userId)
+        {
+            var groupId = await _context.userGroups
+            .Where(ug => ug.UserId == userId)
+            .Select(ug => ug.GroupId)
+            .FirstOrDefaultAsync();
+            List<GetRoute> routes = await (from ug in _context.userGroups
+                                           join g in _context.Groups on ug.GroupId equals g.Id
+                                           join r in _context.Routes on g.RouteId equals r.Id
+                                           join c in _context.Companies on r.CompanyId equals c.Id
+                                           where ug.GroupId != groupId
+                                           group new GetRoute
+                                           {
+                                               Id = r.Id,
+                                               Name = r.Name,
+                                               Description = r.Description,
+                                               IsFinished = r.IsFinished,
+                                               StartDateTime = r.StartDateTime,
+                                               CompanyName = c.Name,
+                                               CompanyId = c.Id
+                                           } by r.Id into routeGroup
+                                           select routeGroup.FirstOrDefault()).ToListAsync();
+
             return routes;
         }
 
@@ -88,7 +137,8 @@ namespace AroundTheWorld_Persistence.Repositories
                                                Description = r.Description,
                                                IsFinished = r.IsFinished,
                                                CompanyName = c.Name,
-                                               CompanyId = c.Id
+                                               CompanyId = c.Id,
+                                               StartDateTime = r.StartDateTime
                                            }).ToListAsync();
             return routes;
         }
@@ -148,6 +198,7 @@ namespace AroundTheWorld_Persistence.Repositories
             foreach (var userPosition in userPositions)
             {
                 var user = await _userManager.FindByIdAsync(userPosition.UserId);
+                var roles= await _userManager.GetRolesAsync(user);
                 if (user != null)
                 {
                     userPositionDtos.Add(new GetUserPosition
@@ -156,7 +207,8 @@ namespace AroundTheWorld_Persistence.Repositories
                         Latitude = userPosition.Latitude,
                         Longitude = userPosition.Longitude,
                         UserId = userPosition.UserId,
-                        UserName = user.UserName
+                        UserName = user.UserName,
+                        UserRole = roles[0]
                     });
                 }
             }
@@ -169,6 +221,14 @@ namespace AroundTheWorld_Persistence.Repositories
                            where up.UserId.Equals(userId)
                            select up.Id).FirstOrDefaultAsync();
             return id;
+        }
+
+        public async Task<Sensor> GetSensorForRentItem(string rentItem)
+        {
+            Sensor sensor = await (from up in _context.Sensors
+                               where up.RentItemId.Equals(rentItem)
+                               select up).FirstOrDefaultAsync();
+            return sensor;
         }
     }
 }

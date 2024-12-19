@@ -2,9 +2,11 @@ import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import GoogleMapReact from 'google-map-react';
 import MyLocationIcon from '@mui/icons-material/MyLocation';
-import StarIcon from '@mui/icons-material/Star';
 import LocationCard from '../../Components/LocationCard/LocationCard';
 import Navbar from '../../Components/navbar/Navbar';
+import CustomHotelMarker from '../../Markers/CustomHotelMarker';
+import CustomStarMarker from '../../Markers/CustomStarMarker';
+import './createLocation.css';
 
 const CreateLocationPage = () => {
     const [formData, setFormData] = useState({
@@ -22,6 +24,11 @@ const CreateLocationPage = () => {
     const [selectedLocation, setSelectedLocation] = useState(null);
     const [userLocation, setUserLocation] = useState(null);
     const [isMapReady, setIsMapReady] = useState(false);
+    const [searchQuery, setSearchQuery] = useState('');
+    const [center, setCenter] = useState({
+        latitude: 51.5266853,
+        longitude: 9.8994478
+    });
 
     useEffect(() => {
         navigator.geolocation.getCurrentPosition(
@@ -39,7 +46,7 @@ const CreateLocationPage = () => {
             },
             (error) => {
                 console.error("Error getting location: ", error);
-                setIsMapReady(true); // Allow map to render with default center
+                setIsMapReady(true);
             }
         );
         getLocations();
@@ -86,20 +93,32 @@ const CreateLocationPage = () => {
         }
     };
 
-    const addLocationToChosen = () => {
-        if (selectedLocation && !formData.chosenLocations.some(loc => loc.id === selectedLocation.id)) {
-            const updatedChosenLocations = [...formData.chosenLocations, selectedLocation];
-            setFormData(prevState => ({
-                ...prevState,
-                chosenLocations: updatedChosenLocations
-            }));
+    const handleSearch = async () => {
+        if (!window.google || !window.google.maps) {
+            alert('Google Maps JavaScript API not loaded properly.');
+            return;
         }
+        
+        const geocoder = new window.google.maps.Geocoder();
+        geocoder.geocode({ address: searchQuery }, (results, status) => {
+            if (status === 'OK') {
+                const location = results[0].geometry.location;
+                setCenter({ latitude: location.lat(), longitude: location.lng() });
+                setFormData({
+                    ...formData,
+                    latitude: location.lat(),
+                    longitude: location.lng()
+                });
+            } else {
+                alert('Geocode was not successful for the following reason: ' + status);
+            }
+        });
     };
 
     return (
-        <div>
+        <div className='createLocation'>
             <Navbar />
-            <form onSubmit={handleSubmit}>
+            <form onSubmit={handleSubmit} className="form-container">
                 <div>
                     <label>Name</label>
                     <input type="text" name="name" value={formData.name} onChange={handleChange} />
@@ -120,42 +139,63 @@ const CreateLocationPage = () => {
                     <label>Image URL</label>
                     <input type="text" name="imageUrl" value={formData.imageUrl} onChange={handleChange} />
                 </div>
+                <div>
+                    <label>Longitude</label>
+                    <input type="text" name="longitude" value={formData.longitude} readOnly />
+                    <label>Latitude</label>
+                    <input type="text" name="latitude" value={formData.latitude} readOnly />
+                </div>
                 <button type="submit">Create Location</button>
             </form>
             {formData.imageUrl && (
                 <div>
-                    <img src={formData.imageUrl} alt="Location" style={{ maxWidth: '100%', maxHeight: '300px' }} />
+                    <img src={formData.imageUrl} alt="Location" className="image-preview" />
                 </div>
             )}
+            <div className="search-container">
+                <input
+                    type="text"
+                    placeholder="Enter address"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                />
+                <button onClick={handleSearch} type="button">Search</button>
+            </div>
             <div style={{ height: '80vh' }}>
                 {isMapReady && (
                     <GoogleMapReact
                         bootstrapURLKeys={{ key: 'AIzaSyAderMV7HrObn9AQegVS6M3rENgMe5yLu0' }}
-                        center={userLocation || { lat: 0, lng: 0 }}
-                        defaultZoom={14}
+                        center={{ lat: center.latitude, lng: center.longitude }}
+                        zoom={14}
                         onClick={handleMapClick}
                     >
                         {marker && (
-                            <StarIcon
+                            <CustomStarMarker
                                 lat={marker.lat}
                                 lng={marker.lng}
-                                color="secondary"
                             />
                         )}
                         {locations.map((location) => (
-                            <StarIcon
-                                key={location.id}
-                                lat={location.latitude}
-                                lng={location.longitude}
-                                color={formData.chosenLocations.some(loc => loc.id === location.id) ? "primary" : "secondary"}
-                                onClick={() => handleLocationClick(location)}
-                            />
+                            location.type === 'Hotel' ? (
+                                <CustomHotelMarker
+                                    key={location.id}
+                                    lat={location.latitude}
+                                    lng={location.longitude}
+                                    onClick={() => handleLocationClick(location)}
+                                />
+                            ) : (
+                                <CustomStarMarker
+                                    key={location.id}
+                                    lat={location.latitude}
+                                    lng={location.longitude}
+                                    onClick={() => handleLocationClick(location)}
+                                />
+                            )
                         ))}
                         {userLocation && (
                             <MyLocationIcon
-                            position={{lat: 51.5266854,
-                                lng: 1.8994478
-                        }}
+                                lat={userLocation.lat}
+                                lng={userLocation.lng}
                                 color="primary"
                             />
                         )}
@@ -163,8 +203,7 @@ const CreateLocationPage = () => {
                 )}
             </div>
             {selectedLocation && (
-                <div>
-                    <button onClick={addLocationToChosen}>Add Location</button>
+                <div className='locationCard'>
                     <LocationCard data={selectedLocation} />
                 </div>
             )}

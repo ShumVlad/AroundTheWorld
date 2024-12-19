@@ -5,7 +5,8 @@ import 'react-datepicker/dist/react-datepicker.css';
 import LocationCard from '../../Components/LocationCard/LocationCard'; // Ensure correct import path
 import GoogleMapReact from 'google-map-react';
 import MyLocationIcon from '@mui/icons-material/MyLocation';
-import StarIcon from '@mui/icons-material/Star';
+import CustomStarMarker from '../../Markers/CustomStarMarker';
+import CustomHotelMarker from '../../Markers/CustomHotelMarker';
 import Navbar from '../../Components/navbar/Navbar';
 import './createRoute.css';
 import { AuthContext } from '../../context/AuthContext';
@@ -36,7 +37,7 @@ const CreateRoute = () => {
             },
             (error) => {
                 console.error("Error getting location: ", error);
-                setIsMapReady(true); // Allow map to render with default center
+                setIsMapReady(true);
             }
         );
         getLocations();
@@ -125,7 +126,7 @@ const CreateRoute = () => {
                         <input type="text" name="description" value={formData.description} onChange={handleChange} />
                     </div>
                     <div className="aroundTheWorld__createRoute-groupContainer-element">
-                        <label className="form-element">Choose start date and time</label>
+                        <label>Choose start date and time</label>
                         <DatePicker
                             selected={dateTime}
                             onChange={DateTimeChangeHandler}
@@ -136,12 +137,10 @@ const CreateRoute = () => {
                             timeCaption="Time"
                         />
                     </div>
-                </div>
-                <div className="aroundTheWorld__createRoute-groupContainer">
                     <div>
                         <label>Group Name</label>
                         <input type="text" name="groupName" value={formData.groupName} onChange={handleChange} />
-                    </div>                    
+                    </div> 
                 </div>
                 <button type="submit">Create Route</button>
             </form>
@@ -153,13 +152,21 @@ const CreateRoute = () => {
                         defaultZoom={14}
                     >
                         {locations.map((location) => (
-                            <StarIcon
-                                key={location.id}
-                                lat={location.latitude}
-                                lng={location.longitude}
-                                color={formData.chosenLocations.some(loc => loc.id === location.id) ? "primary" : "secondary"}
-                                onClick={() => handleLocationClick(location)}
-                            />
+                            location.type === 'Hotel' ? (
+                                <CustomHotelMarker
+                                    key={location.id}
+                                    lat={location.latitude}
+                                    lng={location.longitude}
+                                    onClick={() => handleLocationClick(location)}
+                                />
+                            ) : (
+                                <CustomStarMarker
+                                    key={location.id}
+                                    lat={location.latitude}
+                                    lng={location.longitude}
+                                    onClick={() => handleLocationClick(location)}
+                                />
+                            )
                         ))}
                         {userLocation && (
                             <MyLocationIcon

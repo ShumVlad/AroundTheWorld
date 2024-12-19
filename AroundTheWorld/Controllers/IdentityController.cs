@@ -157,7 +157,14 @@ namespace AroundTheWorld.Controllers
             {
                 await _userManager.AddToRoleAsync(user, "Worker");
             }
-            return Ok();
+            var userRoles = await _userManager.GetRolesAsync(user);
+            var registeredUser = await _userManager.FindByEmailAsync(model.Email);
+            _userPositionService.AddUserPosition(registeredUser.Id);
+            return Ok(new
+            {
+                userId = user.Id,
+                userRole = userRoles[0]
+            });
         }
 
         [HttpPost]
@@ -193,7 +200,14 @@ namespace AroundTheWorld.Controllers
             {
                 await _userManager.AddToRoleAsync(user, "Guide");
             }
-            return Ok();
+            var userRoles = await _userManager.GetRolesAsync(user);
+            var registeredUser = await _userManager.FindByEmailAsync(model.Email);
+            _userPositionService.AddUserPosition(registeredUser.Id);
+            return Ok(new
+            {
+                userId = user.Id,
+                userRole = userRoles[0]
+            });
         }
     }
 }

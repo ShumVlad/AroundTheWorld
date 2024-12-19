@@ -1,8 +1,8 @@
 #include <SoftwareSerial.h>
 #include <TinyGPS++.h>
 
-const char* server = "https://localhost:7160/RentItem/Position";
-const int port = 80;
+const char* server = "localhost";
+const int port = 7160;
 
 #define RX_PIN 4
 #define TX_PIN 3
@@ -70,17 +70,25 @@ private:
             delay(5000);
 
             if (gsmSerial.find("CONNECT OK")) {
-                String postData = "Id=c5217b8a-358c-4511-9139-ea263ac0ec08&Latitude=" + String(latitude, 6) + "&Longitude=" + String(longitude, 6) + "&Timestamp=" + String(millis());
+                String postData = "{\"Id\":\"c5217b8a-358c-4511-9139-ea263ac0ec08\",";
+                postData += "\"Latitude\":" + String(latitude, 6) + ",";
+                postData += "\"Longitude\":" + String(longitude, 6) + ",";
+                postData += "\"Timestamp\":\"" + String(millis()) + "\"}";
 
                 gsmSerial.print("AT+CIPSEND=");
-                gsmSerial.println(postData.length());
+                gsmSerial.println(postData.length() + 2);
                 delay(100);
+                gsmSerial.print("POST /api/Position/UpdateLocation HTTP/1.1\r\n");
+                gsmSerial.print("Host: localhost:7160\r\n");
+                gsmSerial.print("Content-Type: application/json\r\n");
+                gsmSerial.print("Content-Length: ");
+                gsmSerial.print(postData.length());
+                gsmSerial.print("\r\n\r\n");
                 gsmSerial.print(postData);
-                delay(100);
-                gsmSerial.write(0x1A); 
+                gsmSerial.write(0x1A);
                 delay(5000);
 
-                gsmSerial.println("AT+CIPCLOSE"); 
+                gsmSerial.println("AT+CIPCLOSE");
                 delay(1000);
             }
             else {
@@ -88,6 +96,7 @@ private:
             }
         }
     }
+
 };
 
 GPSSensor sensor(RX_PIN, TX_PIN, GSM_RX, GSM_TX);

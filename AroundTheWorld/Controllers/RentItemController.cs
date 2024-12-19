@@ -51,10 +51,34 @@ namespace AroundTheWorld.Controllers
 
         [HttpGet]
         [Route("GetAll")]
-        public async Task<List<RentItem>> GetAll()
+        public async Task<List<GetRentItemDto>> GetAll()
         {
-            var locations = await _rentItemService.GetAll();
-            return locations;
+            var retItems = await _rentItemService.GetAll();
+            return retItems;
+        }
+
+        [HttpPut]
+        [Route("RentItem")]
+        public async Task<bool> RentItem(GetRentItemDto rentItem)
+        {
+            if (rentItem == null)
+            {
+                throw new Exception(nameof(rentItem));
+            }
+            bool result = await _rentItemService.RentItem(rentItem);
+            return result;
+        }
+
+        [HttpPut]
+        [Route("StopRenting")]
+        public async Task<bool> StopRenting(GetRentItemDto rentItem)
+        {
+            if (rentItem == null)
+            {
+                throw new Exception(nameof(rentItem));
+            }
+            bool result = await _rentItemService.StopRenting(rentItem);
+            return result;
         }
     }
 }

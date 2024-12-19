@@ -9,6 +9,7 @@ const Registration = () => {
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
   const [passwordError, setPasswordError] = useState('');
+  const [registrationSuccess, setRegistrationSuccess] = useState(false);
   const navigate = useNavigate();
 
   const handleSave = (e) => {
@@ -27,8 +28,7 @@ const Registration = () => {
     };
     axios.post(url, data)
       .then((result) => {
-        const dt = result.data;
-        navigate('/');
+        setRegistrationSuccess(true);
       })
       .catch((error) => {
         console.log(error);
@@ -37,39 +37,47 @@ const Registration = () => {
 
   return (
     <div className='aroundTheWorld__registration'>
-      <input
-        type="text"
-        placeholder="Your User Name"
-        value={name}
-        onChange={(e) => setName(e.target.value)}
-      />
-      <input
-        type="email"
-        placeholder="Your Email Address"
-        value={email}
-        onChange={(e) => setEmail(e.target.value)}
-      />
-      <input
-        type="password"
-        placeholder="Password"
-        value={password}
-        onChange={(e) => setPassword(e.target.value)}
-      />
-      <input
-        type="password"
-        placeholder="Confirm Password"
-        value={confirmPassword}
-        onChange={(e) => {
-          setConfirmPassword(e.target.value);
-          if (e.target.value !== password) {
-            setPasswordError('Passwords do not match');
-          } else {
-            setPasswordError('');
-          }
-        }}
-      />
-      {passwordError && <div className="error-message">{passwordError}</div>}
-      <button type="button" onClick={handleSave}>Register</button>
+      {registrationSuccess ? (
+        <div className="success-message">
+          Now you can login and choose your first trip
+        </div>
+      ) : (
+        <>
+          <input
+            type="text"
+            placeholder="Your User Name"
+            value={name}
+            onChange={(e) => setName(e.target.value)}
+          />
+          <input
+            type="email"
+            placeholder="Your Email Address"
+            value={email}
+            onChange={(e) => setEmail(e.target.value)}
+          />
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => setPassword(e.target.value)}
+          />
+          <input
+            type="password"
+            placeholder="Confirm Password"
+            value={confirmPassword}
+            onChange={(e) => {
+              setConfirmPassword(e.target.value);
+              if (e.target.value !== password) {
+                setPasswordError('Passwords do not match');
+              } else {
+                setPasswordError('');
+              }
+            }}
+          />
+          {passwordError && <div className="error-message">{passwordError}</div>}
+          <button type="button" onClick={handleSave}>Register</button>
+        </>
+      )}
     </div>
   );
 };

@@ -10,7 +10,7 @@ const LocationCard = React.forwardRef((props, ref) => {
         <div ref={ref}>
             <div className="aroundTheWorld__locationCard_container">
                 <div className='aroundTheWorld__locationCard_container-header'>
-                    {props.index && <span>{props.index}. </span>}
+                    {props.data.order != 0 && <span>{props.data.order}. </span>}
                     <div className="name">{props.data.name}</div>
                     <div className="buttons">
                         {props.onAddLocation && (

@@ -57,6 +57,14 @@ namespace AroundTheWorld.Controllers
             return result;
         }
 
+        [HttpGet]
+        [Route("GetAll")]
+        public async Task<List<AroundTheWorld_Persistence.Models.GetRoute>> GetAll()
+        {
+            List<AroundTheWorld_Persistence.Models.GetRoute> result = await _routeService.GetAllRoutes();
+            return result;
+        }
+
         [HttpPut]
         [Route("Update")]
         public async Task<bool> Update(CreateRouteDTO route)
@@ -81,6 +89,7 @@ namespace AroundTheWorld.Controllers
             List<GetRouteViewModel> result = _mapper.Map<List<GetRouteViewModel>>(getRoutesDto);
             return result;
         }
+
         [HttpGet]
         [Route("GetCompanyRoutes")]
         public async Task<List<GetRouteViewModel>> GetCompanyRoutes(string companyId)
@@ -90,6 +99,19 @@ namespace AroundTheWorld.Controllers
                 throw new ArgumentNullException();
             }
             List<GetRouteDto> getRoutesDto = await _routeService.GetCompanyRoutes(companyId);
+            List<GetRouteViewModel> result = _mapper.Map<List<GetRouteViewModel>>(getRoutesDto);
+            return result;
+        }
+
+        [HttpGet]
+        [Route("GetNotUserRoutes")]
+        public async Task<List<GetRouteViewModel>> GetNotUserRoutes(string userId)
+        {
+            if (userId == null)
+            {
+                throw new ArgumentNullException();
+            }
+            List<GetRouteDto> getRoutesDto = await _routeService.GetNotUserRoutes(userId);
             List<GetRouteViewModel> result = _mapper.Map<List<GetRouteViewModel>>(getRoutesDto);
             return result;
         }

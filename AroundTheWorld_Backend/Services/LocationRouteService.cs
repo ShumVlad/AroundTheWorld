@@ -29,7 +29,6 @@ namespace AroundTheWorld_Backend.Services
                 throw new ArgumentNullException(nameof(locationRouteDTO));
             }
 
-            // Fetch the Location entity
             var location = await _unit.LocationRepository.Get(locationRouteDTO.LocationId);
             if (location == null)
             {

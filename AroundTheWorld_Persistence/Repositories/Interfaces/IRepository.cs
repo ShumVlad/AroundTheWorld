@@ -27,5 +27,8 @@ namespace AroundTheWorld_Persistence.Repositories.Interfaces
         Task<Group> GetGroupByRouteId(string routeId);
         Task<List<GetUserPosition>> GetUserLocations(string groupId);
         Task<string> GetUserPositionId(string userId);
+        Task<Sensor> GetSensorForRentItem(string rentItem);
+        Task<List<GetRoute>> GetNotUserRoutes(string userId);
+        Task<List<GetRoute>> GetAllRoutes();
     }
 }

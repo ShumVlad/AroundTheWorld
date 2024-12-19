@@ -6,7 +6,7 @@
     font-size: 18px;
     border-radius: 40px;
  /* global 92%+ browsers support */
- background:linear-gradient(#8AA066 0%, #3F4F25 100%);
+ background:linear-gradient(#768a56 0%, #3F4F25 100%);
 }
 
 .aroundTheWorld__locationCard_container-header {
@@ -35,7 +35,6 @@
     outline: none;
     cursor: pointer;
     border-radius: 5px;
-    
 }
 
 .aroundTheWorld__locationCard_container-box {
@@ -45,6 +44,7 @@
     display: flex;
     flex-direction: row;
     align-items: center;
+    color: #ffff;
 }
 
 .aroundTheWorld__locationCard_container-header .name {

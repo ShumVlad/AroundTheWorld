@@ -5,7 +5,8 @@ import { useParams } from "react-router-dom";
 import LocationCard from '../../Components/LocationCard/LocationCard'; // Ensure correct import path
 import GoogleMapReact from 'google-map-react';
 import MyLocationIcon from '@mui/icons-material/MyLocation';
-import StarIcon from '@mui/icons-material/Star';
+import CustomStarMarker from '../../Markers/CustomStarMarker';
+import CustomHotelMarker from '../../Markers/CustomHotelMarker';
 import Navbar from '../../Components/navbar/Navbar'
 import './ChangeRoute.css';
 
@@ -41,17 +42,29 @@ const ChangeRoute = () => {
                 setIsMapReady(true);
             }
         );
+        getGroup(routeId);
         getLocations();
         getSelectedLocations();
         getRoute(routeId);
     }, []);
-
+    const getGroup = async (routeId) => {
+        try {
+            const response = await axios.get('https://localhost:7160/api/Group/GetByRouteId', { params: { routeId } });
+            if (response.status === 200) {
+                setFormData((prevFormData) => ({
+                    ...prevFormData,
+                    groupName: response.data.name
+                }));
+            }
+        } catch (error) {
+            console.error('Error getting group data:', error);
+            alert('Error getting group data');
+        }
+    };
     const getRoute = async (id) => {
         try {
             const response = await axios.get('https://localhost:7160/api/Route/Get', { params: { id } });
             if (response.status === 200) {
-                console.log("Route")
-                console.log(response.data)
                 setFormData((prevFormData) => ({
                     ...prevFormData,
                     name: response.data.name,
@@ -62,7 +75,7 @@ const ChangeRoute = () => {
             }
         } catch (error) {
             console.error('Error fetching locations:', error);
-            alert('Error fetching locations');
+            //alert('Error fetching locations');
         }
     };
 
@@ -161,7 +174,7 @@ const ChangeRoute = () => {
         <div>
             <Navbar/>
             <form className='aroundTheWorld__createRoute-form' onSubmit={handleSubmit}>
-                <div class="aroundTheWorld__createRoute-routeContainer">
+                <div className="aroundTheWorld__createRoute-routeContainer">
                     <div>
                         <label>Route Name</label>
                         <input type="text" name="name" value={formData.name} onChange={handleChange} />
@@ -170,8 +183,8 @@ const ChangeRoute = () => {
                         <label>Route Description</label>
                         <input type="text" name="description" value={formData.description} onChange={handleChange} />
                     </div>
-                    <div class="aroundTheWorld__createRoute-groupContainer-element">
-                        <label class="form-element">Choose start date and time</label>
+                    <div className="aroundTheWorld__createRoute-groupContainer-element">
+                        <label>Choose start date and time</label>
                         <DatePicker
                             selected={dateTime}
                             onChange={DateTimeChangeHandler}
@@ -182,12 +195,10 @@ const ChangeRoute = () => {
                             timeCaption="Time"
                         />
                     </div>
-                </div>
-                <div class="aroundTheWorld__createRoute-groupContainer">
                     <div>
                         <label>Group Name</label>
                         <input type="text" name="groupName" value={formData.groupName} onChange={handleChange} />
-                    </div>                    
+                    </div> 
                 </div>
                 <button type="submit">Update Route</button>
             </form>
@@ -199,13 +210,21 @@ const ChangeRoute = () => {
                         defaultZoom={14}
                     >
                         {locations.map((location) => (
-                            <StarIcon
-                                key={location.id}
-                                lat={location.latitude}
-                                lng={location.longitude}
-                                color={formData.chosenLocations.some(loc => loc.id === location.id) ? "primary" : "secondary"}
-                                onClick={() => handleLocationClick(location)}
-                            />
+                            location.type === 'Hotel' ? (
+                                <CustomHotelMarker
+                                    key={location.id}
+                                    lat={location.latitude}
+                                    lng={location.longitude}
+                                    onClick={() => handleLocationClick(location)}
+                                />
+                            ) : (
+                                <CustomStarMarker
+                                    key={location.id}
+                                    lat={location.latitude}
+                                    lng={location.longitude}
+                                    onClick={() => handleLocationClick(location)}
+                                />
+                            )
                         ))}
                         {userLocation && (
                             <MyLocationIcon

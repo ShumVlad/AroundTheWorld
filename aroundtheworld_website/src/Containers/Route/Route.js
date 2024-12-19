@@ -14,16 +14,17 @@ const Route = () => {
 
     useEffect(() => {
         getLocations();
-        if(authState.userRole === "User" || authState.userRole === "Guide"){
+        if (authState.userRole === "User" || authState.userRole === "Guide") {
             sendUserPosition();
-            }
-        getUserLocations();
+        }
+
+        checkUserLocationAndFetch();
 
         const intervalId = setInterval(() => {
-            if(authState.userRole === "User" || authState.userRole === "Guide"){
-            sendUserPosition();
+            if (authState.userRole === "User" || authState.userRole === "Guide") {
+                sendUserPosition();
             }
-            getUserLocations();
+            checkUserLocationAndFetch();
         }, 30000);
 
         return () => clearInterval(intervalId);
@@ -33,7 +34,6 @@ const Route = () => {
         try {
             const result = await axios.get('https://localhost:7160/api/LocationRoute/GetLocationsFromRoute', { params: { routeId } });
             setLocationsData(result.data);
-            console.log(result.data)
         } catch (error) {
             console.error("There was an error fetching the locations data!", error);
         }
@@ -55,10 +55,15 @@ const Route = () => {
         }
     };
 
+    const checkUserLocationAndFetch = async () => {
+        getUserLocations();
+    };
+
     const getUserLocations = async () => {
         try {
             const result = await axios.get('https://localhost:7160/api/UserGroup/GetUserLocations', { params: { groupId: routeId } });
             setUserLocations(result.data);
+            console.log(result.data);
         } catch (error) {
             console.error("There was an error fetching the user locations data!", error);
         }
@@ -69,7 +74,7 @@ const Route = () => {
             <Navbar />
             <Map routeLocations={locationsData} userLocations={userLocations} />
             <div>
-            {locationsData.map((location, index) => (
+                {locationsData.map((location, index) => (
                     <Location key={location.id} data={location} index={index + 1} />
                 ))}
                 {userLocations.map((userLocation) => (

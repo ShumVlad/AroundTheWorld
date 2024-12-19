@@ -8,7 +8,7 @@ import CustomHotelMarker from '../../Markers/CustomHotelMarker';
 
 const Marker = ({ children }) => children;
 
-const Map = ({ routeLocations, userLocations }) => {
+const Map = ({ routeLocations, userLocations}) => {
     const [center, setCenter] = useState({
         latitude: 51.5266853,
         longitude: 9.8994478
@@ -19,7 +19,7 @@ const Map = ({ routeLocations, userLocations }) => {
     });
     const [selectedLocation, setSelectedLocation] = useState(null);
     const [searchQuery, setSearchQuery] = useState('');
-
+    const [isMapReady, setIsMapReady] = useState(false);
     useEffect(() => {
         navigator.geolocation.getCurrentPosition(
             (position) => {
@@ -31,10 +31,12 @@ const Map = ({ routeLocations, userLocations }) => {
                     latitude: position.coords.latitude,
                     longitude: position.coords.longitude,
                 });
+                setIsMapReady(true);
             },
             (error) => {
                 console.error("Error getting location: ", error);
             }
+
         );
 
         const watchId = navigator.geolocation.watchPosition(
@@ -81,12 +83,12 @@ const Map = ({ routeLocations, userLocations }) => {
                 <button onClick={handleSearch}>Search</button>
             </div>
             <div style={{ height: '60vh' }}>
-                <GoogleMapReact
+                {isMapReady && (<GoogleMapReact
                     bootstrapURLKeys={{ key: 'AIzaSyAderMV7HrObn9AQegVS6M3rENgMe5yLu0' }}
                     center={{ lat: center.latitude, lng: center.longitude }}
                     defaultZoom={14}
                 >
-                    {routeLocations.map((location) => (
+                    {routeLocations.map((location, index) => (
                         <Marker
                             key={location.id}
                             lat={location.latitude}
@@ -97,8 +99,10 @@ const Map = ({ routeLocations, userLocations }) => {
                                     onClick={() => handleLocationClick(location)} 
                                 />
                             ) : (
-                                <CustomStarMarker
-                                    order={location.order} 
+                                <CustomStarMarker 
+                                    key={location.id}
+                                    order={location.order}
+                                    color="primary"
                                     onClick={() => handleLocationClick(location)} 
                                 />
                             )}
@@ -110,7 +114,7 @@ const Map = ({ routeLocations, userLocations }) => {
                             lat={userLocation.latitude}
                             lng={userLocation.longitude}
                         >
-                            <div className="green-dot" />
+                            <div className={userLocation.userRole === "Guide" ? 'orange-dot' : 'blue-dot'} />
                         </Marker>
                     ))}
                     <Marker
@@ -120,6 +124,7 @@ const Map = ({ routeLocations, userLocations }) => {
                         <MyLocationIcon color="primary" />
                     </Marker>
                 </GoogleMapReact>
+                )}
                 {selectedLocation && <LocationCard location={selectedLocation} />}
             </div>
         </div>

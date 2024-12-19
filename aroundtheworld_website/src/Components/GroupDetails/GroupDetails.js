@@ -1,10 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import axios from 'axios';
+import { AuthContext } from '../../context/AuthContext';
 
 const GroupDetails = ({ routeId }) => {
+    const { authState } = useContext(AuthContext);
     const [group, setGroup] = useState(null);
     const [users, setUsers] = useState([]);
     const [newUserEmail, setNewUserEmail] = useState('');
+    const [newGuideEmail, setNewGuideEmail] = useState('');
 
     useEffect(() => {
         if (routeId) {
@@ -18,7 +21,7 @@ const GroupDetails = ({ routeId }) => {
                 params: { routeId }
             });
             setGroup(response.data);
-            getUsersInGroup(response.data.id)
+            getUsersInGroup(response.data.id);
         } catch (error) {
             console.error('Error fetching group data', error);
         }
@@ -35,80 +38,117 @@ const GroupDetails = ({ routeId }) => {
         }
     };
 
-    const addUserToGroup = async () => {
+    const addUserToGroup = async (email, role) => {
         try {
             const userResponse = await axios.get(`https://localhost:7160/api/Identity/GetIdByEmail`, {
-                params: { email: newUserEmail }
+                params: { email }
             });
             const userId = userResponse.data;
 
             const userGroup = {
-                Id: "asd",
+                Id: "asd", // This should be a unique identifier, consider using a different approach for generating it.
                 UserId: userId,
-                GroupId: group.id 
+                GroupId: group.id,
+                UserRole: role
             };
 
-            const response = await axios.post(`https://localhost:7160/api/UserGroup/Add`, userGroup);
-
+            await axios.post(`https://localhost:7160/api/UserGroup/Add`, userGroup);
             getUsersInGroup(group.id);
         } catch (error) {
             console.error('Error adding user to group', error);
         }
     };
 
-    const removeUserFromGroupGroup = async (id) => {
+    const handleAddUser = () => {
+        addUserToGroup(newUserEmail, 'Traveler');
+    };
+
+    const handleAddGuide = () => {
+        addUserToGroup(newGuideEmail, 'Guide');
+    };
+
+    const removeUserFromGroup = async (id) => {
         try {
-            const response = await axios.delete(`https://localhost:7160/api/UserGroup/Delete`, {
+            await axios.delete(`https://localhost:7160/api/UserGroup/Delete`, {
                 params: { id }
             });
-            setUsers(response.data);
+            getUsersInGroup(group.id);
         } catch (error) {
-            console.error('Error deleting users in group', error);
+            console.error('Error removing user from group', error);
         }
     };
 
-    const handleAddUser = () => {
-        addUserToGroup();
+    const handleRemoveUser = async (id) => {
+        removeUserFromGroup(id);
     };
 
-    const handleRemoveUser = async (id) => {
-        removeUserFromGroupGroup(id)
-    };
+    const guide = users.find(user => user.userRole === "Guide");
+    const travelers = users.filter(user => user.userRole !== "Guide" && user.userRole !== "Worker");
 
     return (
         <div>
             {group ? (
                 <>
-                    <h3>Group Name: {group.name}</h3>
+                    <h2>{group.name}</h2>
                 </>
             ) : (
                 <p>Loading group details...</p>
             )}
 
-            <h4>Users in Group:</h4>
-            {users.length > 0 ? (
+            <h4>Guide:</h4>
+            {guide ? (
+                <div>
+                    <p>{guide.userName} - {guide.email}</p>
+                    {authState.userRole === "Guide" || authState.userRole === "Worker" ? (
+                        <button onClick={() => handleRemoveUser(guide.id)}>Remove</button>
+                    ) : null}
+                </div>
+            ) : (
+                <>
+                    <p>Guide will be added soon.</p>
+                    {authState.userRole === "Guide" || authState.userRole === "Worker" ? (
+                        <div>
+                            <h4>Add Guide</h4>
+                            <input
+                                type="email"
+                                placeholder="Guide's email"
+                                value={newGuideEmail}
+                                onChange={(e) => setNewGuideEmail(e.target.value)}
+                            />
+                            <button onClick={handleAddGuide}>Submit</button>
+                        </div>
+                    ) : null}
+                </>
+            )}
+
+            <h4>Travelers:</h4>
+            {travelers.length > 0 ? (
                 <ul>
-                    {users.map((user) => (
+                    {travelers.map((user) => (
                         <li key={user.id}>
-                            {user.userName} - {user.email} - {user.userRole}
-                            <button onClick={() => handleRemoveUser(user.id)}>Remove</button>
+                            {user.userName} - {user.email}
+                            {authState.userRole === "Guide" || authState.userRole === "Worker" ? (
+                                <button onClick={() => handleRemoveUser(user.id)}>Remove</button>
+                            ) : null}
                         </li>
                     ))}
                 </ul>
             ) : (
-                <p>The group is empty.</p>
+                <p>No travelers in the group.</p>
             )}
 
-            <div>
-                <h4>Add Traveler</h4>
-                <input
-                    type="email"
-                    placeholder="Traveler's email"
-                    value={newUserEmail}
-                    onChange={(e) => setNewUserEmail(e.target.value)}
-                />
-                <button onClick={handleAddUser}>Submit</button>
-            </div>
+            {authState.userRole === "Guide" || authState.userRole === "Worker" ? (
+                <div>
+                    <h4>Add Traveler</h4>
+                    <input
+                        type="email"
+                        placeholder="Traveler's email"
+                        value={newUserEmail}
+                        onChange={(e) => setNewUserEmail(e.target.value)}
+                    />
+                    <button onClick={handleAddUser}>Submit</button>
+                </div>
+            ) : null}
         </div>
     );
 };

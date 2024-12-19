@@ -1,12 +1,24 @@
 import React from 'react';
 import StarIcon from '@mui/icons-material/Star';
-import './customMarker.css';
 
-const CustomStarMarker = ({ order, onClick }) => {
+const CustomStarMarker = ({ color = "secondary", onClick, order }) => {
     return (
-        <div className="custom-marker" onClick={onClick}>
-            <StarIcon color="secondary" />
-            <div className="marker-order">{order}</div>
+        <div style={{ position: 'relative', display: 'inline-block' }}>
+            <StarIcon 
+                color={color} 
+                onClick={onClick} 
+                style={{ cursor: 'pointer' }} 
+            />
+            <span style={{
+                position: 'absolute',
+                top: '50%',
+                left: '50%',
+                transform: 'translate(-50%, -50%)',
+                color: 'white',
+                fontWeight: 'bold'
+            }}>
+                {order}
+            </span>
         </div>
     );
 };
