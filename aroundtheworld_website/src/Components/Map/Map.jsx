@@ -1,80 +1,134 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import GoogleMapReact from 'google-map-react';
 import MyLocationIcon from '@mui/icons-material/MyLocation';
-import StarIcon from '@mui/icons-material/Star';
-import Location from '../LocationCard/LocationCard';
+import LocationCard from '../LocationCard/LocationCard';
+import './Map.css';
+import CustomStarMarker from '../../Markers/CustomStarMarker';
+import CustomHotelMarker from '../../Markers/CustomHotelMarker';
 
-class Map extends React.Component {
-    constructor(props) {
-        super(props);
-        this.state = {
-            latitude: 51.5266853,
-            longitude: 9.8994478,
-            selectedLocation: null,
-        };
-    }
+const Marker = ({ children }) => children;
 
-    componentDidMount() {
+const Map = ({ routeLocations, userLocations}) => {
+    const [center, setCenter] = useState({
+        latitude: 51.5266853,
+        longitude: 9.8994478
+    });
+    const [userPosition, setUserPosition] = useState({
+        latitude: 51.5266854,
+        longitude: 9.8994478
+    });
+    const [selectedLocation, setSelectedLocation] = useState(null);
+    const [searchQuery, setSearchQuery] = useState('');
+    const [isMapReady, setIsMapReady] = useState(false);
+    useEffect(() => {
         navigator.geolocation.getCurrentPosition(
             (position) => {
-                console.log(position.coords);
-                this.setState({
+                setCenter({
+                    latitude: position.coords.latitude,
+                    longitude: position.coords.longitude,
+                });
+                setUserPosition({
+                    latitude: position.coords.latitude,
+                    longitude: position.coords.longitude,
+                });
+                setIsMapReady(true);
+            },
+            (error) => {
+                console.error("Error getting location: ", error);
+            }
+
+        );
+
+        const watchId = navigator.geolocation.watchPosition(
+            (position) => {
+                setUserPosition({
                     latitude: position.coords.latitude,
                     longitude: position.coords.longitude,
                 });
             },
             (error) => {
-                console.error("Error getting location: ", error);
-            }
+                console.error("Error watching location: ", error);
+            },
+            { enableHighAccuracy: true, maximumAge: 10000, timeout: 5000 }
         );
-    }
 
-    handleLocationClick = (location) => {
-        this.setState({ selectedLocation: location });
+        return () => navigator.geolocation.clearWatch(watchId);
+    }, []);
+
+    const handleLocationClick = (location) => {
+        setSelectedLocation(location);
     };
 
-    renderMap() {
-        return (
-            <div>
-                <div style={{ height: '80vh' }}>
-                    <GoogleMapReact
-                        bootstrapURLKeys={{ key: 'AIzaSyAderMV7HrObn9AQegVS6M3rENgMe5yLu0' }}
-                        defaultCenter={{
-                            lat: this.state.latitude,
-                            lng: this.state.longitude,
-                        }}
-                        defaultZoom={14}
-                    >
-                        {this.props.locations.map((location) => (
-                            <StarIcon
-                                key={location.id}
-                                lat={location.latitude}
-                                lng={location.longitude}
-                                color="secondary"
-                                onClick={() => this.handleLocationClick(location)}
-                            />
-                        ))}
-                        <MyLocationIcon
-                            color="primary"
-                            lat={this.state.latitude}
-                            lng={this.state.longitude}
-                        />
-                    </GoogleMapReact>
-                </div>
-                {this.state.selectedLocation && (
-                    <Location location={this.state.selectedLocation} />
-                )}
-            </div>
-        );
-    }
+    const handleSearch = async () => {
+        const geocoder = new window.google.maps.Geocoder();
+        geocoder.geocode({ address: searchQuery }, (results, status) => {
+            if (status === 'OK') {
+                const location = results[0].geometry.location;
+                setCenter({ latitude: location.lat(), longitude: location.lng() });
+            } else {
+                alert('Geocode was not successful for the following reason: ' + status);
+            }
+        });
+    };
 
-    render() {
-        return (
-            <div>
-                {this.renderMap()}
+    return (
+        <div>
+            <div className="search-container">
+                <input
+                    type="text"
+                    placeholder="Enter address"
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                />
+                <button onClick={handleSearch}>Search</button>
             </div>
-        );
-    }
-}
+            <div style={{ height: '60vh' }}>
+                {isMapReady && (<GoogleMapReact
+                    bootstrapURLKeys={{ key: 'AIzaSyAderMV7HrObn9AQegVS6M3rENgMe5yLu0' }}
+                    center={{ lat: center.latitude, lng: center.longitude }}
+                    defaultZoom={14}
+                >
+                    {routeLocations.map((location, index) => (
+                        <Marker
+                            key={location.id}
+                            lat={location.latitude}
+                            lng={location.longitude}
+                        >
+                            {location.type === 'Hotel' ? (
+                                <CustomHotelMarker 
+                                    onClick={() => handleLocationClick(location)} 
+                                />
+                            ) : (
+                                <CustomStarMarker 
+                                    key={location.id}
+                                    order={location.order}
+                                    color="primary"
+                                    onClick={() => handleLocationClick(location)} 
+                                />
+                            )}
+                        </Marker>
+                    ))}
+                    {userLocations.map((userLocation) => (
+                        <Marker
+                            key={userLocation.userId}
+                            lat={userLocation.latitude}
+                            lng={userLocation.longitude}
+                        >
+                            <div className={userLocation.userRole === "Guide" ? 'orange-dot' : 'blue-dot'} />
+                        </Marker>
+                    ))}
+                    <Marker
+                        lat={userPosition.latitude}
+                        lng={userPosition.longitude}
+                    >
+                        <MyLocationIcon color="primary" />
+                    </Marker>
+                </GoogleMapReact>
+                )}
+                {selectedLocation && <LocationCard location={selectedLocation} />}
+            </div>
+        </div>
+    );
+};
 
 export default Map;

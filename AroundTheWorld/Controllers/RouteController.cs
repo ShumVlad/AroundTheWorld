@@ -1,5 +1,4 @@
 ﻿using AroundTheWorld.ViewModels;
-using AroundTheWorld.ViewModels.IdentityModels;
 using AroundTheWorld_Backend.DTOs;
 using AroundTheWorld_Backend.Interfaces;
 using AroundTheWorld_Persistence.Models;
@@ -23,13 +22,13 @@ namespace AroundTheWorld.Controllers
 
         [HttpPost]
         [Route("Create")]
-        public async Task<bool> Create(RouteViewModel model)
+        public async Task<bool> Create(CreateRouteViewModel model)
         {
             if(model == null)
             {
                 throw new ArgumentNullException("model");
             }
-            var routeDTO = _mapper.Map<RouteDTO>(model);
+            var routeDTO = _mapper.Map<CreateRouteDTO>(model);
             bool result = await _routeService.Create(routeDTO);
             return result;
         }
@@ -48,19 +47,27 @@ namespace AroundTheWorld.Controllers
 
         [HttpGet]
         [Route("Get")]
-        public AroundTheWorld_Persistence.Models.Route Get(string id)
+        public async Task<AroundTheWorld_Persistence.Models.Route> Get(string id)
         {
             if (id == null)
             {
                 throw new ArgumentNullException();
             }
-            AroundTheWorld_Persistence.Models.Route result = _routeService.Get(id);
+            AroundTheWorld_Persistence.Models.Route result = await _routeService.Get(id);
+            return result;
+        }
+
+        [HttpGet]
+        [Route("GetAll")]
+        public async Task<List<AroundTheWorld_Persistence.Models.GetRoute>> GetAll()
+        {
+            List<AroundTheWorld_Persistence.Models.GetRoute> result = await _routeService.GetAllRoutes();
             return result;
         }
 
         [HttpPut]
         [Route("Update")]
-        public async Task<bool> Update(AroundTheWorld_Persistence.Models.Route route)
+        public async Task<bool> Update(CreateRouteDTO route)
         {
             if (route == null)
             {
@@ -71,14 +78,40 @@ namespace AroundTheWorld.Controllers
         }
 
         [HttpGet]
-        [Route("GetMyRoutes")]
-        public async Task<List<GetRouteViewModel>> GetMyRoutes(string userId)
+        [Route("GetUserRoutes")]
+        public async Task<List<GetRouteViewModel>> GetUserRoutes(string userId)
         {
             if (userId == null)
             {
                 throw new ArgumentNullException();
             }
-            List<GetRouteDto> getRoutesDto = await _routeService.GetMyRoutes(userId);
+            List<GetRouteDto> getRoutesDto = await _routeService.GetUserRoutes(userId);
+            List<GetRouteViewModel> result = _mapper.Map<List<GetRouteViewModel>>(getRoutesDto);
+            return result;
+        }
+
+        [HttpGet]
+        [Route("GetCompanyRoutes")]
+        public async Task<List<GetRouteViewModel>> GetCompanyRoutes(string companyId)
+        {
+            if (companyId == null)
+            {
+                throw new ArgumentNullException();
+            }
+            List<GetRouteDto> getRoutesDto = await _routeService.GetCompanyRoutes(companyId);
+            List<GetRouteViewModel> result = _mapper.Map<List<GetRouteViewModel>>(getRoutesDto);
+            return result;
+        }
+
+        [HttpGet]
+        [Route("GetNotUserRoutes")]
+        public async Task<List<GetRouteViewModel>> GetNotUserRoutes(string userId)
+        {
+            if (userId == null)
+            {
+                throw new ArgumentNullException();
+            }
+            List<GetRouteDto> getRoutesDto = await _routeService.GetNotUserRoutes(userId);
             List<GetRouteViewModel> result = _mapper.Map<List<GetRouteViewModel>>(getRoutesDto);
             return result;
         }

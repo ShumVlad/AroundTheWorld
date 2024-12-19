@@ -14,5 +14,6 @@ namespace AroundTheWorld_Backend.DTOs
         public string Type { get; set; }
         public double Latitude { get; set; }
         public double Longitude { get; set; }
+        public string ImageUrl { get; set; }
     }
 }

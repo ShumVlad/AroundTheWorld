@@ -17,15 +17,15 @@ namespace AroundTheWorld_Persistence.Repositories
             _context = context;
         }
 
-        public async Task<List<string>> GetLocationIdsFromRoute(string routeId)
+        public async Task<List<LocationRoute>> GetLocationsFromRoute(string routeId)
         {
-            List<string> locationsIds = new List<string>();
+            List<LocationRoute> locationRoutes = new List<LocationRoute>();
 
             var result = from uG in _context.LocationRoutes
                          where uG.RouteId.Equals(routeId)
-                         select uG.LocationId;
-            locationsIds = result.ToList();
-            return locationsIds;
+                         select uG;
+            locationRoutes = result.ToList();
+            return locationRoutes;
         }
 
     }

@@ -37,7 +37,7 @@ namespace AroundTheWorld.Controllers
 
         [HttpDelete]
         [Route("Delete")]
-        public async Task<bool> Delete([FromBody] string id)
+        public async Task<bool> DeleteLocation([FromBody] string id)
         {
             if (id == null)
             {
@@ -49,7 +49,7 @@ namespace AroundTheWorld.Controllers
 
         [HttpPut]
         [Route("Put")]
-        public async Task<bool> Update([FromBody] Location location)
+        public async Task<bool> UpdateLocation([FromBody] Location location)
         {
             if (location == null)
             {
@@ -61,13 +61,13 @@ namespace AroundTheWorld.Controllers
 
         [HttpGet]
         [Route("Get")]
-        public async Task<Location> Get(string id)
+        public async Task<Location> GetLocation(string id)
         {
             if (id == null)
             {
                 throw new Exception(nameof(id));
             }
-            Location result = _locationService.Get(id);
+            Location result = await _locationService.Get(id);
             return result;
         }
 
@@ -77,6 +77,22 @@ namespace AroundTheWorld.Controllers
         {
             var locations = await _locationService.GetPaginatedLocations(page, pageSize);
             return Ok(locations);
+        }
+
+        [HttpGet]
+        [Route("GetAllnotHotelLocations")]
+        public async Task<List<Location>> GetAllnotHotelLocations()
+        {
+            var locations = await _locationService.GetAllnotHotelLocations();
+            return locations;
+        }
+
+        [HttpGet]
+        [Route("GetAll")]
+        public async Task<List<Location>> GetAll()
+        {
+            var locations = await _locationService.GetAll();
+            return locations;
         }
     }
 }

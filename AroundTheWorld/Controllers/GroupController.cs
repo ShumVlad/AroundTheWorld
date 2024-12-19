@@ -17,10 +17,19 @@ namespace AroundTheWorld.Controllers
 
         [HttpGet]
         [Route("Get")]
-        public Group Get(string id)
+        public async Task<Group> Get(string id)
         {
             if (string.IsNullOrEmpty(id)) throw new ArgumentNullException(nameof(id)); ;
-            var result = _groupService.Get(id);
+            var result = await _groupService.Get(id);
+            return result;
+        }
+
+        [HttpGet]
+        [Route("GetByRouteId")]
+        public async Task<Group> GetByRouteId(string routeId)
+        {
+            if (string.IsNullOrEmpty(routeId)) throw new ArgumentNullException(nameof(routeId)); ;
+            var result = await _groupService.GetByRouteId(routeId);
             return result;
         }
 

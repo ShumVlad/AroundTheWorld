@@ -16,17 +16,18 @@ namespace AroundTheWorld_Backend
         public readonly IRepository<Route> RouteRepository;
         public readonly IRepository<Sensor> SensorRepository;
         public readonly IRepository<Review> ReviewRepository;
-        public readonly IRepository<Position> PositionRepository;
+        public readonly IRepository<UserPosition> UserPositionRepository;
         public readonly IRepository<LocationRoute> LocationRouteRepository;
         public readonly IRepository<UserGroup> UserGroupRepository;
         public readonly IRepository<Company> CompanyRepository;
+        public readonly IRepository<RentItem> RentItemRepository;
         public UnitOfWork(IRepository<Group> groupRepository, IRepository<Media> mediaRepository, IRepository<Location> placeRepository,
             IRepository<ApplicationUser> userRepository, IRepository<Route> routeRepository, IRepository<Sensor> sensorRepository,
-            IRepository<Review> reviewRepository, IRepository<Position> positionRepository, IRepository<Location> locationRepository, 
+            IRepository<Review> reviewRepository, IRepository<UserPosition> positionRepository, IRepository<Location> locationRepository, IRepository<RentItem> rentItemRepository,
             IRepository<LocationRoute> locationRouteRepository, IRepository<UserGroup> userGroupRepository, IRepository<Company> companyRepository, AroundTheWorldDbContext context)
         {
             PlaceRepository = placeRepository;
-            PositionRepository = positionRepository;
+            UserPositionRepository = positionRepository;
             SensorRepository = sensorRepository;
             GroupRepository = groupRepository;
             ReviewRepository = reviewRepository;
@@ -37,6 +38,7 @@ namespace AroundTheWorld_Backend
             LocationRepository = locationRepository;
             UserGroupRepository = userGroupRepository;
             CompanyRepository = companyRepository;
+            RentItemRepository = rentItemRepository;
             _context = context; 
         }
 

@@ -1,0 +1,39 @@
+.company-profile_container{
+    background:linear-gradient(#8AA066 0%, #3F4F25 100%);
+    color: #ffff;
+    height: 1000px;
+    display: flex;
+    flex-direction: column;
+}
+.company-profile_container-textbox{
+    margin:4%
+}
+.company-profile_container-text{
+    display: flex;
+    flex-direction: row;
+}
+.company-profile_container-logo{
+    margin:4%
+}
+
+.register button{
+    padding: 0.5rem 1rem;
+    color: black;
+    background: #F6FA38;
+    font-family: var(--font-family);
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 25px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.register input{
+    width: auto;
+    padding: 8px;
+    margin-top: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}

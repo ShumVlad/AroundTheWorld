@@ -1,18 +1,15 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
-import './index.css';
-import App from './App';
-import Map from "./Components/Map/Map";
-import reportWebVitals from './reportWebVitals';
+import Navbar from './Components/navbar/Navbar';
 import Locations from './Components/Locations/Locations';
-import Navbar from './Components/navbar/Navbar'
+import './home.css';
 
 const Home = () => {
     return (
-  <div>
-    <Navbar/>
-    <Locations/>
-  </div>
-    )
-}
+        <div className="home">
+            <Navbar />
+            <Locations />
+        </div>
+    );
+};
+
 export default Home;

@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Data;
 using System.Threading.Tasks;
 using AroundTheWorld_Backend.DTOs;
 using AroundTheWorld_Backend.Interfaces;
@@ -39,6 +40,7 @@ namespace AroundTheWorld_Backend.Services
             location.Id = Guid.NewGuid().ToString();
             await _unit.LocationRepository.Add(location);
             _unit.Save();
+
             return true;
         }
 
@@ -53,15 +55,24 @@ namespace AroundTheWorld_Backend.Services
             return true;
         }
 
-        public Location Get(string id)
+        public async Task<Location> Get(string id)
         {
-            Location result = _unit.LocationRepository.Get(id);
+            Location result = await _unit.LocationRepository.Get(id);
             return result;
         }
 
         public async Task<List<Location>> GetPaginatedLocations(int page, int pageSize)
         {
             return await _unit.LocationRepository.GetPaginated(page, pageSize);
+        }
+
+        public async Task<List<Location>> GetAllnotHotelLocations()
+        {
+            return await _unit.LocationRepository.GetAllnotHotelLocations();
+        }
+        public async Task<List<Location>> GetAll()
+        {
+            return await _unit.LocationRepository.GetAll();
         }
     }
 }

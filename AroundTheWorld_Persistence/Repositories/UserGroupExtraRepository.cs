@@ -1,5 +1,6 @@
 ﻿using AroundTheWorld_Persistence.Models;
 using AroundTheWorld_Persistence.Repositories.Interfaces;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,27 +10,40 @@ namespace AroundTheWorld_Persistence.Repositories
     public class UserGroupExtraRepository : IUserGroupExtraRepository
     {
         private readonly AroundTheWorldDbContext _context;
+        private readonly UserManager<ApplicationUser> _userManager;
 
-        public UserGroupExtraRepository(AroundTheWorldDbContext context)
+        public UserGroupExtraRepository(AroundTheWorldDbContext context, UserManager<ApplicationUser> userManager)
         {
             _context = context;
+            _userManager = userManager;
         }
 
-        public List<string> GetUserIdsFromGroup(string groupId)
+        public async Task<List<UserInGroup>> GetUserdFromGroup(string groupId)
         {
-            List<UserGroup> userGroups = new List<UserGroup>();
+            List<UserGroup> userGroups = await _context.userGroups
+                .Where(ug => ug.GroupId == groupId)
+                .Select(ug => ug)
+                .ToListAsync();
 
-            var result = from uG in _context.userGroups
-                         where uG.GroupId.Equals(groupId)
-                         select uG;
-            userGroups = result.ToList();
-
-            List<string> userIds = new List<string>();
-            for (int i = 0; i < userGroups.Count; i++)
+            var users = new List<UserInGroup>();
+            foreach (var userGroup in userGroups)
             {
-                userIds.Add(userGroups[i].UserId);
+                var user = await _userManager.FindByIdAsync(userGroup.UserId);
+                if (user != null)
+                {
+                    var role = (await _userManager.GetRolesAsync(user)).FirstOrDefault();
+                    users.Add(new UserInGroup
+                    {
+                        UserName = user.UserName,
+                        UserRole = role,
+                        Email = user.Email,
+                        UserId = user.Id,
+                        Id = userGroup.Id
+                    });
+                }
             }
-            return userIds;
+
+            return users;
         }
     }
 }

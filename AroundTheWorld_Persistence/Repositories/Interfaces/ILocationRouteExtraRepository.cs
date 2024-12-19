@@ -1,4 +1,5 @@
-﻿using System;
+﻿using AroundTheWorld_Persistence.Models;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,6 +9,6 @@ namespace AroundTheWorld_Persistence.Repositories.Interfaces
 {
     public interface ILocationRouteExtraRepository
     {
-        Task<List<string>> GetLocationIdsFromRoute(string routeId);
+        Task<List<LocationRoute>> GetLocationsFromRoute(string routeId);
     }
 }

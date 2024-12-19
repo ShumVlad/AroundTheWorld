@@ -1,0 +1,77 @@
+.aroundTheWorld__createRoute-form {
+    background: linear-gradient(#8AA066 0%, #3F4F25 100%);
+    padding: 20px;
+    border-radius: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.aroundTheWorld__createRoute-routeContainer,
+.aroundTheWorld__createRoute-groupContainer {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 20px;
+}
+
+.aroundTheWorld__createRoute-groupContainer div {
+    width: 80%;
+    margin-bottom: 10px;
+}
+
+.aroundTheWorld__createRoute-routeContainer label,
+.aroundTheWorld__createRoute-groupContainer label {
+    color: white;
+    font-weight: bold;
+}
+
+.aroundTheWorld__createRoute-routeContainer input,
+.aroundTheWorld__createRoute-groupContainer input,
+.aroundTheWorld__createRoute-groupContainer-element input {
+    width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.aroundTheWorld__createRoute-groupContainer-element {
+    width: 80%;
+    margin-bottom: 10px;
+}
+
+.aroundTheWorld__createRoute-groupContainer-element label {
+    color: white;
+    font-weight: bold;
+}
+
+.aroundTheWorld__createRoute-groupContainer-element .react-datepicker-wrapper {
+    width: 100%;
+}
+
+.aroundTheWorld__createRoute-groupContainer-element .react-datepicker__input-container input {
+    width: 100%;
+    padding: 8px;
+    border-radius: 5px;
+    border: 1px solid #ccc;
+}
+
+.aroundTheWorld__createRoute-form button {
+    padding: 0.5rem 1rem;
+    color: black;
+    background: #F6FA38;
+    font-family: var(--font-family);
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 25px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    border-radius: 5px;
+}
+
+.aroundTheWorld__createRoute-form button:hover {
+    background-color: #8AA066;
+}

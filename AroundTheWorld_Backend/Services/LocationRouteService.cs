@@ -9,14 +9,14 @@ namespace AroundTheWorld_Backend.Services
 {
     public class LocationRouteService : ILocationRouteService
     {
-        private UnitOfWork _unitOfWork;
+        private UnitOfWork _unit;
         private IMapper _mapper;
         private ILocationRouteExtraRepository _extraRepository;
         private ILocationService _locationService;
 
         public LocationRouteService(UnitOfWork unitOfWork, IMapper mapper, ILocationRouteExtraRepository locationRouteExtraRepository, ILocationService locationService)
         {
-            _unitOfWork = unitOfWork;
+            _unit = unitOfWork;
             _mapper = mapper;
             _extraRepository = locationRouteExtraRepository;
             _locationService = locationService;
@@ -28,40 +28,75 @@ namespace AroundTheWorld_Backend.Services
             {
                 throw new ArgumentNullException(nameof(locationRouteDTO));
             }
-            var locationExists = _unitOfWork.LocationRepository.Get(locationRouteDTO.LocationId);
-            if (locationExists == null)
+
+            var location = await _unit.LocationRepository.Get(locationRouteDTO.LocationId);
+            if (location == null)
             {
                 throw new ArgumentException("Invalid LocationId");
             }
 
-            var routeExists =  _unitOfWork.RouteRepository.Get(locationRouteDTO.RouteId) != null;
-            if (!routeExists)
+            var route = await _unit.RouteRepository.Get(locationRouteDTO.RouteId);
+            if (route == null)
             {
                 throw new ArgumentException("Invalid RouteId");
             }
+
             LocationRoute locationRoute = _mapper.Map<LocationRoute>(locationRouteDTO);
             locationRoute.Id = Guid.NewGuid().ToString();
-            await _unitOfWork.LocationRouteRepository.Add(locationRoute);
-            _unitOfWork.Save();
+
+            locationRoute.Location = location;
+            locationRoute.Route = route;
+
+            await _unit.LocationRouteRepository.Add(locationRoute);
+            _unit.Save();
             return true;
         }
+
 
         public async Task<bool> DeleteLocationRoute(string id)
         {
-            await _unitOfWork.LocationRouteRepository.Delete(id);
-            _unitOfWork.Save();
+            await _unit.LocationRouteRepository.Delete(id);
+            _unit.Save();
             return true;
         }
 
-        public async Task<List<Location>> GetLocationsInRoute(string routeId)
+        public async Task<List<GetLocationFromRouteDto>> GetLocationsInRoute(string routeId)
         {
-            List<string> locationsId = await _extraRepository.GetLocationIdsFromRoute(routeId);
-            List<Location> locations = new List<Location>();
-            for(int i = 0; i < locationsId.Count; i++)
+            List<LocationRoute> locationRoutes = await _extraRepository.GetLocationsFromRoute(routeId);
+            List<GetLocationFromRouteDto> getLocationFromRouteDtos = new List<GetLocationFromRouteDto>();
+
+            foreach (var locationRoute in locationRoutes)
             {
-                locations.Add(_locationService.Get(locationsId[i]));
+                var location = await _unit.LocationRepository.Get(locationRoute.LocationId);
+                if (location != null)
+                {
+                    var getLocationRoute = new GetLocationFromRouteDto
+                    {
+                        Longitude = location.Longitude,
+                        Latitude = location.Latitude,
+                        IsVisited = locationRoute.IsVisited,
+                        Address = location.Address,
+                        Description = location.Description,
+                        Id = location.Id,
+                        ImageUrl = location.ImageUrl,
+                        Name = location.Name,
+                        Order = locationRoute.Order,
+                        Type = location.Type
+                    };
+
+                    getLocationFromRouteDtos.Add(getLocationRoute);
+                }
             }
-            return locations;
+
+            return getLocationFromRouteDtos;
+        }
+
+
+        public async Task<List<Route>> GetRoutesWithLocation(string locationId)
+        {
+            List<Route> routes = await _unit.LocationRouteRepository.GetRoutesWithLocation(locationId);
+
+            return routes;
         }
     }
 }

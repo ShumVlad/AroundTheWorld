@@ -1,4 +1,4 @@
-.goalMe__registration{
+.aroundTheWorld__registration{
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -6,7 +6,7 @@
     padding: 3rem;
 }
 
-.goalMe__registration input{
+.aroundTheWorld__registration input{
     flex: 1;
     width: 200px;
     margin-top: 0.5rem;
@@ -16,13 +16,13 @@
     background-color: antiquewhite;
 }
 
-.goalMe__registration button{
+.aroundTheWorld__registration button{
     padding: 5px 25px;
     margin-top: 1.5rem;
     border: none;
     border-radius: 8%;
 }
 
-.goalMe__registration p{
+.aroundTheWorld__registration p{
     margin-top: 0.1rem
 }

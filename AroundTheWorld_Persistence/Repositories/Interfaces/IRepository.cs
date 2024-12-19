@@ -15,10 +15,20 @@ namespace AroundTheWorld_Persistence.Repositories.Interfaces
 
         Task Add(T entity);
 
-        T Get(string id);
+        Task<T> Get(string id);
 
-        List<T> GetAll();
+        Task<List<T>> GetAll();
+        Task<List<Location>> GetAllnotHotelLocations();
         Task<List<T>> GetPaginated(int page, int pageSize);
-        Task<List<GetRoute>> GetMyRoutes(string userId);
+        Task<List<GetRoute>> GetUserRoutes(string userId);
+        Task<List<RentItem>> GetRentItemsForCompany(string companyId);
+        Task<List<GetRoute>> GetCompanyRoutes(string companyId);
+        Task<List<Route>> GetRoutesWithLocation(string locationId);
+        Task<Group> GetGroupByRouteId(string routeId);
+        Task<List<GetUserPosition>> GetUserLocations(string groupId);
+        Task<string> GetUserPositionId(string userId);
+        Task<Sensor> GetSensorForRentItem(string rentItem);
+        Task<List<GetRoute>> GetNotUserRoutes(string userId);
+        Task<List<GetRoute>> GetAllRoutes();
     }
 }

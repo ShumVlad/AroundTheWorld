@@ -10,13 +10,14 @@ namespace AroundTheWorld_Persistence
         public DbSet<Group> Groups { get; set; }
         public DbSet<Media> Medias { get; set; }
         public DbSet<Location> Locations { get; set; }
-        public DbSet<Position> Positions { get; set; }
+        public DbSet<UserPosition> UserPositions { get; set; }
         public DbSet<Review> Reviews { get; set; }
         public DbSet<Route> Routes { get; set; }
         public DbSet<Sensor> Sensors { get; set; }
         public DbSet<LocationRoute> LocationRoutes { get; set; }     
         public DbSet<UserGroup> userGroups { get; set; }
         public DbSet<Company> Companies { get; set; }
+        public DbSet<RentItem> RentItems { get; set; }
 
         public AroundTheWorldDbContext(DbContextOptions<AroundTheWorldDbContext> options) : base(options)
         {

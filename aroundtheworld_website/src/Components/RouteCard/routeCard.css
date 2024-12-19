@@ -1,0 +1,27 @@
+.route-card{
+    justify-content: space-between;
+    margin: 1rem;
+    padding: 1rem;
+    display: flex;
+    flex-direction: row;
+    margin: 100rem, 100rem;
+    padding: 100rem, 100rem;
+    color: #fff;
+    background:linear-gradient(#8AA066 0%, #3F4F25 100%);
+}
+
+.route-card button{
+    padding: 0.5rem 1rem;
+    color: black;
+    background: #99c552;
+    height: 30px;
+    font-family: var(--font-family);
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 25px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    border-radius: 5px;
+    
+}

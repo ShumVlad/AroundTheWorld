@@ -1,0 +1,16 @@
+.custom-marker {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.marker-order {
+    position: absolute;
+    top: 0;
+    right: 0;
+    background-color: white;
+    border-radius: 50%;
+    padding: 2px 5px;
+    font-size: 12px;
+}

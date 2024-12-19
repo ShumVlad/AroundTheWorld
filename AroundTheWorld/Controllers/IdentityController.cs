@@ -1,4 +1,5 @@
 ﻿using AroundTheWorld.ViewModels.IdentityModels;
+using AroundTheWorld_Backend.Interfaces;
 using AroundTheWorld_Persistence.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
@@ -13,23 +14,29 @@ namespace AroundTheWorld.Controllers
     [ApiController]
     public class IdentityController : ControllerBase
     {
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<ApplicationUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
         private readonly IConfiguration _configuration;
+        private readonly IUserPositionService _userPositionService;
 
-        public IdentityController(UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration)
+        public IdentityController(UserManager<ApplicationUser> userManager, RoleManager<IdentityRole> roleManager, IConfiguration configuration, IUserPositionService userPositionService)
         {
             _userManager = userManager;
             _roleManager = roleManager;
             _configuration = configuration;
+            _userPositionService = userPositionService;
         }
+
         [HttpGet]
         [Route("GetIdByEmail")]
         public async Task<IActionResult> GetIdByEmail(string email)
         {
             var user = await _userManager.FindByEmailAsync(email);
-            string id = user.Id;
-            return Ok(id);
+            if (user == null)
+            {
+                return NotFound("User not found.");
+            }
+            return Ok(user.Id);
         }
 
         [HttpPost]
@@ -60,13 +67,15 @@ namespace AroundTheWorld.Controllers
                     expires: DateTime.Now.AddHours(8),
                     claims: authClaims,
                     signingCredentials: new SigningCredentials(authSigningKey, SecurityAlgorithms.HmacSha256)
-                    );
+                );
 
                 return Ok(new
                 {
                     token = new JwtSecurityTokenHandler().WriteToken(token),
                     userId = user.Id,
-                    userRole = userRoles[0]
+                    userRole = userRoles[0],
+                    userName = user.UserName,
+                    companyId = user.CompanyId
                 });
             }
             return Unauthorized();
@@ -79,20 +88,21 @@ namespace AroundTheWorld.Controllers
             var userExists = await _userManager.FindByEmailAsync(model.Email);
             if (userExists != null)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new ViewModels.IdentityModels.Response { Status = "Error", Message = "User already exists!" });
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User already exists!" });
             }
 
             ApplicationUser user = new ApplicationUser()
             {
                 Email = model.Email,
                 SecurityStamp = Guid.NewGuid().ToString(),
-                UserName = model.Username
+                UserName = model.Username,
+                CompanyId = "user"
             };
 
             var result = await _userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new ViewModels.IdentityModels.Response { Status = "Error", Message = "User creation failed! Please check user details and try again." });
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed! Please check user details and try again." });
             }
 
             if (!await _roleManager.RoleExistsAsync("User"))
@@ -105,6 +115,8 @@ namespace AroundTheWorld.Controllers
                 await _userManager.AddToRoleAsync(user, "User");
             }
             var userRoles = await _userManager.GetRolesAsync(user);
+            var registeredUser = await _userManager.FindByEmailAsync(model.Email);
+            _userPositionService.AddUserPosition(registeredUser.Id);
             return Ok(new
             {
                 userId = user.Id,
@@ -113,44 +125,89 @@ namespace AroundTheWorld.Controllers
         }
 
         [HttpPost]
-        [Route("register-company")]
-        public async Task<IActionResult> RegisterAdmin([FromBody] TravelerRegistrationModel model)
+        [Route("register-worker")]
+        public async Task<IActionResult> RegisterWorker([FromBody] GuideRegistrationViewModel model)
         {
             var userExists = await _userManager.FindByEmailAsync(model.Email);
             if (userExists != null)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new ViewModels.IdentityModels.Response { Status = "Error", Message = "User already exists!" });
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User already exists!" });
             }
 
             ApplicationUser user = new ApplicationUser()
             {
                 Email = model.Email,
                 SecurityStamp = Guid.NewGuid().ToString(),
-                UserName = model.Username
+                UserName = model.Username,
+                CompanyId = model.CompanyId
             };
-
 
             var result = await _userManager.CreateAsync(user, model.Password);
             if (!result.Succeeded)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, new ViewModels.IdentityModels.Response { Status = "Error", Message = "User creation failed! Please check user details and try again." });
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed! Please check user details and try again." });
             }
 
-            if (!await _roleManager.RoleExistsAsync("Company"))
+            if (!await _roleManager.RoleExistsAsync("Worker"))
             {
-                await _roleManager.CreateAsync(new IdentityRole("Company"));
+                await _roleManager.CreateAsync(new IdentityRole("Worker"));
             }
 
-            if (!await _roleManager.RoleExistsAsync("User"))
+            if (await _roleManager.RoleExistsAsync("Worker"))
             {
-                await _roleManager.CreateAsync(new IdentityRole("User"));
+                await _userManager.AddToRoleAsync(user, "Worker");
+            }
+            var userRoles = await _userManager.GetRolesAsync(user);
+            var registeredUser = await _userManager.FindByEmailAsync(model.Email);
+            _userPositionService.AddUserPosition(registeredUser.Id);
+            return Ok(new
+            {
+                userId = user.Id,
+                userRole = userRoles[0]
+            });
+        }
+
+        [HttpPost]
+        [Route("register-guide")]
+        public async Task<IActionResult> RegisterGuide([FromBody] GuideRegistrationViewModel model)
+        {
+            var userExists = await _userManager.FindByEmailAsync(model.Email);
+            if (userExists != null)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User already exists!" });
             }
 
-            if (await _roleManager.RoleExistsAsync("Company"))
+            ApplicationUser user = new ApplicationUser()
             {
-                await _userManager.AddToRoleAsync(user, "Company");
+                Email = model.Email,
+                SecurityStamp = Guid.NewGuid().ToString(),
+                UserName = model.Username,
+                CompanyId = model.CompanyId
+            };
+
+            var result = await _userManager.CreateAsync(user, model.Password);
+            if (!result.Succeeded)
+            {
+                return StatusCode(StatusCodes.Status500InternalServerError, new Response { Status = "Error", Message = "User creation failed! Please check user details and try again." });
             }
-            return Ok();
+
+            if (!await _roleManager.RoleExistsAsync("Guide"))
+            {
+                await _roleManager.CreateAsync(new IdentityRole("Guide"));
+            }
+
+            if (await _roleManager.RoleExistsAsync("Guide"))
+            {
+                await _userManager.AddToRoleAsync(user, "Guide");
+            }
+            var userRoles = await _userManager.GetRolesAsync(user);
+            var registeredUser = await _userManager.FindByEmailAsync(model.Email);
+            _userPositionService.AddUserPosition(registeredUser.Id);
+            return Ok(new
+            {
+                userId = user.Id,
+                userRole = userRoles[0]
+            });
         }
     }
 }

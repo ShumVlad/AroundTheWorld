@@ -1,0 +1,62 @@
+.form-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    color: #fff;
+    background:linear-gradient(#8AA066 0%, #3F4F25 100%);
+    padding-left: 5%;
+    padding-right: 5%;
+    padding-bottom: 2%;
+}
+.form-container input{
+width: 100%;
+    padding: 8px;
+    margin-top: 5px;
+    
+    border-radius: 5px;
+    width: 350px;
+    border: 1px solid #ccc;
+}
+
+.locationCard{
+    margin:2%
+}
+
+.createLocation{
+    background:linear-gradient(#abf18b85 0%, #202B3D 100%);
+}
+
+.form-container button{
+    margin: 1%;
+    padding: 0.5rem 1rem;
+    color: black;
+    background: #F6FA38;
+    font-family: var(--font-family);
+    font-weight: 500;
+    font-size: 18px;
+    line-height: 25px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    border-radius: 5px;
+    }
+
+.form-container > div {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-container button {
+    grid-column: span 2;
+}
+
+.image-preview {
+    max-width: 100%;
+    max-height: 300px;
+}
+
+.search-container {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}

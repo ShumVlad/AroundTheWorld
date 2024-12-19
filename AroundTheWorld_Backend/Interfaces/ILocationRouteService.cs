@@ -7,6 +7,7 @@ namespace AroundTheWorld_Backend.Interfaces
     {
         Task<bool> AddLocationRoute(LocationRouteDTO locationRouteDTO);
         Task<bool> DeleteLocationRoute(string id);
-        Task<List<Location>> GetLocationsInRoute(string routeId);
+        Task<List<GetLocationFromRouteDto>> GetLocationsInRoute(string routeId);
+        Task<List<Route>> GetRoutesWithLocation(string locationId);
     }
 }

@@ -4,6 +4,7 @@ using AroundTheWorld_Backend.DTOs;
 using AroundTheWorld_Backend.Interfaces;
 using AroundTheWorld_Persistence;
 using AroundTheWorld_Persistence.Models;
+using AroundTheWorld_Persistence.Repositories.Interfaces;
 using AutoMapper;
 using Microsoft.AspNetCore.Routing;
 
@@ -13,23 +14,70 @@ namespace AroundTheWorld_Backend.Services
     {
         private UnitOfWork _unit;
         private IMapper _mapper;
+        private ILocationRouteService _locationRouteService;
+        private ILocationRouteExtraRepository _locationRouteExtraRepository;
 
-        public RouteService(UnitOfWork unitOfWork, IMapper mapper)
+        public RouteService(UnitOfWork unitOfWork, IMapper mapper, ILocationRouteService locationRouteService, ILocationRouteExtraRepository locationRouteExtraRepository)
         {
             _unit = unitOfWork;
             _mapper = mapper;
+            _locationRouteService = locationRouteService;
+            _locationRouteExtraRepository = locationRouteExtraRepository;
         }
 
-        public async Task<bool> Create(RouteDTO routeDTO)
+        public async Task<bool> Create(CreateRouteDTO routeDTO)
         {
-            if(routeDTO == null)
-            {
-                throw new ArgumentNullException(nameof(routeDTO));
-            }
-            var route = _mapper.Map<Route>(routeDTO);
+            Route route = _mapper.Map<Route>(routeDTO);
             route.Id = Guid.NewGuid().ToString();
             await _unit.RouteRepository.Add(route);
             _unit.Save();
+
+            bool createGroupResult = await CreateGroup(routeDTO.GroupName, route.Id);
+            if (!createGroupResult)
+            {
+                throw new GroupCreationException($"Failed to create group for route ID {route.Id} with group name {routeDTO.GroupName}.");
+            }
+
+            bool result = await AddLocationsToRoute(routeDTO.Locations, route.Id);
+            return result;
+        }
+
+        public class GroupCreationException : Exception
+        {
+            public GroupCreationException(string message) : base(message) { }
+        }
+
+        public async Task<bool> CreateGroup(string name, string routeId) 
+        {
+            Group group = new Group();
+            group.Id = Guid.NewGuid().ToString();
+            group.Name = name;
+            group.RouteId = routeId;
+            await _unit.GroupRepository.Add(group);
+            _unit.Save();
+            return true;
+        }
+
+        public async Task<bool> AddLocationsToRoute(List<Location> locations, string routeId)
+        {
+            LocationRouteDTO locationRouteDTO = new LocationRouteDTO();
+            locationRouteDTO.IsVisited = false;
+            locationRouteDTO.RouteId = routeId;
+            int k = 0;
+            for (int i = 0; i < locations.Count; i++)
+            {  
+                locationRouteDTO.LocationId = locations[i].Id;
+                if(locationRouteDTO.Type == "Hotel")
+                {
+                    locationRouteDTO.Order = 0;
+                    k -= 1;
+                }
+                else
+                {
+                    locationRouteDTO.Order = i + 1 + k;
+                }
+                await _locationRouteService.AddLocationRoute(locationRouteDTO);
+            }
             return true;
         }
 
@@ -44,36 +92,82 @@ namespace AroundTheWorld_Backend.Services
             return true;
         }
 
-        public Route Get(string id)
+        public async Task<Route> Get(string id)
         {
             if (id == null)
             {
                 throw new ArgumentNullException(nameof(id));
             }
-            Route result = _unit.RouteRepository.Get(id);
+            Route result = await _unit.RouteRepository.Get(id);
             return result;
         }
 
-        public async Task<bool> Update(Route route)
+        public async Task<bool> Update(CreateRouteDTO routeDTO)
         {
-            if(route == null)
+            if(routeDTO == null)
             {
-                throw new ArgumentNullException(nameof(route));
+                throw new ArgumentNullException(nameof(routeDTO));
             }
-            _unit.RouteRepository.Update(route);
+            Route route = _mapper.Map<Route>(routeDTO);
+            await _unit.RouteRepository.Update(route);
+            Group group = await _unit.GroupRepository.GetGroupByRouteId(routeDTO.Id);
+            group.Name = routeDTO.GroupName;
+
+            List<LocationRoute> oldLocationRoutes = await _locationRouteExtraRepository.GetLocationsFromRoute(routeDTO.Id);
+            foreach (LocationRoute locationRoute in oldLocationRoutes)
+            {
+                _unit.LocationRouteRepository.Delete(locationRoute.Id);
+            }
+            _unit.Save();
+            LocationRouteDTO locationRouteouteDTO = new LocationRouteDTO();
+            locationRouteouteDTO.IsVisited = false;
+            locationRouteouteDTO.RouteId = route.Id;
+            for (int i = 0; i < routeDTO.Locations.Count; i++)
+            {
+                locationRouteouteDTO.LocationId = routeDTO.Locations[i].Id;
+                locationRouteouteDTO.Order = i + 1;
+                await _locationRouteService.AddLocationRoute(locationRouteouteDTO);
+            }
             _unit.Save();
             return true;
         }
 
-        public async Task<List<GetRouteDto>> GetMyRoutes(string userId)
+        public async Task<List<GetRouteDto>> GetUserRoutes(string userId)
         {
             if (userId == null)
             {
                 throw new ArgumentNullException(nameof(userId));
             }
-            List<GetRoute> routes = await _unit.RouteRepository.GetMyRoutes(userId);
+            List<GetRoute> routes = await _unit.RouteRepository.GetUserRoutes(userId);
             List<GetRouteDto> getRouteDtos = _mapper.Map<List<GetRouteDto>>(routes);
             return getRouteDtos;
+        }
+        public async Task<List<GetRouteDto>> GetCompanyRoutes(string companyId)
+        {
+            if (companyId == null)
+            {
+                throw new ArgumentNullException(nameof(companyId));
+            }
+            List<GetRoute> routes = await _unit.RouteRepository.GetCompanyRoutes(companyId);
+            List<GetRouteDto> getRouteDtos = _mapper.Map<List<GetRouteDto>>(routes);
+            return getRouteDtos;
+        }
+
+        public async Task<List<GetRouteDto>> GetNotUserRoutes(string userId)
+        {
+            if (userId == null)
+            {
+                throw new ArgumentNullException(nameof(userId));
+            }
+            List<GetRoute> routes = await _unit.RouteRepository.GetNotUserRoutes(userId);
+            List<GetRouteDto> getRouteDtos = _mapper.Map<List<GetRouteDto>>(routes);
+            return getRouteDtos;
+        }
+
+        public async Task<List<GetRoute>> GetAllRoutes()
+        {
+            List<GetRoute> routes = await _unit.RouteRepository.GetAllRoutes();
+            return routes;
         }
     }
 }

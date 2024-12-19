@@ -5,6 +5,7 @@ using AroundTheWorld_Backend.Services;
 using AroundTheWorld_Persistence.Models;
 using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using Route = AroundTheWorld_Persistence.Models.Route;
 
 namespace AroundTheWorld.Controllers
 {
@@ -49,14 +50,26 @@ namespace AroundTheWorld.Controllers
 
         [HttpGet]
         [Route("GetLocationsFromRoute")]
-        public async Task<List<Location>> GetLocationsFromRoute(string routeid)
+        public async Task<List<GetLocationFromRouteDto>> GetLocationsFromRoute(string routeId)
         {
-            if (routeid == null)
+            if (routeId == null)
             {
-                throw new ArgumentNullException(nameof(routeid));
+                throw new ArgumentNullException(nameof(routeId));
             }
-            List<Location> locations= await _locationRouteService.GetLocationsInRoute(routeid);
+            List<GetLocationFromRouteDto> locations= await _locationRouteService.GetLocationsInRoute(routeId);
             return locations;
+        }
+
+        [HttpGet]
+        [Route("GetRoutesWithLocation")]
+        public async Task<List<Route>> GetRoutesWithLocation(string locationId)
+        {
+            if (locationId == null)
+            {
+                throw new ArgumentNullException(nameof(locationId));
+            }
+            List<AroundTheWorld_Persistence.Models.Route> routes = await _locationRouteService.GetRoutesWithLocation(locationId);
+            return routes;
         }
     }
 }

@@ -5,10 +5,13 @@ namespace AroundTheWorld_Backend.Interfaces
 {
     public interface IRouteService
     {
-        Task<bool> Create(RouteDTO routeDTO);
+        Task<bool> Create(CreateRouteDTO routeDTO);
         Task<bool> Delete(string id);
-        Route Get(string id);
-        Task<bool> Update(Route route);
-        Task<List<GetRouteDto>> GetMyRoutes(string userId);
+        Task<Route> Get(string id);
+        Task<bool> Update(CreateRouteDTO route);
+        Task<List<GetRoute>> GetAllRoutes(); 
+        Task<List<GetRouteDto>> GetUserRoutes(string userId);
+        Task<List<GetRouteDto>> GetCompanyRoutes(string companyId);
+        Task<List<GetRouteDto>> GetNotUserRoutes(string userId);
     }
 }

@@ -1,12 +1,15 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace AroundTheWorld_Persistence.Models
+namespace AroundTheWorld.ViewModels
 {
-    public class Position
+    public class UpdateSensorLocationViewModel
     {
-        [Key]
         public string Id { get; set; }
+
         public double Latitude { get; set; }
+
         public double Longitude { get; set; }
+
+        public DateTime Timestamp { get; set; }
     }
 }
